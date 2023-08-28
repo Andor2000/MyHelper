@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\BaseModelObjPanel.cs" />
+    <Compile Include="Dto\ColomnModelObjPanel.cs" />
     <Compile Include="Dto\TableModelObjPanel.cs" />
     <Compile Include="Enums\Colors.cs" />
+    <Compile Include="Enums\SizeEnums.cs" />
     <Compile Include="FormAddColomns.cs">
       <SubType>Form</SubType>
     </Compile>

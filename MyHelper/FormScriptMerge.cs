@@ -2,12 +2,8 @@
 using MyHelper.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MyHelper
@@ -15,14 +11,24 @@ namespace MyHelper
     public partial class FormScriptMerge : Form
     {
         /// <summary>
-        /// Левая колонка с задачами.
+        /// Активная таблица.
         /// </summary>
-        private List<TableModelObjPanel> panelObjectsLeft = new List<TableModelObjPanel>();
+        private TableModelObjPanel _mainTable { get; set; } = new TableModelObjPanel();
 
         /// <summary>
-        /// Правая колонка с задачами.
+        /// Активный столбец
         /// </summary>
-        //private List<BaseModelObjPanel> panelObjectsRight = new List<BaseModelObjPanel>();
+        private ColomnModelObjPanel _mainColomn { get; set; } = new ColomnModelObjPanel();
+
+        /// <summary>
+        /// Левая колонка с задачами.
+        /// </summary>
+        private List<TableModelObjPanel> _panelTableLeft { get; set; } = new List<TableModelObjPanel>();
+
+        /// <summary>
+        /// Сервис кавычек.
+        /// </summary>
+        private FormQuotes _formQuotesService { get; set; } = new FormQuotes();
 
         public FormScriptMerge()
         {
@@ -40,72 +46,101 @@ namespace MyHelper
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             panel5.BackColor = panel5.Parent.BackColor;
-            FormAddTable formAddTableName = new FormAddTable();
+            var formAddTableName = new FormAddTable();
             formAddTableName.ShowDialog();
 
-            if (formAddTableName.TableName.Trim() == string.Empty || formAddTableName.ColomnNames.Trim() == string.Empty)
+            if (formAddTableName.TableName == string.Empty || formAddTableName.ColomnNames == string.Empty)
             {
                 return;
             }
 
-            var table = new TableModelObjPanel();
-            table.Icon.Image = Image.FromFile(@"images\icons\quest.png");
-            table.TextBox.Text = formAddTableName.TableName;
-            table.Panel.Location = new Point(0, panelObjectsLeft.Count * table.Panel.Size.Height);
-            table.Panel.BackColor = Colors.PanelActiveObject;
-            table.TextBox.BackColor = Colors.PanelActiveObject;
+            this.SetMainTable(new TableModelObjPanel());
+            _panelTableLeft.Add(_mainTable);
+            _mainTable.Sort = _panelTableLeft.Count();
+            _mainTable.Icon.Image = Image.FromFile(@"images\icons\quest.png");
+            _mainTable.TextBox.Text = formAddTableName.TableName;
 
-            table.TextBox.MouseDown += MouseDown;
-            table.TextBox.MouseMove += MouseMove;
-            table.TextBox.MouseLeave += MouseLeave;
+            _mainTable.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
+            _mainTable.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+            _mainTable.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
+            _mainTable.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
 
-            panel3.Controls.Add(table.Panel);
-            panelObjectsLeft.Add(table);
-
-            var formQuotes = new FormQuotes();
-            var colomNames = formQuotes.FormatingString(formAddTableName.ColomnNames, true, true, true, true);
-            panel2.Controls.Clear();
-
-            foreach (var coloms in colomNames)
+            // получение названий колонок.
+            var colomNames = _formQuotesService.FormatingString(formAddTableName.ColomnNames, true, true, true, true);
+            foreach (var colom in colomNames)
             {
-                var colomn = new BaseModelObjPanel();
+                var colomn = new ColomnModelObjPanel();
+                colomn.Sort = colomNames.Count() - _mainTable.Colomns.Count();
                 colomn.Icon.Image = Image.FromFile(@"images\icons\pencil.png");
-                colomn.TextBox.Text = coloms;
-                colomn.Panel.Location = new Point(0, table.Colomns.Count() * table.Panel.Size.Height);
-                colomn.Sort = colomNames.Count() - table.Colomns.Count();
+                colomn.TextBox.Text = colom;
+                _mainTable.Colomns.Add(colomn);
 
-                colomn.TextBox.MouseDown += MouseDown;
-                colomn.TextBox.MouseMove += MouseMove;
-                colomn.TextBox.MouseLeave += MouseLeave;
-
-                panel2.Controls.Add(colomn.Panel);
-                table.Colomns.Add(colomn);
+                colomn.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
+                colomn.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+                colomn.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
+                colomn.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
             }
 
-            var firstColomn = table.Colomns.Where(x => x.Sort == colomNames.Count()).First();
-            firstColomn.Panel.BackColor = Colors.PanelActiveObject;
-            firstColomn.TextBox.BackColor = Colors.PanelActiveObject;
+            var newMainColomn = _mainTable.Colomns.FirstOrDefault(x => x.Sort == colomNames.Count());
+            this.SetMainColomn(newMainColomn);
+            this.UpdatePanelTable();
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             var formDialog = new FormAddColomns(this);
             formDialog.ShowDialog();
-
-
-            //var task = new BaseModelObjPanel(panelObjectsRight.Count);
-            //panel2.Controls.Add(task.Panel);
-            //task.Icon.Image = Image.FromFile(@"images\icons\pencil.png");
-
-            //panelObjectsRight.Add(task);
-
-            //task.TextBox.MouseDown += MouseDown;
-            //task.TextBox.MouseMove += MouseMove;
-            //task.TextBox.MouseLeave += MouseLeave;
         }
 
         /// <summary>
-        /// Нажал левую кнопку мыши, не отпустил. \ перетаскивание
+        /// Курсор на объекте, навелся, перетаскивание.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MouseMove(object sender, EventArgs e)
+        {
+            if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
+            {
+                return;
+            }
+
+            ((TextBox)sender).BackColor = Colors.PanelMouseMoveObject;
+            ((TextBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
+        }
+
+        /// <summary>
+        /// Клинкул по объекту (отпустил мышь)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MouseUp(object sender, EventArgs e)
+        {
+            if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
+            {
+                return;
+            }
+
+            _mainTable.EndScript = richTextBox3.Text;
+            _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
+
+            var colomn = _mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
+            if (colomn != null)
+            {
+                this.SetMainColomn(colomn);
+            }
+            else
+            {
+                var table = _panelTableLeft.FirstOrDefault(x => x.TextBox == (TextBox)sender);
+                colomn = table.Colomns.FirstOrDefault(x => x.Sort == table.Colomns.Count());
+                this.SetMainTable(table);
+                this.SetMainColomn(colomn);
+                this.UpdatePanelTable();
+            }
+
+        }
+
+        /// <summary>
+        /// Нажал левую кнопку мыши, не отпустил \ перетаскивание
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -118,26 +153,19 @@ namespace MyHelper
         }
 
         /// <summary>
-        /// Курсор на объекте, навелся, перетаскивание.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MouseMove(object sender, EventArgs e)
-        {
-            ((TextBox)sender).BackColor = Colors.PanelMouseMoveObject;
-            ((TextBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
-        }
-
-        /// <summary>
         /// Отвел курсор с объекта.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MouseLeave(object sender, EventArgs e)
         {
+            if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
+            {
+                return;
+            }
+
             ((TextBox)sender).BackColor = Colors.PanelFon;
             ((TextBox)sender).Parent.BackColor = Colors.PanelFon;
-
         }
 
 
@@ -161,6 +189,47 @@ namespace MyHelper
         private void button1_Click(object sender, EventArgs e)
         {
             lineNumberRTB1.RichTextBox.BackColor = Color.DarkOrange;
+        }
+
+        private void SetMainTable(TableModelObjPanel newMainTable)
+        {
+            _mainTable.Panel.BackColor = Colors.PanelFon;
+            _mainTable.TextBox.BackColor = Colors.PanelFon;
+            _mainTable = newMainTable;
+            _mainTable.Panel.BackColor = Colors.PanelActiveObject;
+            _mainTable.TextBox.BackColor = Colors.PanelActiveObject;
+            richTextBox3.Text = _mainTable.EndScript;
+        }
+
+        private void SetMainColomn(ColomnModelObjPanel newMainColomn)
+        {
+            _mainColomn.Panel.BackColor = Colors.PanelFon;
+            _mainColomn.TextBox.BackColor = Colors.PanelFon;
+            _mainColomn = newMainColomn;
+            _mainColomn.Panel.BackColor = Colors.PanelActiveObject;
+            _mainColomn.TextBox.BackColor = Colors.PanelActiveObject;
+            lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
+        }
+
+        private void UpdatePanelTable()
+        {
+            panel3.Controls.Clear();
+            foreach (var table in _panelTableLeft)
+            {
+                table.Panel.Location = new Point(0, (_panelTableLeft.Count() - table.Sort) * SizeEnums.HeightPanel);
+                panel3.Controls.Add(table.Panel);
+            }
+            this.UpdatePanelColomn();
+        }
+
+        private void UpdatePanelColomn()
+        {
+            panel2.Controls.Clear();
+            foreach (var colomn in _mainTable.Colomns)
+            {
+                colomn.Panel.Location = new Point(0, (_mainTable.Colomns.Count() - colomn.Sort) * SizeEnums.HeightPanel);
+                panel2.Controls.Add(colomn.Panel);
+            }
         }
     }
 }

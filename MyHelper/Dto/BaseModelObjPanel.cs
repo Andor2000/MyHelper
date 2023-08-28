@@ -1,10 +1,5 @@
 ﻿using MyHelper.Enums;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MyHelper.Dto
@@ -17,7 +12,7 @@ namespace MyHelper.Dto
         public BaseModelObjPanel()
         {
             Panel.BackColor = Colors.PanelFon ;// цвет фона 
-            Panel.Size = new Size(200, 35); // размер
+            Panel.Size = new Size(200, SizeEnums.HeightPanel); // размер
             Panel.Padding = new Padding(0, 0, 0, 0);
 
             Icon.SizeMode = PictureBoxSizeMode.Zoom;  // картинка во весь pictureBox
