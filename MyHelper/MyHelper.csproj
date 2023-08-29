@@ -46,21 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\BaseModelObjPanel.cs" />
-    <Compile Include="Dto\ColomnModelObjPanel.cs" />
-    <Compile Include="Dto\TableModelObjPanel.cs" />
+    <Compile Include="BuildingScript.cs" />
+    <Compile Include="Models\Dto\BaseModelObjPanel.cs" />
+    <Compile Include="Models\Dto\ColomnModelObjPanel.cs" />
+    <Compile Include="Models\Dto\TableModelObjPanel.cs" />
     <Compile Include="Enums\Colors.cs" />
     <Compile Include="Enums\SizeEnums.cs" />
-    <Compile Include="FormAddColomns.cs">
+    <Compile Include="DialogForms\FormAddColomns.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAddColomns.Designer.cs">
+    <Compile Include="DialogForms\FormAddColomns.Designer.cs">
       <DependentUpon>FormAddColomns.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormAddTable.cs">
+    <Compile Include="DialogForms\FormAddTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAddTable.Designer.cs">
+    <Compile Include="DialogForms\FormAddTable.Designer.cs">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </Compile>
     <Compile Include="FormScriptMerge.cs">
@@ -75,10 +76,10 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="LineNumberRTB.cs">
+    <Compile Include="NewPanelComponent\LineNumberRTB.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LineNumberRTB.Designer.cs">
+    <Compile Include="NewPanelComponent\LineNumberRTB.Designer.cs">
       <DependentUpon>LineNumberRTB.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -89,10 +90,10 @@
     <Compile Include="FormQuotes.Designer.cs">
       <DependentUpon>FormQuotes.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FormAddColomns.resx">
+    <EmbeddedResource Include="DialogForms\FormAddColomns.resx">
       <DependentUpon>FormAddColomns.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormAddTable.resx">
+    <EmbeddedResource Include="DialogForms\FormAddTable.resx">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScriptMerge.resx">
@@ -101,7 +102,7 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LineNumberRTB.resx">
+    <EmbeddedResource Include="NewPanelComponent\LineNumberRTB.resx">
       <DependentUpon>LineNumberRTB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -129,5 +130,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

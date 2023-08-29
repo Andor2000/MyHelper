@@ -15,23 +15,22 @@ namespace MyHelper.Dto
             Panel.Size = new Size(200, SizeEnums.HeightPanel); // размер
             Panel.Padding = new Padding(0, 0, 0, 0);
 
-            Icon.SizeMode = PictureBoxSizeMode.Zoom;  // картинка во весь pictureBox
+            Icon.SizeMode = PictureBoxSizeMode.Zoom;    // картинка во весь pictureBox
             Icon.Size = new Size(31, 31);
             Icon.Margin = new Padding(0, 2, 0, 0);
-            Panel.Controls.Add(Icon);               // добавление на панель
 
             TextBox.Margin = new Padding(0, 7, 0, 0);
-            TextBox.ForeColor = Color.White; // цвет текста
-            TextBox.BackColor = Colors.PanelFon; //Colors.PanelFon; ; // цвет фона 
+            TextBox.ForeColor = Color.White;            // цвет текста
+            TextBox.BackColor = Colors.PanelFon;              //Colors.PanelFon; ; // цвет фона 
             TextBox.Font = new Font("Segoe UI", 10);
-            TextBox.Width = 145; // ширина текстбокса           минимум 11   
-            //textBox.TextAlign = HorizontalAlignment.Center; // выровнять по центру
-            TextBox.ShortcutsEnabled = false; // убрать контекстное меню
+            TextBox.Width = 125;                        // ширина текстбокса
+            TextBox.ShortcutsEnabled = false;           // убрать контекстное меню
             TextBox.BorderStyle = BorderStyle.None;
             TextBox.ReadOnly = true;
+            TextBox.Cursor = Cursors.Arrow;             // вид курсора всегда одинаковый
 
-            TextBox.Cursor = Cursors.Arrow; // вид курсора всегда одинаковый
-            Panel.Controls.Add(TextBox); // лобавляем в левую колонку
+            Panel.Controls.Add(Icon);
+            Panel.Controls.Add(TextBox);
         }
 
         /// <summary>
