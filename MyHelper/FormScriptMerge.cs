@@ -100,8 +100,6 @@ namespace MyHelper
         /// <summary>
         /// Курсор на объекте, навелся, перетаскивание.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MouseMove(object sender, EventArgs e)
         {
             if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
@@ -173,23 +171,6 @@ namespace MyHelper
         }
 
 
-        private void navel_na_ikonky_MouseMove(object sender, MouseEventArgs e)     // навел на иконку              
-        {
-            ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
-        }
-        private void navel_na_ikonky_MouseLeave(object sender, EventArgs e)         // убрал мышку с иконки         
-        {
-            ((PictureBox)sender).Parent.BackColor = ((PictureBox)sender).Parent.Parent.BackColor;
-        }
-        private void navel_na_ikonky_MouseDown(object sender, MouseEventArgs e)     // нажал на мышь (не отпустил)  
-        {
-            ((PictureBox)sender).Parent.BackColor = Colors.PanelActiveObject;
-        }
-        private void navel_na_ikonky_MouseUp(object sender, MouseEventArgs e)       // отпустил мышь                
-        {
-            ((PictureBox)sender).Parent.BackColor = Colors.PanelFon;
-        }
-
         private void SetMainTable(TableModelObjPanel newMainTable)
         {
             _mainTable.Panel.BackColor = Colors.PanelFon;
@@ -197,6 +178,8 @@ namespace MyHelper
             _mainTable = newMainTable;
             _mainTable.Panel.BackColor = Colors.PanelActiveObject;
             _mainTable.TextBox.BackColor = Colors.PanelActiveObject;
+
+            textBox1.Text = _mainTable.TextBox.Text;
 
             this.UpdateEndScriptTable();
             this.UpdateEndScriptColomn();
@@ -217,6 +200,7 @@ namespace MyHelper
             _mainColomn.TextBoxCount.BackColor = Colors.PanelActiveObject;
 
             lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
+            textBox2.Text = _mainColomn.TextBox.Text;
         }
 
         private void UpdatePanelTable()
@@ -280,21 +264,17 @@ namespace MyHelper
             }
         }
 
-
+        /// <summary>
+        /// Изменение начало скрипта (название таблицы)
+        /// </summary>
         private void UpdateEndScriptTable()
         {
             EndScriptTable = string.Format(BuildingScript.Table, _mainTable.TextBox.Text);
         }
 
-        private void UpdateEndScriptColomn()
-        {
-            EndScriptColomn = string.Format(
-                BuildingScript.Colomns,
-                string.Join(", ", _mainTable.Colomns.Select(x => x.TextBox.Text)),
-                string.Join(",\n", _mainTable.Colomns.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(", ", _mainTable.Colomns.Select(x => "source." + x.TextBox.Text)));
-        }
-
+        /// <summary>
+        /// Изменение середины скрипта (записи).
+        /// </summary>
         private void UpdateEndScriptRecord()
         {
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
@@ -319,12 +299,58 @@ namespace MyHelper
                 recs.Add("(" + string.Join(", ", rec) + ")");
             }
             EndScriptRecord = string.Join("\n       ,", recs);
-            OutputEndScript();
+            this.OutputEndScript();
+        }
+        
+        /// <summary>
+        /// Изменение конца скрипта (название колонок).
+        /// </summary>
+        private void UpdateEndScriptColomn()
+        {
+            EndScriptColomn = string.Format(
+                BuildingScript.Colomns,
+                string.Join(", ", _mainTable.Colomns.Select(x => x.TextBox.Text)),
+                string.Join(",\n", _mainTable.Colomns.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(", ", _mainTable.Colomns.Select(x => "source." + x.TextBox.Text)));
         }
 
+        /// <summary>
+        /// Вывод скрипта.
+        /// </summary>
         private void OutputEndScript()
         {
             richTextBox3.Text = EndScriptTable + EndScriptRecord + EndScriptColomn;
+        }
+
+        private void navel_na_ikonky_MouseMove(object sender, MouseEventArgs e)     // навел на иконку              
+        {
+            ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
+        }
+        private void navel_na_ikonky_MouseLeave(object sender, EventArgs e)         // убрал мышку с иконки         
+        {
+            ((PictureBox)sender).Parent.BackColor = ((PictureBox)sender).Parent.Parent.BackColor;
+        }
+        private void navel_na_ikonky_MouseDown(object sender, MouseEventArgs e)     // нажал на мышь (не отпустил)  
+        {
+            ((PictureBox)sender).Parent.BackColor = Colors.PanelActiveObject;
+        }
+        private void navel_na_ikonky_MouseUp(object sender, MouseEventArgs e)       // отпустил мышь    
+        {
+            ((PictureBox)sender).Parent.BackColor = Colors.PanelFon;
+        }
+
+        private void textBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            _mainTable.TextBox.Text = textBox1.Text;
+            this.UpdateEndScriptTable();
+            this.OutputEndScript();
+        }
+
+        private void textBox2_KeyUp(object sender, KeyEventArgs e)
+        {
+            _mainColomn.TextBox.Text = textBox2.Text;
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
         }
     }
 }
