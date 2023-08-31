@@ -23,7 +23,7 @@ namespace MyHelper.Dto
             TextBox.ForeColor = Color.White;            // цвет текста
             TextBox.BackColor = Colors.PanelFon;              //Colors.PanelFon; ; // цвет фона 
             TextBox.Font = new Font("Segoe UI", 10);
-            TextBox.Width = 125;                        // ширина текстбокса
+            TextBox.Width = 120;                        // ширина текстбокса
             TextBox.ShortcutsEnabled = false;           // убрать контекстное меню
             TextBox.BorderStyle = BorderStyle.None;
             TextBox.ReadOnly = true;

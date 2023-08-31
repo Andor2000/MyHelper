@@ -63,7 +63,6 @@ namespace MyHelper
             var table = new TableModelObjPanel();
             _panelTableLeft.Add(table);
             table.Sort = _panelTableLeft.Count();
-            table.Icon.Image = Image.FromFile(@"images\icons\quest.png");
             table.TextBox.Text = formAddTableName.TableName;
 
             table.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
@@ -77,7 +76,6 @@ namespace MyHelper
             {
                 var colomn = new ColomnModelObjPanel();
                 colomn.Sort = colomNames.Count() - table.Colomns.Count();
-                colomn.Icon.Image = Image.FromFile(@"images\icons\pencil.png");
                 colomn.TextBox.Text = colom;
                 table.Colomns.Add(colomn);
 
@@ -86,6 +84,10 @@ namespace MyHelper
                 colomn.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
                 colomn.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
             }
+
+            var firstColomn = table.Colomns.OrderByDescending(x => x.Sort).FirstOrDefault();
+            firstColomn.EqualsRecordStar = true;
+            firstColomn.IconStar.Visible = true;
 
             this.SetMainTable(table);
             this.UpdatePanelTable();
@@ -98,6 +100,28 @@ namespace MyHelper
         }
 
         /// <summary>
+        /// Добавить сравнение.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            if (_mainColomn.EqualsRecordStar)
+            {
+                pictureBox3.Image = Image.FromFile(@"images\icons\star.png");
+            }
+            else
+            {
+                pictureBox3.Image = Image.FromFile(@"images\icons\star_active.png");
+            }
+
+            _mainColomn.EqualsRecordStar = !_mainColomn.EqualsRecordStar;
+            _mainColomn.IconStar.Visible = !_mainColomn.IconStar.Visible;
+            UpdateEndScriptColomn();
+            OutputEndScript();
+        }
+
+        /// <summary>
         /// Курсор на объекте, навелся, перетаскивание.
         /// </summary>
         private void MouseMove(object sender, EventArgs e)
@@ -107,38 +131,14 @@ namespace MyHelper
                 return;
             }
 
+            if (CheckIsColomn(sender))
+            {
+                var colomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
+                colomn.TextBoxCount.BackColor = Colors.PanelMouseMoveObject;
+            }
+
             ((TextBox)sender).BackColor = Colors.PanelMouseMoveObject;
             ((TextBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
-        }
-
-        /// <summary>
-        /// Клинкул по объекту (отпустил мышь)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MouseUp(object sender, EventArgs e)
-        {
-            if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
-            {
-                return;
-            }
-
-            _mainTable.EndScript = richTextBox3.Text;
-            _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
-
-            var colomn = _mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
-            if (colomn != null)
-            {
-                this.SetMainColomn(colomn);
-            }
-            else
-            {
-                var table = _panelTableLeft.FirstOrDefault(x => x.TextBox == (TextBox)sender);
-                colomn = table.Colomns.FirstOrDefault(x => x.Sort == table.Colomns.Count());
-                this.SetMainTable(table);
-                this.UpdatePanelColomn();
-            }
-
         }
 
         /// <summary>
@@ -166,18 +166,60 @@ namespace MyHelper
                 return;
             }
 
+            if (CheckIsColomn(sender))
+            {
+                var colomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
+                colomn.TextBoxCount.BackColor = Colors.PanelFon;
+            }
+
             ((TextBox)sender).BackColor = Colors.PanelFon;
             ((TextBox)sender).Parent.BackColor = Colors.PanelFon;
         }
 
+        /// <summary>
+        /// Клинкул по объекту (отпустил мышь)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MouseUp(object sender, EventArgs e)
+        {
+            if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
+            {
+                return;
+            }
 
+            _mainTable.EndScript = richTextBox3.Text;
+            _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
+
+            if (CheckIsColomn(sender))
+            {
+                var colomn = _mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
+                this.SetMainColomn(colomn);
+            }
+            else
+            {
+                var table = _panelTableLeft.FirstOrDefault(x => x.TextBox == (TextBox)sender);
+                this.SetMainTable(table);
+                this.UpdatePanelColomn();
+            }
+
+        }
+
+        /// <summary>
+        /// Установить активную таблицу.
+        /// </summary>
+        /// <param name="newMainTable"></param>
         private void SetMainTable(TableModelObjPanel newMainTable)
         {
             _mainTable.Panel.BackColor = Colors.PanelFon;
             _mainTable.TextBox.BackColor = Colors.PanelFon;
+            _mainTable.TextBox.ForeColor = Color.White;
+            _mainTable.Icon.Image = Image.FromFile(@"images\icons\quest.png");
             _mainTable = newMainTable;
             _mainTable.Panel.BackColor = Colors.PanelActiveObject;
             _mainTable.TextBox.BackColor = Colors.PanelActiveObject;
+            _mainTable.TextBox.ForeColor = Colors.PanelActiveObjectFore;
+            _mainTable.Icon.Image = Image.FromFile(@"images\icons\quest_active.png");
 
             textBox1.Text = _mainTable.TextBox.Text;
 
@@ -194,10 +236,24 @@ namespace MyHelper
             _mainColomn.Panel.BackColor = Colors.PanelFon;
             _mainColomn.TextBox.BackColor = Colors.PanelFon;
             _mainColomn.TextBoxCount.BackColor = Colors.PanelFon;
+            _mainColomn.TextBox.ForeColor = Color.White;
+            _mainColomn.TextBoxCount.ForeColor = Color.White;
+            _mainColomn.Icon.Image = Image.FromFile(@"images\icons\pencil.png");
+            _mainColomn.IconStar.Image = Image.FromFile(@"images\icons\star.png");
+
             _mainColomn = newMainColomn;
+            
             _mainColomn.Panel.BackColor = Colors.PanelActiveObject;
             _mainColomn.TextBox.BackColor = Colors.PanelActiveObject;
             _mainColomn.TextBoxCount.BackColor = Colors.PanelActiveObject;
+            _mainColomn.TextBox.ForeColor = Colors.PanelActiveObjectFore;
+            _mainColomn.TextBoxCount.ForeColor = Colors.PanelActiveObjectFore;
+            _mainColomn.Icon.Image = Image.FromFile(@"images\icons\pencil_active.png");
+            _mainColomn.IconStar.Image = Image.FromFile(@"images\icons\star_active.png");
+
+            pictureBox3.Image = _mainColomn.EqualsRecordStar
+                ? Image.FromFile(@"images\icons\star_active.png")
+                : Image.FromFile(@"images\icons\star.png");
 
             lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
             textBox2.Text = _mainColomn.TextBox.Text;
@@ -310,7 +366,8 @@ namespace MyHelper
             EndScriptColomn = string.Format(
                 BuildingScript.Colomns,
                 string.Join(", ", _mainTable.Colomns.Select(x => x.TextBox.Text)),
-                string.Join(",\n", _mainTable.Colomns.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(" and ", _mainTable.Colomns.Where(x => x.EqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(",\n\t    ", _mainTable.Colomns.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
                 string.Join(", ", _mainTable.Colomns.Select(x => "source." + x.TextBox.Text)));
         }
 
@@ -339,6 +396,21 @@ namespace MyHelper
             ((PictureBox)sender).Parent.BackColor = Colors.PanelFon;
         }
 
+        /// <summary>
+        /// Проверка, является ли textBox таблицей (или это колонка).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <returns></returns>
+        private bool CheckIsColomn(object sender)
+        {
+            return _mainTable.Colomns.Any(x => x.TextBox == (TextBox)sender);
+        }
+
+        /// <summary>
+        /// Изменение название таблицы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox1_KeyUp(object sender, KeyEventArgs e)
         {
             _mainTable.TextBox.Text = textBox1.Text;
@@ -346,6 +418,11 @@ namespace MyHelper
             this.OutputEndScript();
         }
 
+        /// <summary>
+        /// Изменение название колонки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox2_KeyUp(object sender, KeyEventArgs e)
         {
             _mainColomn.TextBox.Text = textBox2.Text;

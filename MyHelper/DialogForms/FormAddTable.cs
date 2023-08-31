@@ -53,14 +53,7 @@ namespace MyHelper
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (textBox1.Text == string.Empty)
-                {
-                    label2.Visible = true;
-                }
-                else
-                {
-                    richTextBox1.Focus();
-                }
+                richTextBox1.Focus();
             }
         }
     }

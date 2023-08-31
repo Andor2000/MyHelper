@@ -21,5 +21,10 @@ namespace MyHelper.Enums
         /// Цвет активного объекта.
         /// </summary>
         public static readonly Color PanelActiveObject = ColorTranslator.FromHtml("#6B90B8");
+
+        /// <summary>
+        /// Цвет текста у активного объекта. (красноватый)
+        /// </summary>
+        public static readonly Color PanelActiveObjectFore = ColorTranslator.FromHtml("#86144B");
     }
 }

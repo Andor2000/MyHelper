@@ -17,21 +17,22 @@ USING (
         ";
 
         /// <summary>
-        /// 
+        /// Сравнение\присвоение записей.
         /// </summary>
-        public static readonly string Assign = @"        TARGET.{0} = source.{0}";
+        public static readonly string Assign = @"TARGET.{0} = source.{0}";
+
         /// <summary>
         /// 
         /// </summary>
         public static readonly string Colomns = @"
 ) AS source ({0})
-ON TARGET.ReactionGUID = source.ReactionGUID
+ON {1}
 WHEN MATCHED THEN
     UPDATE SET
-{1}
+        {2}
 WHEN NOT MATCHED THEN
     INSERT ({0})
-    VALUES ({2});";
+    VALUES ({3});";
 
     }
 }
