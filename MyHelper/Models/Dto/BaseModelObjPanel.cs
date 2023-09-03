@@ -23,15 +23,21 @@ namespace MyHelper.Dto
             TextBox.ForeColor = Color.White;            // цвет текста
             TextBox.BackColor = Colors.PanelFon;              //Colors.PanelFon; ; // цвет фона 
             TextBox.Font = new Font("Segoe UI", 10);
-            TextBox.Width = 120;                        // ширина текстбокса
+            TextBox.Width = 115;                        // ширина текстбокса
             TextBox.ShortcutsEnabled = false;           // убрать контекстное меню
             TextBox.BorderStyle = BorderStyle.None;
             TextBox.ReadOnly = true;
             TextBox.Cursor = Cursors.Arrow;             // вид курсора всегда одинаковый
 
+            TextBox.ContextMenuStrip = Context;
             Panel.Controls.Add(Icon);
             Panel.Controls.Add(TextBox);
         }
+
+        /// <summary>
+        /// Сортировка
+        /// </summary>
+        public int Sort { get; set; }
 
         /// <summary>
         /// Поле.
@@ -49,8 +55,8 @@ namespace MyHelper.Dto
         public TextBox TextBox { get; set; } = new TextBox();
 
         /// <summary>
-        /// Сортировка
+        /// Контект данных.
         /// </summary>
-        public int Sort { get; set; }
+        public ContextMenuStrip Context { get; set; } = new ContextMenuStrip();
     }
 }

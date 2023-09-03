@@ -47,6 +47,11 @@ namespace MyHelper
             panel3.AutoScroll = false;
             panel3.VerticalScroll.Visible = false;
             panel3.AutoScroll = true;
+
+            panel2.HorizontalScroll.Maximum = 0;
+            panel2.AutoScroll = false;
+            panel2.VerticalScroll.Visible = false;
+            panel2.AutoScroll = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -68,35 +73,82 @@ namespace MyHelper
             table.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
             table.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
             table.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
-            table.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
+            table.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта
 
-            // получение названий колонок.
-            var colomNames = _formQuotesService.FormatingString(formAddTableName.ColomnNames, true, true, true, true);
-            foreach (var colom in colomNames)
-            {
-                var colomn = new ColomnModelObjPanel();
-                colomn.Sort = colomNames.Count() - table.Colomns.Count();
-                colomn.TextBox.Text = colom;
-                table.Colomns.Add(colomn);
+            CreateColomns(table, formAddTableName.ColomnNames);
 
-                colomn.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
-                colomn.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
-                colomn.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
-                colomn.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
-            }
-
-            var firstColomn = table.Colomns.OrderByDescending(x => x.Sort).FirstOrDefault();
+            var firstColomn = table.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             firstColomn.EqualsRecordStar = true;
             firstColomn.IconStar.Visible = true;
 
             this.SetMainTable(table);
             this.UpdatePanelTable();
+            this.OutputEndScript();
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             var formDialog = new FormAddColomns(this);
             formDialog.ShowDialog();
+
+            if (formDialog.ColomnNames == string.Empty)
+            {
+                return;
+            }
+
+            this.CreateColomns(_mainTable, formDialog.ColomnNames);
+            this.UpdatePanelColomn();
+
+            this.UpdateEndScriptColomn();
+            this.UpdateEndScriptRecord();
+            this.OutputEndScript();
+        }
+
+        private void DeleteColomn(object sender, EventArgs e)
+        {
+            var deletedColomn = _mainTable.Colomns.First(x => x.Context == ((ToolStripMenuItem)sender).Owner);
+
+            if (_mainColomn == deletedColomn)
+            {
+                var newMainColomn = _mainTable.Colomns.FirstOrDefault(x => x.Sort == deletedColomn.Sort + 1)
+                    ?? _mainTable.Colomns.FirstOrDefault(x => x.Sort == deletedColomn.Sort - 1)
+                    ?? new ColomnModelObjPanel();
+
+                this.SetMainColomn(newMainColomn);
+            }
+
+            if (deletedColomn.Sort < _mainTable.Colomns.Count())
+            {
+                _mainTable.Colomns
+                    .Where(x => x.Sort > deletedColomn.Sort)
+                    .ToList()
+                    .ForEach(x => x.Sort--);
+            }
+
+            _mainTable.Colomns.Remove(deletedColomn);
+            deletedColomn = null;
+
+            this.UpdatePanelColomn();
+            this.UpdateEndScriptRecord();
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+
+            // Вроде как чистика памяти.
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        /// <summary>
+        /// Добавить сравнение.
+        /// </summary>
+        private void AddStarColomn(object sender, EventArgs e)
+        {
+            var colomn = _mainTable.Colomns.First(x => x.Context == ((ToolStripMenuItem)sender).Owner);
+            colomn.EqualsRecordStar = true;
+            colomn.IconStar.Visible = true;
+
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
         }
 
         /// <summary>
@@ -117,8 +169,38 @@ namespace MyHelper
 
             _mainColomn.EqualsRecordStar = !_mainColomn.EqualsRecordStar;
             _mainColomn.IconStar.Visible = !_mainColomn.IconStar.Visible;
-            UpdateEndScriptColomn();
-            OutputEndScript();
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+        }
+
+        private void CreateColomns(TableModelObjPanel table, string colomnNames)
+        {
+            var colomnNamesList = _formQuotesService.FormatingString(colomnNames, true, true, true, true);
+            colomnNamesList = colomnNamesList.Where(x => !_mainTable.Colomns.Select(y => y.TextBox.Text).Contains(x));
+
+            foreach (var colomnName in colomnNamesList)
+            {
+                var colomn = new ColomnModelObjPanel();
+                colomn.Sort = table.Colomns.Count();
+                colomn.TextBox.Text = colomnName;
+                table.Colomns.Add(colomn);
+
+                colomn.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
+                colomn.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+                colomn.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
+                colomn.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
+
+                ToolStripMenuItem deleteMenuItem = new ToolStripMenuItem("Удалить");
+                ToolStripMenuItem AddEqualsRecordStar = new ToolStripMenuItem("Добавить в сравнение");
+                deleteMenuItem.Click += DeleteColomn;
+                AddEqualsRecordStar.Click += AddStarColomn;
+
+                colomn.Context.Items.AddRange(new[]
+                {
+                    AddEqualsRecordStar,
+                    deleteMenuItem
+                });
+            }
         }
 
         /// <summary>
@@ -131,7 +213,7 @@ namespace MyHelper
                 return;
             }
 
-            if (CheckIsColomn(sender))
+            if (this.CheckIsColomn(sender))
             {
                 var colomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
                 colomn.TextBoxCount.BackColor = Colors.PanelMouseMoveObject;
@@ -166,7 +248,7 @@ namespace MyHelper
                 return;
             }
 
-            if (CheckIsColomn(sender))
+            if (this.CheckIsColomn(sender))
             {
                 var colomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
                 colomn.TextBoxCount.BackColor = Colors.PanelFon;
@@ -181,8 +263,13 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MouseUp(object sender, EventArgs e)
+        private void MouseUp(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right)
+            {
+                return;
+            }
+
             if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
             {
                 return;
@@ -191,7 +278,7 @@ namespace MyHelper
             _mainTable.EndScript = richTextBox3.Text;
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
 
-            if (CheckIsColomn(sender))
+            if (this.CheckIsColomn(sender))
             {
                 var colomn = _mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
                 this.SetMainColomn(colomn);
@@ -202,7 +289,6 @@ namespace MyHelper
                 this.SetMainTable(table);
                 this.UpdatePanelColomn();
             }
-
         }
 
         /// <summary>
@@ -224,10 +310,10 @@ namespace MyHelper
             textBox1.Text = _mainTable.TextBox.Text;
 
             this.UpdateEndScriptTable();
-            this.UpdateEndScriptColomn();
             this.UpdateEndScriptRecord();
+            this.UpdateEndScriptColomn();
 
-            var newMainColomn = _mainTable.Colomns.OrderByDescending(x => x.Sort).FirstOrDefault();
+            var newMainColomn = _mainTable.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             this.SetMainColomn(newMainColomn);
         }
 
@@ -242,7 +328,7 @@ namespace MyHelper
             _mainColomn.IconStar.Image = Image.FromFile(@"images\icons\star.png");
 
             _mainColomn = newMainColomn;
-            
+
             _mainColomn.Panel.BackColor = Colors.PanelActiveObject;
             _mainColomn.TextBox.BackColor = Colors.PanelActiveObject;
             _mainColomn.TextBoxCount.BackColor = Colors.PanelActiveObject;
@@ -276,23 +362,23 @@ namespace MyHelper
         private void UpdatePanelColomn()
         {
             panel2.Controls.Clear();
-            var colomns = _mainTable.Colomns.OrderByDescending(x => x.Sort);
+            var colomns = _mainTable.Colomns.OrderBy(x => x.Sort);
 
             foreach (var colomn in colomns)
             {
-                colomn.Panel.Location = new Point(0, (_mainTable.Colomns.Count() - colomn.Sort) * SizeEnums.HeightPanel);
+                colomn.Panel.Location = new Point(0, colomn.Sort * SizeEnums.HeightPanel);
                 panel2.Controls.Add(colomn.Panel);
             }
         }
 
         private void lineNumberRTB1_KeyDown(object sender, KeyEventArgs e)
         {
-            RewriteCountRecord(e);
+            this.RewriteCountRecord(e);
         }
 
         private void lineNumberRTB1_KeyUp(object sender, KeyEventArgs e)
         {
-            RewriteCountRecord(e);
+            //this.RewriteCountRecord(e);
             this.UpdateEndScriptRecord();
         }
 
@@ -333,9 +419,13 @@ namespace MyHelper
         /// </summary>
         private void UpdateEndScriptRecord()
         {
+            if (!_mainTable.Colomns.Any())
+            {
+                return;
+            }
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
             var maxCount = _mainTable.Colomns.Max(x => x.CountRecords);
-            var helper = _mainTable.Colomns.Select(x => x.Records.Split('\n'));
+            var helper = _mainTable.Colomns.OrderBy(x => x.Sort).Select(x => x.Records.Split('\n'));
 
             List<string> recs = new List<string>();
             for (int i = 0; i < maxCount; i++)
@@ -357,18 +447,19 @@ namespace MyHelper
             EndScriptRecord = string.Join("\n       ,", recs);
             this.OutputEndScript();
         }
-        
+
         /// <summary>
         /// Изменение конца скрипта (название колонок).
         /// </summary>
         private void UpdateEndScriptColomn()
         {
+            var sortColomn = _mainTable.Colomns.OrderBy(x => x.Sort);
             EndScriptColomn = string.Format(
                 BuildingScript.Colomns,
-                string.Join(", ", _mainTable.Colomns.Select(x => x.TextBox.Text)),
-                string.Join(" and ", _mainTable.Colomns.Where(x => x.EqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(",\n\t    ", _mainTable.Colomns.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(", ", _mainTable.Colomns.Select(x => "source." + x.TextBox.Text)));
+                string.Join(", ", sortColomn.Select(x => x.TextBox.Text)),
+                string.Join(" and ", sortColomn.Where(x => x.EqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(",\n\t\t", sortColomn.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(", ", sortColomn.Select(x => "source." + x.TextBox.Text)));
         }
 
         /// <summary>
