@@ -7,7 +7,7 @@ namespace MyHelper.Dto
         /// <summary>
         /// Окончательный скрипт.
         /// </summary>
-        public string EndScript { get; set; } = string.Empty;
+        //public string EndScript { get; set; } = string.Empty;
 
         /// <summary>
         /// Список колонок.
