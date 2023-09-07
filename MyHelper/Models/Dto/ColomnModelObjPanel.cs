@@ -21,13 +21,13 @@ namespace MyHelper.Dto
             TextBoxCount.Text = "1";
             TextBoxCount.TextAlign = HorizontalAlignment.Right;
 
-            Icon.Image = Image.FromFile(@"images\icons\pencil.png");
+            Icon.Image = IconEnums.Pencil;
 
             IconStar.SizeMode = PictureBoxSizeMode.Zoom;    // картинка во весь pictureBox
             IconStar.Size = new Size(10, 10);
             IconStar.Margin = new Padding(0, 3, 0, 0);
             IconStar.Visible = false;
-            IconStar.Image = Image.FromFile(@"images\icons\star.png");
+            IconStar.Image = IconEnums.Star;
 
             Panel.Controls.Add(TextBoxCount);
             Panel.Controls.Add(IconStar);

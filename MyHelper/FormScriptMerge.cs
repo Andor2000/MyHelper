@@ -185,11 +185,11 @@ namespace MyHelper
         {
             if (_mainColomn.EqualsRecordStar)
             {
-                pictureBox3.Image = Image.FromFile(@"images\icons\star.png");
+                pictureBox3.Image = IconEnums.Star;
             }
             else
             {
-                pictureBox3.Image = Image.FromFile(@"images\icons\star_active.png");
+                pictureBox3.Image = IconEnums.StarActive;
             }
 
             _mainColomn.EqualsRecordStar = !_mainColomn.EqualsRecordStar;
@@ -415,12 +415,12 @@ namespace MyHelper
             _mainTable.Panel.BackColor = Colors.PanelFon;
             _mainTable.TextBox.BackColor = Colors.PanelFon;
             _mainTable.TextBox.ForeColor = Color.White;
-            _mainTable.Icon.Image = Image.FromFile(@"images\icons\quest.png");
+            _mainTable.Icon.Image = IconEnums.Quest;
             _mainTable = newMainTable;
             _mainTable.Panel.BackColor = Colors.PanelActiveObject;
             _mainTable.TextBox.BackColor = Colors.PanelActiveObject;
             _mainTable.TextBox.ForeColor = Colors.PanelActiveObjectFore;
-            _mainTable.Icon.Image = Image.FromFile(@"images\icons\quest_active.png");
+            _mainTable.Icon.Image = IconEnums.QuestActive;
 
             textBox1.Text = _mainTable.TextBox.Text;
 
@@ -439,8 +439,8 @@ namespace MyHelper
             _mainColomn.TextBoxCount.BackColor = Colors.PanelFon;
             _mainColomn.TextBox.ForeColor = Color.White;
             _mainColomn.TextBoxCount.ForeColor = Color.White;
-            _mainColomn.Icon.Image = Image.FromFile(@"images\icons\pencil.png");
-            _mainColomn.IconStar.Image = Image.FromFile(@"images\icons\star.png");
+            _mainColomn.Icon.Image = IconEnums.Pencil;
+            _mainColomn.IconStar.Image = IconEnums.Star;
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
 
             _mainColomn = newMainColomn;
@@ -450,13 +450,13 @@ namespace MyHelper
             _mainColomn.TextBoxCount.BackColor = Colors.PanelActiveObject;
             _mainColomn.TextBox.ForeColor = Colors.PanelActiveObjectFore;
             _mainColomn.TextBoxCount.ForeColor = Colors.PanelActiveObjectFore;
-            _mainColomn.Icon.Image = Image.FromFile(@"images\icons\pencil_active.png");
-            _mainColomn.IconStar.Image = Image.FromFile(@"images\icons\star_active.png");
+            _mainColomn.Icon.Image = IconEnums.PencilActive;
+            _mainColomn.IconStar.Image = IconEnums.StarActive;
             lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
 
             pictureBox3.Image = _mainColomn.EqualsRecordStar
-                ? Image.FromFile(@"images\icons\star_active.png")
-                : Image.FromFile(@"images\icons\star.png");
+                ? IconEnums.StarActive
+                : IconEnums.Star;
 
             textBox2.Text = _mainColomn.TextBox.Text;
         }

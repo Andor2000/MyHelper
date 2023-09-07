@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildingScript.cs" />
+    <Compile Include="Enums\IconEnums.cs" />
     <Compile Include="Models\Dto\BaseModelObjPanel.cs" />
     <Compile Include="Models\Dto\ColomnModelObjPanel.cs" />
     <Compile Include="Models\Dto\TableModelObjPanel.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="FormQuotes.resx">
       <DependentUpon>FormQuotes.cs</DependentUpon>
@@ -130,6 +132,22 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="bin\Debug\Images\icons\star_active.png" />
+    <None Include="bin\Debug\Images\icons\star.png" />
+    <None Include="bin\Debug\Images\icons\quest_active.png" />
+    <None Include="bin\Debug\Images\icons\quest.png" />
+    <None Include="bin\Debug\Images\icons\pencil_active.png" />
+    <None Include="bin\Debug\Images\icons\add_button.png" />
+    <None Include="bin\Debug\Images\icons\pencil.png" />
+    <Content Include="Properties\add_button.png" />
+    <Content Include="Properties\pencil.png" />
+    <Content Include="Properties\pencil_active.png" />
+    <Content Include="Properties\quest.png" />
+    <Content Include="Properties\questActive.png" />
+    <Content Include="Properties\quest_active.png" />
+    <Content Include="Properties\star.png" />
+    <Content Include="Properties\star_active.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
