@@ -2,8 +2,13 @@
 
 namespace MyHelper.Dto
 {
-    public class TableModelObjPanel : BaseModelObjPanel
+    public class TableDto : BaseModelDto
     {
+        public TableDto()
+        {
+            Context.Items.Add(ContextDeleted);
+        }
+
         /// <summary>
         /// Окончательный скрипт.
         /// </summary>
@@ -12,6 +17,6 @@ namespace MyHelper.Dto
         /// <summary>
         /// Список колонок.
         /// </summary>
-        public List<ColomnModelObjPanel> Colomns { get; set; } = new List<ColomnModelObjPanel>();
+        public List<ColomnDto> Colomns { get; set; } = new List<ColomnDto>();
     }
 }

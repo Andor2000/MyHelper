@@ -4,10 +4,10 @@ using System.Windows.Forms;
 
 namespace MyHelper.Dto
 {
-    public class ColomnModelObjPanel : BaseModelObjPanel
+    public class ColomnDto : BaseModelDto
     {
 
-        public ColomnModelObjPanel()
+        public ColomnDto()
         {
             TextBoxCount.Margin = new Padding(0, 7, 0, 0);
             TextBoxCount.ForeColor = Color.White;            // цвет текста
@@ -28,6 +28,9 @@ namespace MyHelper.Dto
             IconStar.Margin = new Padding(0, 3, 0, 0);
             IconStar.Visible = false;
             IconStar.Image = IconEnums.Star;
+
+            Context.Items.Add(ContextStar);
+            Context.Items.Add(ContextDeleted);
 
             Panel.Controls.Add(TextBoxCount);
             Panel.Controls.Add(IconStar);
@@ -57,5 +60,10 @@ namespace MyHelper.Dto
         /// Иконка звезды.
         /// </summary>
         public PictureBox IconStar { get; set; } = new PictureBox();
+
+        /// <summary>
+        /// Пункт в контекстном меню звезды.
+        /// </summary>
+        public ToolStripMenuItem ContextStar { get; set; } = new ToolStripMenuItem("Добавить в сравнение");
     }
 }

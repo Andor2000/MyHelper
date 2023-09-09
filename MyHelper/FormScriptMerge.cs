@@ -25,9 +25,14 @@ namespace MyHelper
         private bool _isDragAndDrop { get; set; }
 
         /// <summary>
-        /// Признак перетаскивания.
+        /// Перетаскиваемая таблица.
         /// </summary>
-        private ColomnModelObjPanel _DragAndDropColomn { get; set; }
+        private TableDto _DragAndDropTable { get; set; }
+
+        /// <summary>
+        /// Перетаскиваемая колонка.
+        /// </summary>
+        private ColomnDto _DragAndDropColomn { get; set; }
 
         /// <summary>
         /// Координата у для перетаскивания (мышь).
@@ -42,17 +47,17 @@ namespace MyHelper
         /// <summary>
         /// Активная таблица.
         /// </summary>
-        private TableModelObjPanel _mainTable { get; set; } = new TableModelObjPanel();
+        private TableDto _mainTable { get; set; } = new TableDto();
 
         /// <summary>
         /// Активный столбец
         /// </summary>
-        private ColomnModelObjPanel _mainColomn { get; set; } = new ColomnModelObjPanel();
+        private ColomnDto _mainColomn { get; set; } = new ColomnDto();
 
         /// <summary>
         /// Левая колонка с задачами.
         /// </summary>
-        private List<TableModelObjPanel> _panelTableLeft { get; set; } = new List<TableModelObjPanel>();
+        private List<TableDto> _panelTableLeft { get; set; } = new List<TableDto>();
 
         /// <summary>
         /// Сервис кавычек.
@@ -79,6 +84,11 @@ namespace MyHelper
             panel2.AutoScroll = true;
         }
 
+        /// <summary>
+        /// Добавление новой таблицы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             panel5.BackColor = panel5.Parent.BackColor;
@@ -90,27 +100,35 @@ namespace MyHelper
                 return;
             }
 
-            var table = new TableModelObjPanel();
-            _panelTableLeft.Add(table);
+            var table = new TableDto();
             table.Sort = _panelTableLeft.Count();
             table.TextBox.Text = formAddTableName.TableName;
+            _panelTableLeft.Add(table);
 
-            table.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
-            //table.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
-            table.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
-            table.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта
+            table.TextBox.MouseDown += MouseDownObject;     // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+            table.TextBox.MouseMove += MouseMoveObject;     // Курсор на объекте, навелся, перетаскивание.
+            table.TextBox.MouseUp += MouseUpObject;         // Клинкул по объекту (отпустил мышь)
+            table.TextBox.MouseLeave += MouseLeaveObject;   // Отвел курсор с объекта
+            table.ContextDeleted.Click += DeleteTable;             // 
 
             CreateColomns(table, formAddTableName.ColomnNames);
 
             var firstColomn = table.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             firstColomn.EqualsRecordStar = true;
             firstColomn.IconStar.Visible = true;
+            firstColomn.ContextStar.Text = "Убрать из сравнения";
 
             this.SetMainTable(table);
             this.UpdatePanelTable();
+            this.UpdatePanelColomn();
             this.OutputEndScript();
         }
 
+        /// <summary>
+        /// Добавление новых колонок.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             var formDialog = new FormAddColomns(this);
@@ -129,15 +147,65 @@ namespace MyHelper
             this.OutputEndScript();
         }
 
+        /// <summary>
+        /// Удаление колонки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteTable(object sender, EventArgs e)
+        {
+            if(_panelTableLeft.Count() == 1)
+            {
+                return;
+            }
+
+            var deletedTable = _panelTableLeft.First(x => x.ContextDeleted == (ToolStripMenuItem)sender);
+
+            if (_mainTable == deletedTable)
+            {
+                var newMainTable = _panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort - 1)
+                    ?? _panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort + 1);
+
+                this.SetMainTable(newMainTable);
+            }
+
+            _panelTableLeft
+                 .Where(x => x.Sort > deletedTable.Sort)
+                .ToList()
+                .ForEach(x => x.Sort--);            
+
+            _panelTableLeft.Remove(deletedTable);
+            /// не получилось удалить колонки
+            deletedTable = null;
+
+            panel3.Controls.Clear();
+            this.UpdatePanelTable();
+            this.UpdatePanelColomn();
+
+            // Вроде как чистика памяти.
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        /// <summary>
+        /// Удаление колонки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteColomn(object sender, EventArgs e)
         {
-            var deletedColomn = _mainTable.Colomns.First(x => x.Context == ((ToolStripMenuItem)sender).Owner);
+            if (_mainTable.Colomns.Count() == 1)
+            {
+                return;
+            }
+
+            var deletedColomn = _mainTable.Colomns.First(x => x.ContextDeleted == (ToolStripMenuItem)sender);
 
             if (_mainColomn == deletedColomn)
             {
                 var newMainColomn = _mainTable.Colomns.FirstOrDefault(x => x.Sort == deletedColomn.Sort + 1)
                     ?? _mainTable.Colomns.FirstOrDefault(x => x.Sort == deletedColomn.Sort - 1)
-                    ?? new ColomnModelObjPanel();
+                    ?? new ColomnDto();
 
                 this.SetMainColomn(newMainColomn);
             }
@@ -154,9 +222,8 @@ namespace MyHelper
             deletedColomn = null;
 
             this.UpdatePanelColomn();
-            this.UpdateEndScriptRecord();
             this.UpdateEndScriptColomn();
-            this.OutputEndScript();
+            this.UpdateEndScriptRecord();
 
             // Вроде как чистика памяти.
             GC.Collect();
@@ -169,8 +236,18 @@ namespace MyHelper
         private void AddStarColomn(object sender, EventArgs e)
         {
             var colomn = _mainTable.Colomns.First(x => x.Context == ((ToolStripMenuItem)sender).Owner);
-            colomn.EqualsRecordStar = true;
-            colomn.IconStar.Visible = true;
+            if (colomn.EqualsRecordStar)
+            {
+                colomn.EqualsRecordStar = false;
+                colomn.IconStar.Visible = false;
+                colomn.ContextStar.Text = "Добавить в сравнение";
+            }
+            else
+            {
+                colomn.EqualsRecordStar = true;
+                colomn.IconStar.Visible = true;
+                colomn.ContextStar.Text = "Убрать из сравнения";
+            }
 
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
@@ -198,98 +275,137 @@ namespace MyHelper
             this.OutputEndScript();
         }
 
-        private void CreateColomns(TableModelObjPanel table, string colomnNames)
+        private void CreateColomns(TableDto table, string colomnNames)
         {
             var colomnNamesList = _formQuotesService.FormatingString(colomnNames, true, true, true, true);
             colomnNamesList = colomnNamesList.Where(x => !table.Colomns.Select(y => y.TextBox.Text).Contains(x));
 
             foreach (var colomnName in colomnNamesList)
             {
-                var colomn = new ColomnModelObjPanel();
+                var colomn = new ColomnDto();
                 colomn.Sort = table.Colomns.Count();
                 colomn.TextBox.Text = colomnName;
                 table.Colomns.Add(colomn);
 
-                colomn.TextBox.MouseDown += MouseDown;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
-                colomn.TextBox.MouseMove += MouseMove;      // Курсор на объекте, навелся, перетаскивание.
-                colomn.TextBox.MouseUp += MouseUp;          // Клинкул по объекту (отпустил мышь)
-                colomn.TextBox.MouseLeave += MouseLeave;    // Отвел курсор с объекта.
+                colomn.TextBox.MouseDown += MouseDownObject;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+                colomn.TextBox.MouseMove += MouseMoveObject;      // Курсор на объекте, навелся, перетаскивание.
+                colomn.TextBox.MouseUp += MouseUpObject;          // Клинкул по объекту (отпустил мышь)
+                colomn.TextBox.MouseLeave += MouseLeaveObject;    // Отвел курсор с объекта.
 
-                ToolStripMenuItem deleteMenuItem = new ToolStripMenuItem("Удалить");
-                ToolStripMenuItem AddEqualsRecordStar = new ToolStripMenuItem("Добавить в сравнение");
-                deleteMenuItem.Click += DeleteColomn;
-                AddEqualsRecordStar.Click += AddStarColomn;
-
-                colomn.Context.Items.AddRange(new[]
-                {
-                    AddEqualsRecordStar,
-                    deleteMenuItem
-                });
+                colomn.ContextDeleted.Click += DeleteColomn;
+                colomn.ContextStar.Click += AddStarColomn;
             }
         }
 
         /// <summary>
         /// Курсор на объекте, навелся, перетаскивание.
         /// </summary>
-        private void MouseMove(object sender, EventArgs e)
+        private void MouseMoveObject(object sender, EventArgs e)
         {
             if (!_isClickMouse)
             {
-                if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
-                {
-                    return;
-                }
-
-                if (this.CheckIsColomn(sender))
-                {
-                    var colomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
-                    colomn.TextBoxCount.BackColor = Colors.PanelMouseMoveObject;
-                }
-
-                ((TextBox)sender).BackColor = Colors.PanelMouseMoveObject;
-                ((TextBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
+                this.MouseMoveObject(sender);
                 return;
             }
 
             int y = Cursor.Position.Y - y_mouse;
-            if(!_isDragAndDrop && Math.Abs(y) > 1)
+            if (!_isDragAndDrop && Math.Abs(y) > 1)
             {
                 _isDragAndDrop = true;
             }
 
             if (_isDragAndDrop)
             {
-                _DragAndDropColomn.Panel.Location = new Point(0, y_panel + y);
-                var count = y / SizeEnums.HeightPanel;
-                if (y > 0)
+                if (this.CheckIsColomn(sender))
                 {
-                    count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
-                    var colomnDown = _mainTable.Colomns.Where(x => x.Sort > _DragAndDropColomn.Sort);
-                    foreach (var h in colomnDown.Where(x => x.Sort <= _DragAndDropColomn.Sort + count))
-                    {
-                        h.Panel.Location = new Point(0, (h.Sort - 1) * SizeEnums.HeightPanel);
-                    }
-                    foreach (var h in colomnDown.Where(x => x.Sort > _DragAndDropColomn.Sort + count))
-                    {
-                        h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
-                    }
+                    this.ColomnMouseMove(y);
                 }
                 else
                 {
-                    count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
-                    count = Math.Abs(count);
-
-                    var colomnUp = _mainTable.Colomns.Where(x => x.Sort < _DragAndDropColomn.Sort);
-                    foreach (var h in colomnUp.Where(x => x.Sort >= _DragAndDropColomn.Sort - count))
-                    {
-                        h.Panel.Location = new Point(0, (h.Sort + 1) * SizeEnums.HeightPanel);
-                    }
-                    foreach (var h in colomnUp.Where(x => x.Sort < _DragAndDropColomn.Sort - count))
-                    {
-                        h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
-                    }
+                    this.TableMouseMove(y);
                 }
             }
+        }
+
+        private void ColomnMouseMove(int y)
+        {
+            _DragAndDropColomn.Panel.Location = new Point(0, y_panel + y);
+            var count = y / SizeEnums.HeightPanel;
+            if (y > 0)
+            {
+                count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
+                var colomnDown = _mainTable.Colomns.Where(x => x.Sort > _DragAndDropColomn.Sort);
+                foreach (var h in colomnDown.Where(x => x.Sort <= _DragAndDropColomn.Sort + count))
+                {
+                    h.Panel.Location = new Point(0, (h.Sort - 1) * SizeEnums.HeightPanel);
+                }
+                foreach (var h in colomnDown.Where(x => x.Sort > _DragAndDropColomn.Sort + count))
+                {
+                    h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
+                }
+            }
+            else
+            {
+                count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
+                count = Math.Abs(count);
+
+                var colomnUp = _mainTable.Colomns.Where(x => x.Sort < _DragAndDropColomn.Sort);
+                foreach (var h in colomnUp.Where(x => x.Sort >= _DragAndDropColomn.Sort - count))
+                {
+                    h.Panel.Location = new Point(0, (h.Sort + 1) * SizeEnums.HeightPanel);
+                }
+                foreach (var h in colomnUp.Where(x => x.Sort < _DragAndDropColomn.Sort - count))
+                {
+                    h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
+                }
+            }
+        }
+
+        private void TableMouseMove(int y)
+        {
+            _DragAndDropTable.Panel.Location = new Point(0, y_panel + y);
+            var count = y / SizeEnums.HeightPanel;
+            if (y > 0)
+            {
+                count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
+                var colomnDown = _panelTableLeft.Where(x => x.Sort < _DragAndDropTable.Sort);
+                foreach (var h in colomnDown.Where(x => x.Sort >= _DragAndDropTable.Sort - count))
+                {
+                    h.Panel.Location = new Point(0, (_panelTableLeft.Count - h.Sort - 2) * SizeEnums.HeightPanel);
+                }
+                foreach (var h in colomnDown.Where(x => x.Sort < _DragAndDropTable.Sort - count))
+                {
+                    h.Panel.Location = new Point(0, (_panelTableLeft.Count - h.Sort - 1) * SizeEnums.HeightPanel);
+                }
+            }
+            else
+            {
+                count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
+                count = Math.Abs(count);
+                var colomnUp = _panelTableLeft.Where(x => x.Sort > _DragAndDropTable.Sort);
+                foreach (var h in colomnUp.Where(x => x.Sort <= _DragAndDropTable.Sort + count))
+                {
+                    h.Panel.Location = new Point(0, ((_panelTableLeft.Count - h.Sort)) * SizeEnums.HeightPanel);
+                }
+                foreach (var h in colomnUp.Where(x => x.Sort > _DragAndDropTable.Sort + count))
+                {
+                    h.Panel.Location = new Point(0, (_panelTableLeft.Count - h.Sort - 1) * SizeEnums.HeightPanel);
+                }
+            }
+        }
+
+        private void MouseMoveObject(object sender)
+        {
+            if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
+                return;
+
+            if (this.CheckIsColomn(sender))
+            {
+                var colomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
+                colomn.TextBoxCount.BackColor = Colors.PanelMouseMoveObject;
+            }
+            ((TextBox)sender).BackColor = Colors.PanelMouseMoveObject;
+            ((TextBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
         }
 
         /// <summary>
@@ -297,7 +413,7 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MouseDown(object sender, MouseEventArgs e)
+        private void MouseDownObject(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -305,20 +421,28 @@ namespace MyHelper
             }
             ((TextBox)sender).Parent.Focus(); // убираем каретку
 
-            _DragAndDropColomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
-            _DragAndDropColomn.Panel.BringToFront();
-            y_panel = _DragAndDropColomn.Panel.Location.Y;
+            if (this.CheckIsColomn(sender))
+            {
+                _DragAndDropColomn = _mainTable.Colomns.First(x => x.TextBox == (TextBox)sender);
+                _DragAndDropColomn.Panel.BringToFront();
+                y_panel = _DragAndDropColomn.Panel.Location.Y;
+            }
+            else
+            {
+                _DragAndDropTable = _panelTableLeft.First(x => x.TextBox == (TextBox)sender);
+                _DragAndDropTable.Panel.BringToFront();
+                y_panel = _DragAndDropTable.Panel.Location.Y;
+            }
             y_mouse = Cursor.Position.Y;
             _isClickMouse = true;
         }
-        
 
         /// <summary>
         /// Отвел курсор с объекта.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MouseLeave(object sender, EventArgs e)
+        private void MouseLeaveObject(object sender, EventArgs e)
         {
             if ((TextBox)sender == _mainTable.TextBox || (TextBox)sender == _mainColomn.TextBox)
             {
@@ -340,53 +464,23 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MouseUp(object sender, MouseEventArgs e)
+        private void MouseUpObject(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
-                return;            
+                return;
 
             _isClickMouse = false;
-
             if (_isDragAndDrop)
             {
                 _isDragAndDrop = false;
-                int y = Cursor.Position.Y - y_mouse;
-                var count = y / SizeEnums.HeightPanel;
-                ///
-
-                if (y > 0)
+                if (this.CheckIsColomn(sender))
                 {
-                    count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
-                    var colomnDown = _mainTable.Colomns.Where(x => x.Sort > _DragAndDropColomn.Sort);
-                    foreach (var h in colomnDown.Where(x => x.Sort <= _DragAndDropColomn.Sort + count))
-                    {
-                        h.Sort = h.Sort - 1;
-                        h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
-                    }
+                    this.ColomnMouseUp();
                 }
                 else
                 {
-                    count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
-
-                    var colomnUp = _mainTable.Colomns.Where(x => x.Sort < _DragAndDropColomn.Sort);
-                    foreach (var h in colomnUp.Where(x => x.Sort >= _DragAndDropColomn.Sort - Math.Abs(count)))
-                    {
-                        h.Sort = h.Sort + 1;
-                        h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
-                    }
+                    this.TableMouseUp();
                 }
-
-                _DragAndDropColomn.Sort = _DragAndDropColomn.Sort + count > _mainTable.Colomns.Count
-                    ? _mainTable.Colomns.Count - 1
-                    : _DragAndDropColomn.Sort + count < 1
-                        ? 0
-                        : _DragAndDropColomn.Sort + count;
-
-                _DragAndDropColomn.Panel.Location = new Point(0, _DragAndDropColomn.Sort * SizeEnums.HeightPanel);
-
-                this.UpdateEndScriptRecord();
-                this.UpdateEndScriptColomn();
-                this.OutputEndScript();
                 return;
             }
 
@@ -406,11 +500,83 @@ namespace MyHelper
             }
         }
 
+        private void ColomnMouseUp()
+        {
+            int y = Cursor.Position.Y - y_mouse;
+            var count = y / SizeEnums.HeightPanel;
+
+            if (y > 0)
+            {
+                count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
+                var colomnDown = _mainTable.Colomns.Where(x => x.Sort > _DragAndDropColomn.Sort);
+                foreach (var h in colomnDown.Where(x => x.Sort <= _DragAndDropColomn.Sort + count))
+                {
+                    h.Sort--;
+                    h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
+                }
+            }
+            else
+            {
+                count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
+                var colomnUp = _mainTable.Colomns.Where(x => x.Sort < _DragAndDropColomn.Sort);
+                foreach (var h in colomnUp.Where(x => x.Sort >= _DragAndDropColomn.Sort - Math.Abs(count)))
+                {
+                    h.Sort++;
+                    h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
+                }
+            }
+
+            _DragAndDropColomn.Sort = _DragAndDropColomn.Sort + count > _mainTable.Colomns.Count
+                ? _mainTable.Colomns.Count - 1
+                : _DragAndDropColomn.Sort + count < 1
+                    ? 0
+                    : _DragAndDropColomn.Sort + count;
+
+            _DragAndDropColomn.Panel.Location = new Point(0, _DragAndDropColomn.Sort * SizeEnums.HeightPanel);
+
+            this.UpdateEndScriptRecord();
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+        }
+
+        private void TableMouseUp()
+        {
+            int y = Cursor.Position.Y - y_mouse;
+            var count = y / SizeEnums.HeightPanel;
+
+            if (y > 0)
+            {
+                count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
+                var colomnDown = _panelTableLeft.Where(x => x.Sort < _DragAndDropTable.Sort);
+                foreach (var h in colomnDown.Where(x => x.Sort >= _DragAndDropTable.Sort - count))
+                {
+                    h.Sort += 1;
+                }
+            }
+            else
+            {
+                count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
+                var colomnUp = _panelTableLeft.Where(x => x.Sort > _DragAndDropTable.Sort);
+                foreach (var h in colomnUp.Where(x => x.Sort <= _DragAndDropTable.Sort + Math.Abs(count)))
+                {
+                    h.Sort--;
+                }
+            }
+
+            _DragAndDropTable.Sort = _DragAndDropTable.Sort - count >= _panelTableLeft.Count
+                ? _panelTableLeft.Count - 1
+                : _DragAndDropTable.Sort - count <= 0
+                    ? 0
+                    : _DragAndDropTable.Sort - count;
+
+            this.UpdatePanelTable();
+        }
+
         /// <summary>
-        /// Установить активную таблицу.
+        /// Установить основную таблицу.
         /// </summary>
         /// <param name="newMainTable"></param>
-        private void SetMainTable(TableModelObjPanel newMainTable)
+        private void SetMainTable(TableDto newMainTable)
         {
             _mainTable.Panel.BackColor = Colors.PanelFon;
             _mainTable.TextBox.BackColor = Colors.PanelFon;
@@ -425,14 +591,18 @@ namespace MyHelper
             textBox1.Text = _mainTable.TextBox.Text;
 
             this.UpdateEndScriptTable();
-            this.UpdateEndScriptRecord();
             this.UpdateEndScriptColomn();
+            this.UpdateEndScriptRecord(); // тут вывод скрипта
 
             var newMainColomn = _mainTable.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             this.SetMainColomn(newMainColomn);
         }
 
-        private void SetMainColomn(ColomnModelObjPanel newMainColomn)
+        /// <summary>
+        /// Установить основну колонку.
+        /// </summary>
+        /// <param name="newMainColomn"></param>
+        private void SetMainColomn(ColomnDto newMainColomn)
         {
             _mainColomn.Panel.BackColor = Colors.PanelFon;
             _mainColomn.TextBox.BackColor = Colors.PanelFon;
@@ -461,20 +631,23 @@ namespace MyHelper
             textBox2.Text = _mainColomn.TextBox.Text;
         }
 
+        /// <summary>
+        /// Изменение отображение таблиц.
+        /// </summary>
         private void UpdatePanelTable()
         {
-            panel3.Controls.Clear();
             var tables = _panelTableLeft.OrderByDescending(x => x.Sort);
 
             foreach (var table in tables)
             {
-                table.Panel.Location = new Point(0, (_panelTableLeft.Count() - table.Sort) * SizeEnums.HeightPanel);
+                table.Panel.Location = new Point(0, (_panelTableLeft.Count() - table.Sort - 1) * SizeEnums.HeightPanel);
                 panel3.Controls.Add(table.Panel);
             }
-
-            this.UpdatePanelColomn();
         }
 
+        /// <summary>
+        /// Изменение отображения колонок.
+        /// </summary>
         private void UpdatePanelColomn()
         {
             panel2.Controls.Clear();
@@ -494,7 +667,7 @@ namespace MyHelper
 
         private void lineNumberRTB1_KeyUp(object sender, KeyEventArgs e)
         {
-            //this.RewriteCountRecord(e);
+            this.RewriteCountRecord(e);
             this.UpdateEndScriptRecord();
         }
 
@@ -502,7 +675,6 @@ namespace MyHelper
         /// Пересчитать количество записей в таблице.
         /// </summary>
         /// <param name="e"></param>
-        /// <returns></returns>
         private void RewriteCountRecord(KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter ||

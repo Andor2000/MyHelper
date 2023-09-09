@@ -7,9 +7,9 @@ namespace MyHelper.Dto
     /// <summary>
     /// Объект задачи.
     /// </summary>
-    public class BaseModelObjPanel
+    public class BaseModelDto
     {
-        public BaseModelObjPanel()
+        public BaseModelDto()
         {
             Panel.BackColor = Colors.PanelFon ;// цвет фона 
             Panel.Size = new Size(200, SizeEnums.HeightPanel); // размер
@@ -58,5 +58,10 @@ namespace MyHelper.Dto
         /// Контект данных.
         /// </summary>
         public ContextMenuStrip Context { get; set; } = new ContextMenuStrip();
+
+        /// <summary>
+        /// Пункт в контекстном меню удаление.
+        /// </summary>
+        public ToolStripMenuItem ContextDeleted { get; set; } = new ToolStripMenuItem("Удалить");
     }
 }
