@@ -114,7 +114,7 @@ namespace MyHelper
             CreateColomns(table, formAddTableName.ColomnNames);
 
             var firstColomn = table.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
-            firstColomn.EqualsRecordStar = true;
+            firstColomn.IsEqualsRecordStar = true;
             firstColomn.IconStar.Visible = true;
             firstColomn.ContextStar.Text = "Убрать из сравнения";
 
@@ -236,15 +236,15 @@ namespace MyHelper
         private void AddStarColomn(object sender, EventArgs e)
         {
             var colomn = _mainTable.Colomns.First(x => x.Context == ((ToolStripMenuItem)sender).Owner);
-            if (colomn.EqualsRecordStar)
+            if (colomn.IsEqualsRecordStar)
             {
-                colomn.EqualsRecordStar = false;
+                colomn.IsEqualsRecordStar = false;
                 colomn.IconStar.Visible = false;
                 colomn.ContextStar.Text = "Добавить в сравнение";
             }
             else
             {
-                colomn.EqualsRecordStar = true;
+                colomn.IsEqualsRecordStar = true;
                 colomn.IconStar.Visible = true;
                 colomn.ContextStar.Text = "Убрать из сравнения";
             }
@@ -260,7 +260,7 @@ namespace MyHelper
         /// <param name="e"></param>
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            if (_mainColomn.EqualsRecordStar)
+            if (_mainColomn.IsEqualsRecordStar)
             {
                 pictureBox3.Image = IconEnums.Star;
             }
@@ -269,7 +269,7 @@ namespace MyHelper
                 pictureBox3.Image = IconEnums.StarActive;
             }
 
-            _mainColomn.EqualsRecordStar = !_mainColomn.EqualsRecordStar;
+            _mainColomn.IsEqualsRecordStar = !_mainColomn.IsEqualsRecordStar;
             _mainColomn.IconStar.Visible = !_mainColomn.IconStar.Visible;
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
@@ -624,7 +624,7 @@ namespace MyHelper
             _mainColomn.IconStar.Image = IconEnums.StarActive;
             lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
 
-            pictureBox3.Image = _mainColomn.EqualsRecordStar
+            pictureBox3.Image = _mainColomn.IsEqualsRecordStar
                 ? IconEnums.StarActive
                 : IconEnums.Star;
 
@@ -711,6 +711,7 @@ namespace MyHelper
             {
                 return;
             }
+
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
             var maxCount = _mainTable.Colomns.Max(x => x.CountRecords);
             var helper = _mainTable.Colomns.OrderBy(x => x.Sort).Select(x => x.Records.Split('\n'));
@@ -745,8 +746,8 @@ namespace MyHelper
             EndScriptColomn = string.Format(
                 BuildingScript.Colomns,
                 string.Join(", ", sortColomn.Select(x => x.TextBox.Text)),
-                string.Join(" and ", sortColomn.Where(x => x.EqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(",\n\t\t", sortColomn.Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(" and ", sortColomn.Where(x => x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(",\n\t\t", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
                 string.Join(", ", sortColomn.Select(x => "source." + x.TextBox.Text)));
         }
 

@@ -186,7 +186,7 @@
             this.richTextBox3.Location = new System.Drawing.Point(1085, 76);
             this.richTextBox3.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(416, 630);
+            this.richTextBox3.Size = new System.Drawing.Size(437, 630);
             this.richTextBox3.TabIndex = 3;
             this.richTextBox3.Text = "";
             // 
@@ -277,7 +277,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1600, 725);
+            this.ClientSize = new System.Drawing.Size(1550, 725);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox2);

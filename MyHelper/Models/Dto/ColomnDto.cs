@@ -39,7 +39,7 @@ namespace MyHelper.Dto
         /// <summary>
         /// Признак сравнения по записи.
         /// </summary>
-        public bool EqualsRecordStar { get; set; }
+        public bool IsEqualsRecordStar { get; set; }
 
         /// <summary>
         /// Записи.
