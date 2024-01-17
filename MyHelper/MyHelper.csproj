@@ -209,6 +209,12 @@
   <ItemGroup>
     <Compile Include="BuildingScript.cs" />
     <Compile Include="Data\ProgramContext.cs" />
+    <Compile Include="DialogForms\FormAddDataBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\FormAddDataBase.Designer.cs">
+      <DependentUpon>FormAddDataBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Enums\IconEnums.cs" />
     <Compile Include="Models\Dto\BaseModelDto.cs" />
     <Compile Include="Models\Dto\ColomnDto.cs" />
@@ -258,6 +264,9 @@
     <EmbeddedResource Include="DialogForms\FormAddColomns.resx">
       <DependentUpon>FormAddColomns.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\FormAddDataBase.resx">
+      <DependentUpon>FormAddDataBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogForms\FormAddTable.resx">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </EmbeddedResource>
@@ -305,6 +314,8 @@
     <None Include="bin\Debug\Images\icons\pencil_active.png" />
     <None Include="bin\Debug\Images\icons\add_button.png" />
     <None Include="bin\Debug\Images\icons\pencil.png" />
+    <None Include="icons\DataBase.png" />
+    <None Include="icons\DataBase_active.png" />
     <Content Include="Properties\add_button.png" />
     <Content Include="Properties\pencil.png" />
     <Content Include="Properties\pencil_active.png" />

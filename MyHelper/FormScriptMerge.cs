@@ -112,6 +112,7 @@ namespace MyHelper
             table.ContextDeleted.Click += DeleteTable;             // 
 
             CreateColomns(table, formAddTableName.ColomnNames);
+            formAddTableName.Close();
 
             var firstColomn = table.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             firstColomn.IsEqualsRecordStar = true;
