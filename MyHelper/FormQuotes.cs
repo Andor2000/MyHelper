@@ -35,8 +35,6 @@ namespace MyHelper
             richTextBox3.Text = string.Join(",\n", texts.Select(x => "'" + x + "'"));
             richTextBox5.Text = string.Join(",\n", texts.Select(x => "\"" + x + "\""));
             richTextBox7.Text = string.Join(",\n", texts);
-
-            label6.Text = texts.Count().ToString();
         }
 
         public IEnumerable<string> FormatingString(

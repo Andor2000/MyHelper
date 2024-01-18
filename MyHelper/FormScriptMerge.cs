@@ -1,4 +1,5 @@
-﻿using MyHelper.Dto;
+﻿using MyHelper.DialogForms;
+using MyHelper.Dto;
 using MyHelper.Enums;
 using System;
 using System.Collections.Generic;
@@ -146,6 +147,18 @@ namespace MyHelper
             this.UpdateEndScriptColomn();
             this.UpdateEndScriptRecord();
             this.OutputEndScript();
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            var formDialog = new FormAddDataBase();
+            formDialog.ShowDialog();
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            var formDialog = new FormQuotes();
+            formDialog.ShowDialog();
         }
 
         /// <summary>

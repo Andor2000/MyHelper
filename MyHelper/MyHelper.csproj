@@ -316,6 +316,7 @@
     <None Include="bin\Debug\Images\icons\pencil.png" />
     <None Include="icons\DataBase.png" />
     <None Include="icons\DataBase_active.png" />
+    <None Include="icons\quotes.png" />
     <Content Include="Properties\add_button.png" />
     <Content Include="Properties\pencil.png" />
     <Content Include="Properties\pencil_active.png" />
