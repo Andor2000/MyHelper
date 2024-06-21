@@ -29,22 +29,13 @@ namespace MyHelper
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox1.Text = textBox1.Text.Trim();
-            richTextBox1.Text = richTextBox1.Text.Trim();
+            label2.Visible = string.IsNullOrWhiteSpace(textBox1.Text);
+            label4.Visible = string.IsNullOrWhiteSpace(richTextBox1.Text);
 
-            if (textBox1.Text == string.Empty)
+            if (!string.IsNullOrWhiteSpace(textBox1.Text) && !string.IsNullOrWhiteSpace(richTextBox1.Text))
             {
-                label2.Visible = true;
-            }
-            if (richTextBox1.Text == string.Empty)
-            {
-                label4.Visible = true;
-            }
-
-            if (textBox1.Text != string.Empty && richTextBox1.Text != string.Empty)
-            {
-                TableName = textBox1.Text;
-                ColomnNames = richTextBox1.Text;
+                TableName = textBox1.Text.Trim();
+                ColomnNames = richTextBox1.Text.Trim();
                 this.Close();
             }
         }

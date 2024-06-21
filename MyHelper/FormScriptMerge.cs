@@ -1,6 +1,7 @@
 ﻿using MyHelper.DialogForms;
 using MyHelper.Dto;
 using MyHelper.Enums;
+using MyHelper.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +15,11 @@ namespace MyHelper
         private string EndScriptTable { get; set; } = string.Empty;
         private string EndScriptRecord { get; set; } = string.Empty;
         private string EndScriptColomn { get; set; } = string.Empty;
+
+        private string Server { get; set; } = string.Empty;
+        private string DataBase { get; set; } = string.Empty;
+        private string Login { get; set; } = string.Empty;
+        private string Password { get; set; } = string.Empty;
 
         /// <summary>
         /// Признак зажатия клавиши мыши.
@@ -149,16 +155,73 @@ namespace MyHelper
             this.OutputEndScript();
         }
 
+        /// <summary>
+        /// Добавить сравнение.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            _mainColomn.IsEqualsRecordStar = !_mainColomn.IsEqualsRecordStar;
+            _mainColomn.IconStar.Visible = !_mainColomn.IconStar.Visible; // в левой панели
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+            pictureBox3.Image = _mainColomn.IsEqualsRecordStar ? IconEnums.StarActive : IconEnums.Star;
+        }
+
+        /// <summary>
+        /// Добавить кавычки в скрипте
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            _mainColomn.IsQuotes = !_mainColomn.IsQuotes;
+            this.UpdateEndScriptRecord();
+            this.OutputEndScript();
+            pictureBox7.Image = _mainColomn.IsQuotes ? IconEnums.QuotesActive2 : IconEnums.Quotes2;
+        }
+
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            var formDialog = new FormAddDataBase();
+            var formDialog = new FormAddDataBase(this.Server, this.DataBase, this.Login, this.Password);
             formDialog.ShowDialog();
+            if (formDialog.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            this.Server = formDialog.Server;
+            this.DataBase = formDialog.DataBase;
+            this.Login = formDialog.Login;
+            this.Password = formDialog.Password;
+
+            pictureBox4.Image =
+                string.IsNullOrWhiteSpace(this.Server) ||
+                string.IsNullOrWhiteSpace(this.DataBase) ||
+                string.IsNullOrWhiteSpace(this.Login) ||
+                string.IsNullOrWhiteSpace(this.Password)
+                ? IconEnums.DataBase
+                : IconEnums.DataBaseActive;
         }
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             var formDialog = new FormQuotes();
             formDialog.ShowDialog();
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            _mainTable.IsTemplateScript = !_mainTable.IsTemplateScript;
+            pictureBox6.Image = _mainTable.IsTemplateScript ? IconEnums.TemplateScriptActive : IconEnums.TemplateScript;
+
+            if (_mainTable.IsTemplateScript)
+            {
+                _mainTable.GuidTemplate = Guid.NewGuid();
+            }
+
+            this.OutputEndScript();
         }
 
         /// <summary>
@@ -168,7 +231,7 @@ namespace MyHelper
         /// <param name="e"></param>
         private void DeleteTable(object sender, EventArgs e)
         {
-            if(_panelTableLeft.Count() == 1)
+            if (_panelTableLeft.Count() == 1)
             {
                 return;
             }
@@ -186,7 +249,7 @@ namespace MyHelper
             _panelTableLeft
                  .Where(x => x.Sort > deletedTable.Sort)
                 .ToList()
-                .ForEach(x => x.Sort--);            
+                .ForEach(x => x.Sort--);
 
             _panelTableLeft.Remove(deletedTable);
             /// не получилось удалить колонки
@@ -206,6 +269,7 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         private void DeleteColomn(object sender, EventArgs e)
         {
             if (_mainTable.Colomns.Count() == 1)
@@ -263,28 +327,6 @@ namespace MyHelper
                 colomn.ContextStar.Text = "Убрать из сравнения";
             }
 
-            this.UpdateEndScriptColomn();
-            this.OutputEndScript();
-        }
-
-        /// <summary>
-        /// Добавить сравнение.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            if (_mainColomn.IsEqualsRecordStar)
-            {
-                pictureBox3.Image = IconEnums.Star;
-            }
-            else
-            {
-                pictureBox3.Image = IconEnums.StarActive;
-            }
-
-            _mainColomn.IsEqualsRecordStar = !_mainColomn.IsEqualsRecordStar;
-            _mainColomn.IconStar.Visible = !_mainColomn.IconStar.Visible;
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
         }
@@ -447,8 +489,8 @@ namespace MyHelper
                 _DragAndDropTable.Panel.BringToFront();
                 y_panel = _DragAndDropTable.Panel.Location.Y;
             }
-            y_mouse = Cursor.Position.Y;
-            _isClickMouse = true;
+            this.y_mouse = Cursor.Position.Y;
+            this._isClickMouse = true;
         }
 
         /// <summary>
@@ -642,6 +684,10 @@ namespace MyHelper
                 ? IconEnums.StarActive
                 : IconEnums.Star;
 
+            pictureBox7.Image = _mainColomn.IsQuotes
+                ? IconEnums.QuotesActive2
+                : IconEnums.Quotes2;
+
             textBox2.Text = _mainColomn.TextBox.Text;
         }
 
@@ -728,24 +774,26 @@ namespace MyHelper
 
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
             var maxCount = _mainTable.Colomns.Max(x => x.CountRecords);
-            var helper = _mainTable.Colomns.OrderBy(x => x.Sort).Select(x => x.Records.Split('\n'));
+            var colomnTextAndQuotes = _mainTable.Colomns
+                .OrderBy(x => x.Sort)
+                .Select(x => new
+                {
+                    x.IsQuotes,
+                    Text = x.Records.Split('\n')
+                });
 
             List<string> recs = new List<string>();
             for (int i = 0; i < maxCount; i++)
             {
                 List<string> rec = new List<string>();
-                foreach (var help in helper)
+                foreach (var colomn in colomnTextAndQuotes)
                 {
-                    if (i < help.Count())
-                    {
-                        rec.Add("'" + help[i] + "'");
-                    }
-                    else
-                    {
-                        rec.Add("''");
-                    }
+
+                    rec.Add(colomn.IsQuotes
+                        ? i < colomn.Text.Count() ? $"'{colomn.Text[i]}'" : "''"
+                        : i < colomn.Text.Count() ? $"{colomn.Text[i]}" : string.Empty);
                 }
-                recs.Add("(" + string.Join(", ", rec) + ")");
+                recs.Add($"({string.Join(", ", rec)})");
             }
             EndScriptRecord = string.Join("\n       ,", recs);
             this.OutputEndScript();
@@ -770,30 +818,46 @@ namespace MyHelper
         /// </summary>
         private void OutputEndScript()
         {
-            richTextBox3.Text = EndScriptTable + EndScriptRecord + EndScriptColomn;
+            var script = EndScriptTable + EndScriptRecord + EndScriptColomn;
+
+            richTextBox3.Text = _mainTable.IsTemplateScript
+                ? string.Format(BuildingScript.TemplateScriptSoftrust, _mainTable.GuidTemplate.ToString().ToUpper(), script)
+                : script;
         }
 
-        private void navel_na_ikonky_MouseMove(object sender, MouseEventArgs e)     // навел на иконку              
-        {
+        /// <summary>
+        /// Навел на иконку.
+        /// </summary>
+        private void navel_na_ikonky_MouseMove(object sender, MouseEventArgs e) =>
             ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
-        }
-        private void navel_na_ikonky_MouseLeave(object sender, EventArgs e)         // убрал мышку с иконки         
-        {
+
+        /// <summary>
+        /// Навел на иконку.
+        /// </summary>
+        private void navel_na_ikonky2_MouseMove(object sender, MouseEventArgs e) =>
+            ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject2;
+
+        /// <summary>
+        /// Убрал мышку с иконки.
+        /// </summary>
+        private void navel_na_ikonky_MouseLeave(object sender, EventArgs e) =>
             ((PictureBox)sender).Parent.BackColor = ((PictureBox)sender).Parent.Parent.BackColor;
-        }
-        private void navel_na_ikonky_MouseDown(object sender, MouseEventArgs e)     // нажал на мышь (не отпустил)  
-        {
+
+        /// <summary>
+        /// Нажал на мышь (не отпустил).
+        /// </summary>
+        private void navel_na_ikonky_MouseDown(object sender, MouseEventArgs e) =>
             ((PictureBox)sender).Parent.BackColor = Colors.PanelActiveObject;
-        }
-        private void navel_na_ikonky_MouseUp(object sender, MouseEventArgs e)       // отпустил мышь    
-        {
+
+        /// <summary>
+        /// Отпустил мышь.
+        /// </summary>
+        private void navel_na_ikonky_MouseUp(object sender, MouseEventArgs e) =>
             ((PictureBox)sender).Parent.BackColor = Colors.PanelFon;
-        }
 
         /// <summary>
         /// Проверка, является ли textBox таблицей (или это колонка).
         /// </summary>
-        /// <param name="sender"></param>
         /// <returns></returns>
         private bool CheckIsColomn(object sender)
         {

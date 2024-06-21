@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MyHelper.Dto
 {
@@ -10,13 +11,23 @@ namespace MyHelper.Dto
         }
 
         /// <summary>
-        /// Окончательный скрипт.
+        /// Признак добавления шаблона.
         /// </summary>
-        //public string EndScript { get; set; } = string.Empty;
+        public bool IsTemplateScript { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор шаблона.
+        /// </summary>
+        public Guid GuidTemplate { get; set; } = Guid.Empty;
 
         /// <summary>
         /// Список колонок.
         /// </summary>
         public List<ColomnDto> Colomns { get; set; } = new List<ColomnDto>();
+
+        /// <summary>
+        /// Окончательный скрипт.
+        /// </summary>
+        //public string EndScript { get; set; } = string.Empty;
     }
 }

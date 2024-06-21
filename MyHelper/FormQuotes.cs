@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyHelper.DialogForms.Quotes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace MyHelper
 {
     public partial class FormQuotes : Form
     {
+        public IEnumerable<string> duplicates = new List<string>();
+
         public FormQuotes()
         {
             InitializeComponent();
@@ -35,6 +38,8 @@ namespace MyHelper
             richTextBox3.Text = string.Join(",\n", texts.Select(x => "'" + x + "'"));
             richTextBox5.Text = string.Join(",\n", texts.Select(x => "\"" + x + "\""));
             richTextBox7.Text = string.Join(",\n", texts);
+
+            label6.Text = texts.Count().ToString();
         }
 
         public IEnumerable<string> FormatingString(
@@ -49,16 +54,22 @@ namespace MyHelper
             {
                 splitSeparators.Add(' ');
                 if (splitZapiataya)
+                {
                     splitSeparators.Add(',');
+                }
             }
 
             var texts = str.Split(splitSeparators.ToArray()).Select(x => x.Trim());
 
             if (deleteEmpty)
+            {
                 texts = texts.Where(x => x != string.Empty);
+            }
 
             if (deleteDistinct)
+            {
                 texts = texts.Distinct();
+            }
 
             return texts;
         }
@@ -71,6 +82,22 @@ namespace MyHelper
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             checkBox1.Enabled = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.duplicates = this.FormatingString(
+                    str: richTextBox1.Text,
+                    splitSlovo: radioButton2.Checked,
+                    splitZapiataya: checkBox1.Checked,
+                    deleteEmpty: checkBox2.Checked,
+                    deleteDistinct: false)
+                .GroupBy(x => x)
+                .Where(x => x.Count() > 1)
+                .Select(x => x.Key);
+
+            var formQuotes = new FormDuplicate(this.duplicates);
+            formQuotes.ShowDialog();
         }
     }
 }

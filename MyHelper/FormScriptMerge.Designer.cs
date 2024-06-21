@@ -33,6 +33,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -44,20 +45,27 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.lineNumberRTB1 = new MyHelper.LineNumberRTB();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lineNumberRTB1 = new MyHelper.LineNumberRTB();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel9.SuspendLayout();
+            this.panel10.SuspendLayout();
+            this.panel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -103,6 +111,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(56)))));
+            this.panel4.Controls.Add(this.panel11);
             this.panel4.Controls.Add(this.panel9);
             this.panel4.Controls.Add(this.panel8);
             this.panel4.Controls.Add(this.panel7);
@@ -114,6 +123,15 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(533, 100);
             this.panel4.TabIndex = 1;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.pictureBox5);
+            this.panel9.Location = new System.Drawing.Point(146, 57);
+            this.panel9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(40, 39);
+            this.panel9.TabIndex = 4;
             // 
             // panel8
             // 
@@ -231,14 +249,67 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Колонка";
             // 
-            // panel9
+            // panel10
             // 
-            this.panel9.Controls.Add(this.pictureBox5);
-            this.panel9.Location = new System.Drawing.Point(146, 57);
-            this.panel9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(40, 39);
-            this.panel9.TabIndex = 4;
+            this.panel10.Controls.Add(this.pictureBox6);
+            this.panel10.Location = new System.Drawing.Point(1482, 33);
+            this.panel10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(40, 39);
+            this.panel10.TabIndex = 11;
+            // 
+            // panel11
+            // 
+            this.panel11.Controls.Add(this.pictureBox7);
+            this.panel11.Location = new System.Drawing.Point(430, 57);
+            this.panel11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(40, 39);
+            this.panel11.TabIndex = 5;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::MyHelper.Properties.Resources.Template;
+            this.pictureBox6.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox6.TabIndex = 0;
+            this.pictureBox6.TabStop = false;
+            this.pictureBox6.Click += new System.EventHandler(this.pictureBox6_Click);
+            this.pictureBox6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox6.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky2_MouseMove);
+            this.pictureBox6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
+            // 
+            // lineNumberRTB1
+            // 
+            this.lineNumberRTB1.BackColor = System.Drawing.SystemColors.GrayText;
+            this.lineNumberRTB1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lineNumberRTB1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lineNumberRTB1.ForeColor = System.Drawing.Color.White;
+            this.lineNumberRTB1.Location = new System.Drawing.Point(573, 137);
+            this.lineNumberRTB1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.lineNumberRTB1.Name = "lineNumberRTB1";
+            this.lineNumberRTB1.Size = new System.Drawing.Size(472, 569);
+            this.lineNumberRTB1.TabIndex = 4;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::MyHelper.Properties.Resources.quotes_2;
+            this.pictureBox7.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox7.TabIndex = 0;
+            this.pictureBox7.TabStop = false;
+            this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
+            this.pictureBox7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox7.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
             // 
             // pictureBox5
             // 
@@ -320,24 +391,13 @@
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
             // 
-            // lineNumberRTB1
-            // 
-            this.lineNumberRTB1.BackColor = System.Drawing.SystemColors.GrayText;
-            this.lineNumberRTB1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lineNumberRTB1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lineNumberRTB1.ForeColor = System.Drawing.Color.White;
-            this.lineNumberRTB1.Location = new System.Drawing.Point(573, 137);
-            this.lineNumberRTB1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.lineNumberRTB1.Name = "lineNumberRTB1";
-            this.lineNumberRTB1.Size = new System.Drawing.Size(472, 569);
-            this.lineNumberRTB1.TabIndex = 4;
-            // 
             // FormScriptMerge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1550, 725);
+            this.Controls.Add(this.panel10);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox2);
@@ -353,11 +413,15 @@
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
+            this.panel10.ResumeLayout(false);
+            this.panel11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -392,6 +456,10 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.PictureBox pictureBox7;
     }
 }
 

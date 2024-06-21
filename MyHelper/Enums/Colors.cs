@@ -18,6 +18,11 @@ namespace MyHelper.Enums
         public static readonly Color PanelMouseMoveObject = ColorTranslator.FromHtml("#3d3d5a");
 
         /// <summary>
+        /// Цвет наведения на объект.
+        /// </summary>
+        public static readonly Color PanelMouseMoveObject2 = ColorTranslator.FromHtml("#bdd1e6");
+
+        /// <summary>
         /// Цвет активного объекта.
         /// </summary>
         public static readonly Color PanelActiveObject = ColorTranslator.FromHtml("#6B90B8");

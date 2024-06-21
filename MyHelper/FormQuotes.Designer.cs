@@ -46,6 +46,8 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -250,12 +252,35 @@
             this.checkBox3.Text = "Убрать дубли";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label6.Location = new System.Drawing.Point(12, 656);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 18);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "0";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(5, 215);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(119, 33);
+            this.button2.TabIndex = 19;
+            this.button2.Text = "Дубли";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FormQuotes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(752, 683);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -306,5 +331,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button2;
     }
 }

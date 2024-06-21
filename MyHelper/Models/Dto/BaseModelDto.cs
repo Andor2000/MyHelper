@@ -40,6 +40,11 @@ namespace MyHelper.Dto
         public int Sort { get; set; }
 
         /// <summary>
+        /// Признак добавления кавычек тексту.
+        /// </summary>
+        public bool IsQuotes { get; set; } = true;
+
+        /// <summary>
         /// Поле.
         /// </summary>
         public FlowLayoutPanel Panel { get; set; } = new FlowLayoutPanel();

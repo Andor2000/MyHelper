@@ -143,6 +143,26 @@ namespace MyHelper.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap quotes_2 {
+            get {
+                object obj = ResourceManager.GetObject("quotes_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap quotes_active_2 {
+            get {
+                object obj = ResourceManager.GetObject("quotes_active_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap star {
             get {
                 object obj = ResourceManager.GetObject("star", resourceCulture);
@@ -156,6 +176,26 @@ namespace MyHelper.Properties {
         internal static System.Drawing.Bitmap star_active {
             get {
                 object obj = ResourceManager.GetObject("star_active", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Template {
+            get {
+                object obj = ResourceManager.GetObject("Template", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Template_active {
+            get {
+                object obj = ResourceManager.GetObject("Template_active", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -42,5 +42,34 @@ namespace MyHelper.Enums
         /// </summary>
         public static readonly Bitmap AddButton = Properties.Resources.add_button;
 
+        /// <summary>
+        /// Кнопка добавления базы данных.
+        /// </summary>
+        public static readonly Bitmap DataBase = Properties.Resources.DataBase;
+
+        /// <summary>
+        /// Активная кнопка добавления базы данных.
+        /// </summary>
+        public static readonly Bitmap DataBaseActive = Properties.Resources.DataBase_active;
+
+        /// <summary>
+        /// Шаблон скрипта.
+        /// </summary>
+        public static readonly Bitmap TemplateScript = Properties.Resources.Template;
+
+        /// <summary>
+        /// Активный шаблон скрипта.
+        /// </summary>
+        public static readonly Bitmap TemplateScriptActive = Properties.Resources.Template_active;
+
+        /// <summary>
+        /// Кавычки в скрипте.
+        /// </summary>
+        public static readonly Bitmap Quotes2 = Properties.Resources.quotes_2;
+
+        /// <summary>
+        /// Активные кавычки в скрипте.
+        /// </summary>
+        public static readonly Bitmap QuotesActive2 = Properties.Resources.quotes_active_2;
     }
 }

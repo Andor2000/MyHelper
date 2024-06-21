@@ -209,28 +209,35 @@
   <ItemGroup>
     <Compile Include="BuildingScript.cs" />
     <Compile Include="Data\ProgramContext.cs" />
-    <Compile Include="DialogForms\FormAddDataBase.cs">
+    <Compile Include="DialogForms\Quotes\FormDuplicate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DialogForms\FormAddDataBase.Designer.cs">
+    <Compile Include="DialogForms\Quotes\FormDuplicate.Designer.cs">
+      <DependentUpon>FormDuplicate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\ScriptMerge\FormAddDataBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\ScriptMerge\FormAddDataBase.Designer.cs">
       <DependentUpon>FormAddDataBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Enums\IconEnums.cs" />
+    <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="Models\Dto\BaseModelDto.cs" />
     <Compile Include="Models\Dto\ColomnDto.cs" />
     <Compile Include="Models\Dto\TableDto.cs" />
     <Compile Include="Enums\Colors.cs" />
     <Compile Include="Enums\SizeEnums.cs" />
-    <Compile Include="DialogForms\FormAddColomns.cs">
+    <Compile Include="DialogForms\ScriptMerge\FormAddColomns.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DialogForms\FormAddColomns.Designer.cs">
+    <Compile Include="DialogForms\ScriptMerge\FormAddColomns.Designer.cs">
       <DependentUpon>FormAddColomns.cs</DependentUpon>
     </Compile>
-    <Compile Include="DialogForms\FormAddTable.cs">
+    <Compile Include="DialogForms\ScriptMerge\FormAddTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DialogForms\FormAddTable.Designer.cs">
+    <Compile Include="DialogForms\ScriptMerge\FormAddTable.Designer.cs">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </Compile>
     <Compile Include="FormScriptMerge.cs">
@@ -261,13 +268,16 @@
     <Compile Include="FormQuotes.Designer.cs">
       <DependentUpon>FormQuotes.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DialogForms\FormAddColomns.resx">
+    <EmbeddedResource Include="DialogForms\Quotes\FormDuplicate.resx">
+      <DependentUpon>FormDuplicate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\ScriptMerge\FormAddColomns.resx">
       <DependentUpon>FormAddColomns.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DialogForms\FormAddDataBase.resx">
+    <EmbeddedResource Include="DialogForms\ScriptMerge\FormAddDataBase.resx">
       <DependentUpon>FormAddDataBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DialogForms\FormAddTable.resx">
+    <EmbeddedResource Include="DialogForms\ScriptMerge\FormAddTable.resx">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScriptMerge.resx">
@@ -317,6 +327,10 @@
     <None Include="icons\DataBase.png" />
     <None Include="icons\DataBase_active.png" />
     <None Include="icons\quotes.png" />
+    <None Include="icons\Template.png" />
+    <None Include="icons\Template_active.png" />
+    <None Include="icons\quotes_2.png" />
+    <None Include="icons\quotes_active_2.png" />
     <Content Include="Properties\add_button.png" />
     <Content Include="Properties\pencil.png" />
     <Content Include="Properties\pencil_active.png" />
@@ -326,7 +340,9 @@
     <Content Include="Properties\star.png" />
     <Content Include="Properties\star_active.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
