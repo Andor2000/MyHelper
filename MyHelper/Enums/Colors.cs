@@ -8,6 +8,11 @@ namespace MyHelper.Enums
     public class Colors
     {
         /// <summary>
+        /// Цвет фона (верх).
+        /// </summary>
+        public static readonly Color PanelUpFon = Color.FromArgb(41, 41, 56);
+
+        /// <summary>
         /// Цвет фона.
         /// </summary>
         public static readonly Color PanelFon = Color.FromArgb(51, 51, 76);

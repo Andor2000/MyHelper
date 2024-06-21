@@ -1,4 +1,5 @@
 ﻿using MyHelper.DialogForms;
+using MyHelper.DialogForms.ScriptMerge;
 using MyHelper.Dto;
 using MyHelper.Enums;
 using MyHelper.Extensions;
@@ -832,12 +833,6 @@ namespace MyHelper
             ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject;
 
         /// <summary>
-        /// Навел на иконку.
-        /// </summary>
-        private void navel_na_ikonky2_MouseMove(object sender, MouseEventArgs e) =>
-            ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject2;
-
-        /// <summary>
         /// Убрал мышку с иконки.
         /// </summary>
         private void navel_na_ikonky_MouseLeave(object sender, EventArgs e) =>
@@ -853,7 +848,19 @@ namespace MyHelper
         /// Отпустил мышь.
         /// </summary>
         private void navel_na_ikonky_MouseUp(object sender, MouseEventArgs e) =>
-            ((PictureBox)sender).Parent.BackColor = Colors.PanelFon;
+            ((PictureBox)sender).Parent.BackColor = Colors.PanelUpFon;
+
+        /// <summary>
+        /// Навел на иконку.
+        /// </summary>
+        private void navel_na_ikonky2_MouseMove(object sender, MouseEventArgs e) =>
+            ((PictureBox)sender).Parent.BackColor = Colors.PanelMouseMoveObject2;
+
+        /// <summary>
+        /// Отпустил мышь.
+        /// </summary>
+        private void navel_na_ikonky2_MouseUp(object sender, MouseEventArgs e) =>
+            ((PictureBox)sender).Parent.BackColor = SystemColors.ActiveCaption;
 
         /// <summary>
         /// Проверка, является ли textBox таблицей (или это колонка).
@@ -886,6 +893,17 @@ namespace MyHelper
             _mainColomn.TextBox.Text = textBox2.Text;
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
+        }
+
+        /// <summary>
+        /// Сохранение скрипта.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            var formDialog = new FormSaveScript();
+            formDialog.ShowDialog();
         }
     }
 }

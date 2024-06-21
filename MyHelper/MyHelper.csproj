@@ -221,6 +221,12 @@
     <Compile Include="DialogForms\ScriptMerge\FormAddDataBase.Designer.cs">
       <DependentUpon>FormAddDataBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogForms\ScriptMerge\FormSaveScript.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\ScriptMerge\FormSaveScript.Designer.cs">
+      <DependentUpon>FormSaveScript.cs</DependentUpon>
+    </Compile>
     <Compile Include="Enums\IconEnums.cs" />
     <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="Models\Dto\BaseModelDto.cs" />
@@ -280,6 +286,9 @@
     <EmbeddedResource Include="DialogForms\ScriptMerge\FormAddTable.resx">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\ScriptMerge\FormSaveScript.resx">
+      <DependentUpon>FormSaveScript.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormScriptMerge.resx">
       <DependentUpon>FormScriptMerge.cs</DependentUpon>
     </EmbeddedResource>
@@ -331,6 +340,7 @@
     <None Include="icons\Template_active.png" />
     <None Include="icons\quotes_2.png" />
     <None Include="icons\quotes_active_2.png" />
+    <None Include="icons\save_script.png" />
     <Content Include="Properties\add_button.png" />
     <Content Include="Properties\pencil.png" />
     <Content Include="Properties\pencil_active.png" />

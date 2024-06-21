@@ -33,11 +33,18 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,31 +53,28 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.panel11 = new System.Windows.Forms.Panel();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.lineNumberRTB1 = new MyHelper.LineNumberRTB();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel10.SuspendLayout();
             this.panel11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            this.panel12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -124,6 +128,31 @@
             this.panel4.Size = new System.Drawing.Size(533, 100);
             this.panel4.TabIndex = 1;
             // 
+            // panel11
+            // 
+            this.panel11.Controls.Add(this.pictureBox7);
+            this.panel11.Location = new System.Drawing.Point(430, 57);
+            this.panel11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(40, 39);
+            this.panel11.TabIndex = 5;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::MyHelper.Properties.Resources.quotes_2;
+            this.pictureBox7.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox7.TabIndex = 0;
+            this.pictureBox7.TabStop = false;
+            this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
+            this.pictureBox7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox7.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
+            // 
             // panel9
             // 
             this.panel9.Controls.Add(this.pictureBox5);
@@ -132,6 +161,22 @@
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(40, 39);
             this.panel9.TabIndex = 4;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::MyHelper.Properties.Resources.quotes;
+            this.pictureBox5.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 0;
+            this.pictureBox5.TabStop = false;
+            this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
+            this.pictureBox5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox5.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
             // 
             // panel8
             // 
@@ -142,6 +187,22 @@
             this.panel8.Size = new System.Drawing.Size(40, 39);
             this.panel8.TabIndex = 3;
             // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::MyHelper.Properties.Resources.DataBase;
+            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 0;
+            this.pictureBox4.TabStop = false;
+            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
+            this.pictureBox4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox4.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
+            // 
             // panel7
             // 
             this.panel7.Controls.Add(this.pictureBox3);
@@ -150,6 +211,22 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(40, 39);
             this.panel7.TabIndex = 2;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
+            this.pictureBox3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox3.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
             // 
             // panel6
             // 
@@ -160,6 +237,22 @@
             this.panel6.Size = new System.Drawing.Size(40, 39);
             this.panel6.TabIndex = 1;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox2.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
+            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.pictureBox1);
@@ -168,6 +261,22 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(40, 39);
             this.panel5.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
             // 
             // richTextBox3
             // 
@@ -258,15 +367,6 @@
             this.panel10.Size = new System.Drawing.Size(40, 39);
             this.panel10.TabIndex = 11;
             // 
-            // panel11
-            // 
-            this.panel11.Controls.Add(this.pictureBox7);
-            this.panel11.Location = new System.Drawing.Point(430, 57);
-            this.panel11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(40, 39);
-            this.panel11.TabIndex = 5;
-            // 
             // pictureBox6
             // 
             this.pictureBox6.Image = global::MyHelper.Properties.Resources.Template;
@@ -295,101 +395,30 @@
             this.lineNumberRTB1.Size = new System.Drawing.Size(472, 569);
             this.lineNumberRTB1.TabIndex = 4;
             // 
-            // pictureBox7
+            // panel12
             // 
-            this.pictureBox7.Image = global::MyHelper.Properties.Resources.quotes_2;
-            this.pictureBox7.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(35, 34);
-            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox7.TabIndex = 0;
-            this.pictureBox7.TabStop = false;
-            this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
-            this.pictureBox7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
-            this.pictureBox7.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
-            this.pictureBox7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
-            this.pictureBox7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
+            this.panel12.Controls.Add(this.pictureBox8);
+            this.panel12.Location = new System.Drawing.Point(1436, 33);
+            this.panel12.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(40, 39);
+            this.panel12.TabIndex = 12;
             // 
-            // pictureBox5
+            // pictureBox8
             // 
-            this.pictureBox5.Image = global::MyHelper.Properties.Resources.quotes;
-            this.pictureBox5.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(35, 34);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 0;
-            this.pictureBox5.TabStop = false;
-            this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
-            this.pictureBox5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
-            this.pictureBox5.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
-            this.pictureBox5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
-            this.pictureBox5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::MyHelper.Properties.Resources.DataBase;
-            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(35, 34);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 0;
-            this.pictureBox4.TabStop = false;
-            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
-            this.pictureBox4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
-            this.pictureBox4.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
-            this.pictureBox4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
-            this.pictureBox4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(35, 34);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
-            this.pictureBox3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
-            this.pictureBox3.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
-            this.pictureBox3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
-            this.pictureBox3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(35, 34);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
-            this.pictureBox2.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
-            this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
-            this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(35, 34);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
+            this.pictureBox8.Image = global::MyHelper.Properties.Resources.save_script;
+            this.pictureBox8.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox8.TabIndex = 0;
+            this.pictureBox8.TabStop = false;
+            this.pictureBox8.Click += new System.EventHandler(this.pictureBox8_Click);
+            this.pictureBox8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseDown);
+            this.pictureBox8.MouseLeave += new System.EventHandler(this.navel_na_ikonky_MouseLeave);
+            this.pictureBox8.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky2_MouseMove);
+            this.pictureBox8.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky2_MouseUp);
             // 
             // FormScriptMerge
             // 
@@ -397,6 +426,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1550, 725);
+            this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel10);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -413,20 +443,22 @@
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
-            this.panel7.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel10.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            this.panel9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.panel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            this.panel12.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -460,6 +492,8 @@
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.PictureBox pictureBox7;
+        private System.Windows.Forms.Panel panel12;
+        private System.Windows.Forms.PictureBox pictureBox8;
     }
 }
 

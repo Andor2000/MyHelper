@@ -71,5 +71,10 @@ namespace MyHelper.Enums
         /// Активные кавычки в скрипте.
         /// </summary>
         public static readonly Bitmap QuotesActive2 = Properties.Resources.quotes_active_2;
+
+        /// <summary>
+        /// Сохранить скрипт.
+        /// </summary>
+        public static readonly Bitmap SaveScript = Properties.Resources.save_script;
     }
 }
