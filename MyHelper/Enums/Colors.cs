@@ -36,5 +36,25 @@ namespace MyHelper.Enums
         /// Цвет текста у активного объекта. (красноватый)
         /// </summary>
         public static readonly Color PanelActiveObjectFore = ColorTranslator.FromHtml("#86144B");
+
+        /// <summary>
+        /// Серый цвет для placeholder.
+        /// </summary>
+        public static readonly Color FontPlaceholderGrey = ColorTranslator.FromHtml("#b3b1b1");
+
+        /// <summary>
+        /// Черный цвет для placeholder.
+        /// </summary>
+        public static readonly Color FontPlaceholderBlack = Color.Black;
+
+        /// <summary>
+        /// Цвет блока при неправильном заполнении.
+        /// </summary>
+        public static readonly Color BackColorNotCorrectText = Color.FromArgb(255, 192, 192);
+
+        /// <summary>
+        /// Цвет блока при обычном заполнении.
+        /// </summary>
+        public static readonly Color BackColorCorrectText = SystemColors.Window;
     }
 }

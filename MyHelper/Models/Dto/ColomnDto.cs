@@ -1,12 +1,18 @@
 ﻿using MyHelper.Enums;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MyHelper.Dto
 {
+    /// <summary>
+    /// Dto-модель колонки.
+    /// </summary>
     public class ColomnDto : BaseModelDto
     {
-
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         public ColomnDto()
         {
             TextBoxCount.Margin = new Padding(0, 7, 0, 0);
@@ -30,11 +36,15 @@ namespace MyHelper.Dto
             IconStar.Image = IconEnums.Star;
 
             Context.Items.Add(ContextStar);
-            Context.Items.Add(ContextDeleted);
 
             Panel.Controls.Add(TextBoxCount);
             Panel.Controls.Add(IconStar);
         }
+
+        /// <summary>
+        /// Признак добавления кавычек тексту.
+        /// </summary>
+        public bool IsQuotes { get; set; } = true;
 
         /// <summary>
         /// Признак сравнения по записи.
@@ -49,7 +59,7 @@ namespace MyHelper.Dto
         /// <summary>
         /// Количество записей.
         /// </summary>
-        public int CountRecords { get; set; } = 1;
+        public string CountRecords => this.Records.Split('\n').Length.ToString();
 
         /// <summary>
         /// Текстовое поле для количества записей.

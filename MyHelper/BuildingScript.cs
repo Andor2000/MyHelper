@@ -39,10 +39,10 @@ declare @scriptGuid uniqueidentifier,
 		@scriptName varchar(150),
 		@scriptdescription varchar(max)
 
-set @scriptGuid = '{0}' --для конкретного скрипта присваиваем значение нового гуида
-set @taskNumber = '' --присваиваем номер задачи Jira
-set @scriptName = '' --наименование скрипта (краткое описание)
-set @scriptdescription = '' --описание скрипта
+set @scriptGuid = '{0}' -- для конкретного скрипта присваиваем значение нового гуида
+set @taskNumber = '{1}' -- присваиваем номер задачи Jira
+set @scriptName = '{2}' -- наименование скрипта (краткое описание)
+set @scriptdescription = '{2}' -- описание скрипта
 
 if (not exists(select 1 from web_script where [guid] = @scriptGuid))
 begin
@@ -58,7 +58,7 @@ end
 
 /* ----------------- end of: Начало выполнения запроса -------------------------  */
 
-{1}
+{3}
 
 /* ----------------- Конец выполнения запроса ---------------------------------  */
 

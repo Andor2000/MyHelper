@@ -11,7 +11,7 @@ namespace MyHelper.Dto
     {
         public BaseModelDto()
         {
-            Panel.BackColor = Colors.PanelFon ;// цвет фона 
+            Panel.BackColor = Colors.PanelFon;// цвет фона 
             Panel.Size = new Size(200, SizeEnums.HeightPanel); // размер
             Panel.Padding = new Padding(0, 0, 0, 0);
 
@@ -21,7 +21,7 @@ namespace MyHelper.Dto
 
             TextBox.Margin = new Padding(0, 7, 0, 0);
             TextBox.ForeColor = Color.White;            // цвет текста
-            TextBox.BackColor = Colors.PanelFon;              //Colors.PanelFon; ; // цвет фона 
+            TextBox.BackColor = Colors.PanelFon;        //Colors.PanelFon; ; // цвет фона 
             TextBox.Font = new Font("Segoe UI", 10);
             TextBox.Width = 115;                        // ширина текстбокса
             TextBox.ShortcutsEnabled = false;           // убрать контекстное меню
@@ -30,9 +30,16 @@ namespace MyHelper.Dto
             TextBox.Cursor = Cursors.Arrow;             // вид курсора всегда одинаковый
 
             TextBox.ContextMenuStrip = Context;
+            Context.Items.Add(ContextDeleted);
+
             Panel.Controls.Add(Icon);
             Panel.Controls.Add(TextBox);
         }
+
+        /// <summary>
+        /// Идентификатор.
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// Сортировка
@@ -40,9 +47,9 @@ namespace MyHelper.Dto
         public int Sort { get; set; }
 
         /// <summary>
-        /// Признак добавления кавычек тексту.
+        /// Идентификатор таблицы.
         /// </summary>
-        public bool IsQuotes { get; set; } = true;
+        public int TableId { get; set; }
 
         /// <summary>
         /// Поле.

@@ -68,12 +68,12 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Сервер:";
             // 
-            // textBox1
+            // textBoxPath
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(196, 43);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
+            this.textBox1.Name = "textBoxPath";
             this.textBox1.Size = new System.Drawing.Size(225, 28);
             this.textBox1.TabIndex = 5;
             // 
@@ -101,12 +101,12 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Имя БД:";
             // 
-            // textBox2
+            // textBoxGuid
             // 
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox2.Location = new System.Drawing.Point(196, 93);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Name = "textBox2";
+            this.textBox2.Name = "textBoxGuid";
             this.textBox2.Size = new System.Drawing.Size(225, 28);
             this.textBox2.TabIndex = 8;
             // 
@@ -134,12 +134,12 @@
             this.label6.TabIndex = 12;
             this.label6.Text = "Имя пользователя:";
             // 
-            // textBox3
+            // textBoxTask
             // 
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox3.Location = new System.Drawing.Point(195, 144);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox3.Name = "textBox3";
+            this.textBox3.Name = "textBoxTask";
             this.textBox3.Size = new System.Drawing.Size(225, 28);
             this.textBox3.TabIndex = 11;
             // 
@@ -167,12 +167,12 @@
             this.label8.TabIndex = 15;
             this.label8.Text = "Пароль:";
             // 
-            // textBox4
+            // textBoxProject
             // 
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox4.Location = new System.Drawing.Point(194, 192);
             this.textBox4.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox4.Name = "textBox4";
+            this.textBox4.Name = "textBoxProject";
             this.textBox4.Size = new System.Drawing.Size(225, 28);
             this.textBox4.TabIndex = 14;
             // 

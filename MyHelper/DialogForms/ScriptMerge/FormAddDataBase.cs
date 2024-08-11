@@ -42,10 +42,10 @@ namespace MyHelper.DialogForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //label2.Visible = string.IsNullOrWhiteSpace(textBox1.Text);
-            //label3.Visible = string.IsNullOrWhiteSpace(textBox2.Text);
-            //label5.Visible = string.IsNullOrWhiteSpace(textBox3.Text);
-            //label7.Visible = string.IsNullOrWhiteSpace(textBox4.Text);
+            //label2.Visible = string.IsNullOrWhiteSpace(textBoxPath.Text);
+            //label3.Visible = string.IsNullOrWhiteSpace(textBoxGuid.Text);
+            //label5.Visible = string.IsNullOrWhiteSpace(textBoxTask.Text);
+            //label7.Visible = string.IsNullOrWhiteSpace(textBoxProject.Text);
 
             this.DialogResult = DialogResult.OK;
             Server = textBox1.Text.Trim();
@@ -59,14 +59,6 @@ namespace MyHelper.DialogForms
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private bool Validate()
-        {
-            return !string.IsNullOrWhiteSpace(textBox1.Text) &&
-                   !string.IsNullOrWhiteSpace(textBox2.Text) &&
-                   !string.IsNullOrWhiteSpace(textBox3.Text) &&
-                   !string.IsNullOrWhiteSpace(textBox4.Text);
         }
     }
 }

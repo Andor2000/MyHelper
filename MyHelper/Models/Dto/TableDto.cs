@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyHelper.Enums;
+using MyHelper.Models.Dto;
 using System.Collections.Generic;
 
 namespace MyHelper.Dto
@@ -7,7 +8,7 @@ namespace MyHelper.Dto
     {
         public TableDto()
         {
-            Context.Items.Add(ContextDeleted);
+            Icon.Image = IconEnums.Quest;
         }
 
         /// <summary>
@@ -16,18 +17,13 @@ namespace MyHelper.Dto
         public bool IsTemplateScript { get; set; }
 
         /// <summary>
-        /// Уникальный идентификатор шаблона.
+        /// Модель сохранения скрипта.
         /// </summary>
-        public Guid GuidTemplate { get; set; } = Guid.Empty;
+        public SaveScriptModelDto SaveScriptModel { get; set; } = new SaveScriptModelDto();
 
         /// <summary>
         /// Список колонок.
         /// </summary>
         public List<ColomnDto> Colomns { get; set; } = new List<ColomnDto>();
-
-        /// <summary>
-        /// Окончательный скрипт.
-        /// </summary>
-        //public string EndScript { get; set; } = string.Empty;
     }
 }

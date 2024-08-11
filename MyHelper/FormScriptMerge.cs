@@ -1,8 +1,10 @@
-﻿using MyHelper.DialogForms;
+﻿using MyHelper.Data;
+using MyHelper.DialogForms;
 using MyHelper.DialogForms.ScriptMerge;
 using MyHelper.Dto;
 using MyHelper.Enums;
 using MyHelper.Extensions;
+using MyHelper.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,7 +18,6 @@ namespace MyHelper
         private string EndScriptTable { get; set; } = string.Empty;
         private string EndScriptRecord { get; set; } = string.Empty;
         private string EndScriptColomn { get; set; } = string.Empty;
-
         private string Server { get; set; } = string.Empty;
         private string DataBase { get; set; } = string.Empty;
         private string Login { get; set; } = string.Empty;
@@ -72,15 +73,31 @@ namespace MyHelper
         /// </summary>
         private FormQuotes _formQuotesService { get; set; } = new FormQuotes();
 
-        public FormScriptMerge()
+        /// <summary>
+        /// Серивс для работы с базой данных.
+        /// </summary>
+        private DataBaseService _dataBaseService { get; set; }
+
+        public FormScriptMerge(ProgramContext context)
         {
-            InitializeComponent();
+            this._dataBaseService = new DataBaseService(context);
+            this.InitializeComponent();
+            this.InitForm();
+            this.GetTablesDB();
+        }
+
+        /// <summary>
+        /// Инициализация формы.
+        /// </summary>
+        private void InitForm()
+        {
             lineNumberRTB1.RichTextBox.BackColor = Colors.PanelFon;
             lineNumberRTB1.RichTextBox.ForeColor = Color.White;
             lineNumberRTB1.RichTextBox.WordWrap = false;
             lineNumberRTB1.RichTextBox.KeyDown += lineNumberRTB1_KeyDown;
             lineNumberRTB1.RichTextBox.KeyUp += lineNumberRTB1_KeyUp;
 
+            /*Не знаю как работает, но так не появляется скрол*/
             panel3.HorizontalScroll.Maximum = 0;
             panel3.AutoScroll = false;
             panel3.VerticalScroll.Visible = false;
@@ -93,12 +110,44 @@ namespace MyHelper
         }
 
         /// <summary>
+        /// Получение таблиц из базы данных.
+        /// </summary>
+        private void GetTablesDB()
+        {
+            this._panelTableLeft = _dataBaseService.GetTables();
+
+            if (this._panelTableLeft != null && this._panelTableLeft.Any())
+            {
+                this._panelTableLeft.ForEach(x => this.AddTableEvents(x));
+                this._panelTableLeft.SelectMany(x => x.Colomns).ToList()
+                    .ForEach(x =>
+                    {
+                        this.SetCountRecordColomn(x);
+                        this.AddColomnEvents(x);
+
+                        x.IconStar.Visible = x.IsEqualsRecordStar;
+                        pictureBoxAddStar.Image = x.IsEqualsRecordStar
+                            ? IconEnums.StarActive
+                            : IconEnums.Star;
+
+                    });
+
+                this.SetMainTable(_panelTableLeft[0]);
+                this.UpdatePanelTable();
+                this.UpdatePanelColomn();
+            }
+        }
+
+        /// <summary>
         /// Добавление новой таблицы.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void pictureBoxAddTable_Click(object sender, EventArgs e)
         {
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
+
             panel5.BackColor = panel5.Parent.BackColor;
             var formAddTableName = new FormAddTable();
             formAddTableName.ShowDialog();
@@ -109,23 +158,20 @@ namespace MyHelper
             }
 
             var table = new TableDto();
-            table.Sort = _panelTableLeft.Count();
+            table.Sort = this._panelTableLeft.Count;
             table.TextBox.Text = formAddTableName.TableName;
-            _panelTableLeft.Add(table);
 
-            table.TextBox.MouseDown += MouseDownObject;     // Нажал левую кнопку мыши, не отпустил \ перетаскивание
-            table.TextBox.MouseMove += MouseMoveObject;     // Курсор на объекте, навелся, перетаскивание.
-            table.TextBox.MouseUp += MouseUpObject;         // Клинкул по объекту (отпустил мышь)
-            table.TextBox.MouseLeave += MouseLeaveObject;   // Отвел курсор с объекта
-            table.ContextDeleted.Click += DeleteTable;             // 
-
-            CreateColomns(table, formAddTableName.ColomnNames);
+            this.CreateColomns(table, formAddTableName.ColomnNames);
             formAddTableName.Close();
 
             var firstColomn = table.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             firstColomn.IsEqualsRecordStar = true;
             firstColomn.IconStar.Visible = true;
             firstColomn.ContextStar.Text = "Убрать из сравнения";
+
+            table = this._dataBaseService.AddTable(table);
+            this.AddTableEvents(table);
+            this._panelTableLeft.Add(table);
 
             this.SetMainTable(table);
             this.UpdatePanelTable();
@@ -134,12 +180,27 @@ namespace MyHelper
         }
 
         /// <summary>
+        /// Добавление таблице событий.
+        /// </summary>
+        /// <param name="table">Таблица.</param>
+        private void AddTableEvents(TableDto table)
+        {
+            table.TextBox.MouseDown += MouseDownObject;     // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+            table.TextBox.MouseMove += MouseMoveObject;     // Курсор на объекте, навелся, перетаскивание.
+            table.TextBox.MouseUp += MouseUpObject;         // Клинкул по объекту (отпустил мышь)
+            table.TextBox.MouseLeave += MouseLeaveObject;   // Отвел курсор с объекта
+            table.ContextDeleted.Click += DeleteTable;      // Удаление колонки.
+        }
+
+        /// <summary>
         /// Добавление новых колонок.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pictureBox2_Click(object sender, EventArgs e)
+        private void pictureBoxAddColomns_Click(object sender, EventArgs e)
         {
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
             var formDialog = new FormAddColomns(this);
             formDialog.ShowDialog();
 
@@ -161,13 +222,19 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pictureBox3_Click(object sender, EventArgs e)
+        private void pictureBoxAddStar_Click(object sender, EventArgs e)
         {
             _mainColomn.IsEqualsRecordStar = !_mainColomn.IsEqualsRecordStar;
             _mainColomn.IconStar.Visible = !_mainColomn.IconStar.Visible; // в левой панели
+            pictureBoxAddStar.Image = _mainColomn.IsEqualsRecordStar
+                ? IconEnums.StarActive
+                : IconEnums.Star;
+
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
+
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
-            pictureBox3.Image = _mainColomn.IsEqualsRecordStar ? IconEnums.StarActive : IconEnums.Star;
         }
 
         /// <summary>
@@ -175,12 +242,18 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pictureBox7_Click(object sender, EventArgs e)
+        private void pictureBoxAddQuotes_Click(object sender, EventArgs e)
         {
             _mainColomn.IsQuotes = !_mainColomn.IsQuotes;
+            pictureBoxAddQuotes.Image = _mainColomn.IsQuotes
+                ? IconEnums.QuotesActive2
+                : IconEnums.Quotes2;
+
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
+
             this.UpdateEndScriptRecord();
             this.OutputEndScript();
-            pictureBox7.Image = _mainColomn.IsQuotes ? IconEnums.QuotesActive2 : IconEnums.Quotes2;
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
@@ -206,21 +279,28 @@ namespace MyHelper
                 : IconEnums.DataBaseActive;
         }
 
-        private void pictureBox5_Click(object sender, EventArgs e)
+        private void pictureBoxOpenFormQuotes_Click(object sender, EventArgs e)
         {
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
             var formDialog = new FormQuotes();
             formDialog.ShowDialog();
         }
 
-        private void pictureBox6_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Добавить шаблон в скрипт (для отображения в интерфейсе).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBoxAddTemplate_Click(object sender, EventArgs e)
         {
             _mainTable.IsTemplateScript = !_mainTable.IsTemplateScript;
-            pictureBox6.Image = _mainTable.IsTemplateScript ? IconEnums.TemplateScriptActive : IconEnums.TemplateScript;
+            pictureBoxAddTemplate.Image = _mainTable.IsTemplateScript
+                ? IconEnums.TemplateScriptActive
+                : IconEnums.TemplateScript;
 
-            if (_mainTable.IsTemplateScript)
-            {
-                _mainTable.GuidTemplate = Guid.NewGuid();
-            }
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
 
             this.OutputEndScript();
         }
@@ -242,16 +322,17 @@ namespace MyHelper
             if (_mainTable == deletedTable)
             {
                 var newMainTable = _panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort - 1)
-                    ?? _panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort + 1);
+                    ?? _panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort + 1)
+                    ?? _panelTableLeft.FirstOrDefault();
 
                 this.SetMainTable(newMainTable);
             }
 
             _panelTableLeft
-                 .Where(x => x.Sort > deletedTable.Sort)
-                .ToList()
+                .Where(x => x.Sort > deletedTable.Sort).ToList()
                 .ForEach(x => x.Sort--);
 
+            _dataBaseService.RemoveTable(deletedTable);
             _panelTableLeft.Remove(deletedTable);
             /// не получилось удалить колонки
             deletedTable = null;
@@ -284,7 +365,7 @@ namespace MyHelper
             {
                 var newMainColomn = _mainTable.Colomns.FirstOrDefault(x => x.Sort == deletedColomn.Sort + 1)
                     ?? _mainTable.Colomns.FirstOrDefault(x => x.Sort == deletedColomn.Sort - 1)
-                    ?? new ColomnDto();
+                    ?? _mainTable.Colomns.FirstOrDefault();
 
                 this.SetMainColomn(newMainColomn);
             }
@@ -297,6 +378,7 @@ namespace MyHelper
                     .ForEach(x => x.Sort--);
             }
 
+            _dataBaseService.RemoveColomn(deletedColomn);
             _mainTable.Colomns.Remove(deletedColomn);
             deletedColomn = null;
 
@@ -332,6 +414,11 @@ namespace MyHelper
             this.OutputEndScript();
         }
 
+        /// <summary>
+        /// Создание колонок.
+        /// </summary>
+        /// <param name="table">Dto-модель таблицы.</param>
+        /// <param name="colomnNames">Имена колонок.</param>
         private void CreateColomns(TableDto table, string colomnNames)
         {
             var colomnNamesList = _formQuotesService.FormatingString(colomnNames, true, true, true, true);
@@ -343,15 +430,23 @@ namespace MyHelper
                 colomn.Sort = table.Colomns.Count();
                 colomn.TextBox.Text = colomnName;
                 table.Colomns.Add(colomn);
-
-                colomn.TextBox.MouseDown += MouseDownObject;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
-                colomn.TextBox.MouseMove += MouseMoveObject;      // Курсор на объекте, навелся, перетаскивание.
-                colomn.TextBox.MouseUp += MouseUpObject;          // Клинкул по объекту (отпустил мышь)
-                colomn.TextBox.MouseLeave += MouseLeaveObject;    // Отвел курсор с объекта.
-
-                colomn.ContextDeleted.Click += DeleteColomn;
-                colomn.ContextStar.Click += AddStarColomn;
+                this.AddColomnEvents(colomn);
             }
+        }
+
+        /// <summary>
+        /// Добавление колонке события.
+        /// </summary>
+        /// <param name="colomn">Колонка</param>
+        private void AddColomnEvents(ColomnDto colomn)
+        {
+            colomn.TextBox.MouseDown += MouseDownObject;      // Нажал левую кнопку мыши, не отпустил \ перетаскивание
+            colomn.TextBox.MouseMove += MouseMoveObject;      // Курсор на объекте, навелся, перетаскивание.
+            colomn.TextBox.MouseUp += MouseUpObject;          // Клинкул по объекту (отпустил мышь)
+            colomn.TextBox.MouseLeave += MouseLeaveObject;    // Отвел курсор с объекта.
+
+            colomn.ContextDeleted.Click += DeleteColomn;
+            colomn.ContextStar.Click += AddStarColomn;
         }
 
         /// <summary>
@@ -533,10 +628,17 @@ namespace MyHelper
                 if (this.CheckIsColomn(sender))
                 {
                     this.ColomnMouseUp();
+
+                    this.UpdateEndScriptRecord();
+                    this.UpdateEndScriptColomn();
+                    this.OutputEndScript();
+                    _dataBaseService.UpdateColomns(_mainTable.Colomns.ToArray());
                 }
                 else
                 {
                     this.TableMouseUp();
+                    this.UpdatePanelTable();
+                    _dataBaseService.UpdateTables(_panelTableLeft.ToArray());
                 }
                 return;
             }
@@ -548,12 +650,14 @@ namespace MyHelper
             {
                 var colomn = _mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
                 this.SetMainColomn(colomn);
+                _dataBaseService.UpdateColomns(_mainTable.Colomns.ToArray());
             }
             else
             {
                 var table = _panelTableLeft.FirstOrDefault(x => x.TextBox == (TextBox)sender);
                 this.SetMainTable(table);
                 this.UpdatePanelColomn();
+                _dataBaseService.UpdateTables(_panelTableLeft.ToArray());
             }
         }
 
@@ -582,18 +686,20 @@ namespace MyHelper
                     h.Panel.Location = new Point(0, h.Sort * SizeEnums.HeightPanel);
                 }
             }
-
-            _DragAndDropColomn.Sort = _DragAndDropColomn.Sort + count > _mainTable.Colomns.Count
-                ? _mainTable.Colomns.Count - 1
-                : _DragAndDropColomn.Sort + count < 1
-                    ? 0
-                    : _DragAndDropColomn.Sort + count;
+            switch (_DragAndDropColomn.Sort + count)
+            {
+                case var x when x >= _mainTable.Colomns.Count:
+                    _DragAndDropColomn.Sort = _mainTable.Colomns.Count - 1;
+                    break;
+                case var x when x < 1:
+                    _DragAndDropColomn.Sort = 0;
+                    break;
+                default:
+                    _DragAndDropColomn.Sort = _DragAndDropColomn.Sort + count;
+                    break;
+            }
 
             _DragAndDropColomn.Panel.Location = new Point(0, _DragAndDropColomn.Sort * SizeEnums.HeightPanel);
-
-            this.UpdateEndScriptRecord();
-            this.UpdateEndScriptColomn();
-            this.OutputEndScript();
         }
 
         private void TableMouseUp()
@@ -605,28 +711,33 @@ namespace MyHelper
             {
                 count += y % SizeEnums.HeightPanel > 10 ? 1 : 0;
                 var colomnDown = _panelTableLeft.Where(x => x.Sort < _DragAndDropTable.Sort);
-                foreach (var h in colomnDown.Where(x => x.Sort >= _DragAndDropTable.Sort - count))
+                foreach (var colomn in colomnDown.Where(x => x.Sort >= _DragAndDropTable.Sort - count))
                 {
-                    h.Sort += 1;
+                    colomn.Sort++;
                 }
             }
             else
             {
                 count -= y % SizeEnums.HeightPanel < -10 ? 1 : 0;
                 var colomnUp = _panelTableLeft.Where(x => x.Sort > _DragAndDropTable.Sort);
-                foreach (var h in colomnUp.Where(x => x.Sort <= _DragAndDropTable.Sort + Math.Abs(count)))
+                foreach (var colomn in colomnUp.Where(x => x.Sort <= _DragAndDropTable.Sort + Math.Abs(count)))
                 {
-                    h.Sort--;
+                    colomn.Sort--;
                 }
             }
 
-            _DragAndDropTable.Sort = _DragAndDropTable.Sort - count >= _panelTableLeft.Count
-                ? _panelTableLeft.Count - 1
-                : _DragAndDropTable.Sort - count <= 0
-                    ? 0
-                    : _DragAndDropTable.Sort - count;
-
-            this.UpdatePanelTable();
+            switch (_DragAndDropTable.Sort - count)
+            {
+                case var x when x >= _panelTableLeft.Count - 1:
+                    _DragAndDropTable.Sort = _panelTableLeft.Count - 1;
+                    break;
+                case var x when x < 0:
+                    _DragAndDropTable.Sort = 0;
+                    break;
+                default:
+                    _DragAndDropTable.Sort -= count;
+                    break;
+            }
         }
 
         /// <summary>
@@ -670,6 +781,7 @@ namespace MyHelper
             _mainColomn.IconStar.Image = IconEnums.Star;
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
 
+            _dataBaseService.UpdateColomns(_mainColomn);
             _mainColomn = newMainColomn;
 
             _mainColomn.Panel.BackColor = Colors.PanelActiveObject;
@@ -681,11 +793,11 @@ namespace MyHelper
             _mainColomn.IconStar.Image = IconEnums.StarActive;
             lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
 
-            pictureBox3.Image = _mainColomn.IsEqualsRecordStar
+            pictureBoxAddStar.Image = _mainColomn.IsEqualsRecordStar
                 ? IconEnums.StarActive
                 : IconEnums.Star;
 
-            pictureBox7.Image = _mainColomn.IsQuotes
+            pictureBoxAddQuotes.Image = _mainColomn.IsQuotes
                 ? IconEnums.QuotesActive2
                 : IconEnums.Quotes2;
 
@@ -721,10 +833,11 @@ namespace MyHelper
             }
         }
 
+        /// <summary>
+        /// При нажатии на клавишу пересчитывание количества строк.
+        /// </summary>
         private void lineNumberRTB1_KeyDown(object sender, KeyEventArgs e)
-        {
-            this.RewriteCountRecord(e);
-        }
+            => this.RewriteCountRecord(e);
 
         private void lineNumberRTB1_KeyUp(object sender, KeyEventArgs e)
         {
@@ -746,12 +859,22 @@ namespace MyHelper
                 e.Control && e.KeyCode == Keys.A && e.KeyCode == Keys.Delete ||
                 e.Control && e.KeyCode == Keys.A && e.KeyCode == Keys.Back)
             {
-                _mainColomn.CountRecords = lineNumberRTB1.RichTextBox.Lines.Length;
-                _mainColomn.TextBoxCount.Text = _mainColomn.CountRecords.ToString();
-                if (_mainColomn.TextBoxCount.Text == "0")
-                {
-                    _mainColomn.TextBoxCount.Text = "1";
-                }
+                _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
+                _mainColomn.TextBoxCount.Text = _mainColomn.CountRecords;
+                this.SetCountRecordColomn(_mainColomn);
+            }
+        }
+
+        /// <summary>
+        /// Установить количество строк в колонке.
+        /// </summary>
+        /// <param name="colomns"></param>
+        private void SetCountRecordColomn(ColomnDto colomn)
+        {
+            colomn.TextBoxCount.Text = colomn.CountRecords;
+            if (colomn.TextBoxCount.Text == "0")
+            {
+                colomn.TextBoxCount.Text = "1";
             }
         }
 
@@ -759,9 +882,7 @@ namespace MyHelper
         /// Изменение начало скрипта (название таблицы)
         /// </summary>
         private void UpdateEndScriptTable()
-        {
-            EndScriptTable = string.Format(BuildingScript.Table, _mainTable.TextBox.Text);
-        }
+            => EndScriptTable = string.Format(BuildingScript.Table, _mainTable.TextBox.Text);
 
         /// <summary>
         /// Изменение середины скрипта (записи).
@@ -774,7 +895,7 @@ namespace MyHelper
             }
 
             _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
-            var maxCount = _mainTable.Colomns.Max(x => x.CountRecords);
+            var maxCount = _mainTable.Colomns.Max(x => x.CountRecords.ToInt());
             var colomnTextAndQuotes = _mainTable.Colomns
                 .OrderBy(x => x.Sort)
                 .Select(x => new
@@ -818,13 +939,9 @@ namespace MyHelper
         /// Вывод скрипта.
         /// </summary>
         private void OutputEndScript()
-        {
-            var script = EndScriptTable + EndScriptRecord + EndScriptColomn;
-
-            richTextBox3.Text = _mainTable.IsTemplateScript
-                ? string.Format(BuildingScript.TemplateScriptSoftrust, _mainTable.GuidTemplate.ToString().ToUpper(), script)
-                : script;
-        }
+        => richTextBox3.Text = _mainTable.IsTemplateScript
+            ? SaveScriptService.GetEndScriptWithTemplate(_mainTable.SaveScriptModel)
+            : this.GetEndScript();
 
         /// <summary>
         /// Навел на иконку.
@@ -867,9 +984,7 @@ namespace MyHelper
         /// </summary>
         /// <returns></returns>
         private bool CheckIsColomn(object sender)
-        {
-            return _mainTable.Colomns.Any(x => x.TextBox == (TextBox)sender);
-        }
+            => _mainTable.Colomns.Any(x => x.TextBox == (TextBox)sender);
 
         /// <summary>
         /// Изменение название таблицы.
@@ -900,10 +1015,32 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pictureBox8_Click(object sender, EventArgs e)
+        private void pictureBoxSaveScript_Click(object sender, EventArgs e)
         {
-            var formDialog = new FormSaveScript();
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
+
+            _mainTable.SaveScriptModel.Script.Text = this.GetEndScript();
+            var formDialog = new FormSaveScript(_mainTable.SaveScriptModel);
             formDialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// Получение конечного скрипта.
+        /// </summary>
+        /// <returns></returns>
+        private string GetEndScript()
+            => EndScriptTable + EndScriptRecord + EndScriptColomn;
+
+        /// <summary>
+        /// События после закрытия формы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormScriptMerge_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _dataBaseService.UpdateTables(_mainTable);
+            _dataBaseService.UpdateColomns(_mainColomn);
         }
     }
 }

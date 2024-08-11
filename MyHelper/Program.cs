@@ -1,22 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using MyHelper.Data;
+using System;
+using System.Data.SQLite;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MyHelper
 {
-    internal static class Program
+    public static class Program
     {
+        public static readonly string _dataBaseName = "MyDatabase.sqlite";
+
+        /// <summary>
+        /// Путь к базе данных.
+        /// </summary>
+        private static readonly string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _dataBaseName);
+
+        private static readonly ProgramContext _context = new ProgramContext();
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            CreateDataBase();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormScriptMerge());
+            Application.Run(new FormScriptMerge(_context));
+        }
+
+        /// <summary>
+        /// Создание базы данных и применение миграций.
+        /// </summary>
+        private static void CreateDataBase()
+        {
+            if (!File.Exists(databasePath))
+            {
+                SQLiteConnection.CreateFile(databasePath);
+            }
+
+            _context.Database.Migrate();
         }
     }
 }
