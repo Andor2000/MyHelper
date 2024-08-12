@@ -169,6 +169,7 @@ namespace MyHelper
             firstColomn.IconStar.Visible = true;
             firstColomn.ContextStar.Text = "Убрать из сравнения";
 
+            table.SaveScriptModel = this._dataBaseService.GetSaveScriptModel();
             table = this._dataBaseService.AddTable(table);
             this.AddTableEvents(table);
             this._panelTableLeft.Add(table);
@@ -1020,9 +1021,11 @@ namespace MyHelper
             _dataBaseService.UpdateTables(_mainTable);
             _dataBaseService.UpdateColomns(_mainColomn);
 
-            _mainTable.SaveScriptModel.Script.Text = this.GetEndScript();
-            var formDialog = new FormSaveScript(_mainTable.SaveScriptModel);
+            _mainTable.SaveScriptModel.Script = this.GetEndScript();
+            var formDialog = new FormSaveScript(_mainTable.SaveScriptModel, _dataBaseService);
             formDialog.ShowDialog();
+
+            _dataBaseService.UpdateTables(_mainTable);
         }
 
         /// <summary>

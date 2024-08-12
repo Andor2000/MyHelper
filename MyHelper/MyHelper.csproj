@@ -264,20 +264,16 @@
     </Compile>
     <Compile Include="Enums\Files.cs" />
     <Compile Include="Enums\IconEnums.cs" />
+    <Compile Include="Enums\SettingEnums.cs" />
     <Compile Include="Extensions\BaseTypeEx.cs" />
     <Compile Include="Extensions\MappingProfiller.cs" />
-    <Compile Include="Migrations\20240720160029_InitialCreate.cs" />
-    <Compile Include="Migrations\20240720160029_InitialCreate.designer.cs">
-      <DependentUpon>20240720160029_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20240810211120_AddIsdeleted.cs" />
-    <Compile Include="Migrations\20240810211120_AddIsdeleted.designer.cs">
-      <DependentUpon>20240810211120_AddIsdeleted.cs</DependentUpon>
+    <Compile Include="Migrations\20240812205706_InitialCreate.cs" />
+    <Compile Include="Migrations\20240812205706_InitialCreate.designer.cs">
+      <DependentUpon>20240812205706_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ProgramContextModelSnapshot.cs" />
     <Compile Include="Models\Dto\BaseModelDto.cs" />
     <Compile Include="Models\Dto\ColomnDto.cs" />
-    <Compile Include="Models\Dto\SaveScript\SaveScriptField.cs" />
     <Compile Include="Models\Dto\SaveScript\SaveScriptModelDto.cs" />
     <Compile Include="Models\Dto\TableDto.cs" />
     <Compile Include="Enums\Colors.cs" />
@@ -302,6 +298,7 @@
     </Compile>
     <Compile Include="Models\Entity\BaseModelEntity.cs" />
     <Compile Include="Models\Entity\ColomnEntity.cs" />
+    <Compile Include="Models\Entity\SettingEntity.cs" />
     <Compile Include="Models\Entity\TableEntity.cs" />
     <Compile Include="NewPanelComponent\LineNumberRTB.cs">
       <SubType>UserControl</SubType>

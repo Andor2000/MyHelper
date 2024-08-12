@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyHelper.Data;
 using MyHelper.Dto;
+using MyHelper.Enums;
 using MyHelper.Extensions;
+using MyHelper.Models.Dto;
 using MyHelper.Models.Entity;
 using System;
 using System.Collections.Generic;
@@ -157,8 +159,72 @@ namespace MyHelper.Services
         /// <param name="colomnDto">Колонка</param>
         public void RemoveColomn(ColomnDto colomnDto)
         {
-            var entity = _context.Colomns.FirstOrDefault(x => x.Id == colomnDto.Id);
+            var entity = this._context.Colomns.FirstOrDefault(x => x.Id == colomnDto.Id);
             entity.IsDeleted = true;
+            this._context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Получить модель настроек для сохранения скрипта.
+        /// </summary>
+        /// <returns></returns>
+        public SaveScriptModelDto GetSaveScriptModel()
+        {
+            var settingCodes = new List<string>()
+            {
+                SettingEnums.Path,
+                SettingEnums.Task,
+                SettingEnums.Sprint,
+                SettingEnums.Project,
+                SettingEnums.IsOpenFile,
+            };
+
+            var settings = _context.Settings
+                .Where(x => settingCodes.Contains(x.Code))
+                .ToArray();
+
+            return new SaveScriptModelDto()
+            {
+                Path = settings.FirstOrDefault(x => x.Code == SettingEnums.Path)?.Value ?? string.Empty,
+                Task = settings.FirstOrDefault(x => x.Code == SettingEnums.Task)?.Value ?? string.Empty,
+                Sprint = settings.FirstOrDefault(x => x.Code == SettingEnums.Sprint)?.Value ?? string.Empty,
+                Project = settings.FirstOrDefault(x => x.Code == SettingEnums.Project)?.Value ?? string.Empty,
+                IsOpenFile = settings.FirstOrDefault(x => x.Code == SettingEnums.IsOpenFile)?.Value ?? "1",
+            };
+        }
+
+        /// <summary>
+        /// Сохранить настройки выгрузки скрипта.
+        /// </summary>
+        /// <param name="saveScriptModelDto"></param>
+        public void SaveSettingScript(SaveScriptModelDto saveScriptModelDto)
+        {
+            this.SaveValueSettingScript(SettingEnums.Path, saveScriptModelDto.Path);
+            this.SaveValueSettingScript(SettingEnums.Sprint, saveScriptModelDto.Sprint);
+            this.SaveValueSettingScript(SettingEnums.Project, saveScriptModelDto.Project);
+            this.SaveValueSettingScript(SettingEnums.IsOpenFile, saveScriptModelDto.IsOpenFile);
+
+            // Из Disp-xxxx получить Disp-
+            var task = saveScriptModelDto.Task;
+            this.SaveValueSettingScript(SettingEnums.Task, task.Substring(0, task.IndexOf('-') + 1));
+        }
+
+        /// <summary>
+        /// Сохранение в найстроки БД.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="value"></param>
+        private void SaveValueSettingScript(string code, string value)
+        {
+            var setting = this._context.Settings
+                .Where(x => x.Code == code)
+                .FirstOrDefault() ?? new SettingEntity(code, value);
+
+            if (setting.Id == 0)
+            {
+                this._context.Add(setting);
+            }
+
             this._context.SaveChanges();
         }
     }

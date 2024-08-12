@@ -8,7 +8,7 @@ using MyHelper.Data;
 namespace MyHelper.Migrations
 {
     [DbContext(typeof(ProgramContext))]
-    [Migration("20240720160029_InitialCreate")]
+    [Migration("20240812205706_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,9 @@ namespace MyHelper.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsEqualsRecordStar")
@@ -48,6 +51,23 @@ namespace MyHelper.Migrations
                     b.ToTable("Colomns");
                 });
 
+            modelBuilder.Entity("MyHelper.Models.Entity.SettingEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
             modelBuilder.Entity("MyHelper.Models.Entity.TableEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -60,6 +80,12 @@ namespace MyHelper.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IsOpenFile")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsTemplateScript")
                         .HasColumnType("INTEGER");
 
@@ -67,6 +93,9 @@ namespace MyHelper.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Number")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Path")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Project")

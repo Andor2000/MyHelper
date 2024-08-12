@@ -49,6 +49,23 @@ namespace MyHelper.Migrations
                     b.ToTable("Colomns");
                 });
 
+            modelBuilder.Entity("MyHelper.Models.Entity.SettingEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
             modelBuilder.Entity("MyHelper.Models.Entity.TableEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -64,6 +81,9 @@ namespace MyHelper.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("IsOpenFile")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsTemplateScript")
                         .HasColumnType("INTEGER");
 
@@ -71,6 +91,9 @@ namespace MyHelper.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Number")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Path")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Project")

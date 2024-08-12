@@ -7,6 +7,20 @@ namespace MyHelper.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Code = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tables",
                 columns: table => new
                 {
@@ -14,13 +28,16 @@ namespace MyHelper.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
                     Sort = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     IsTemplateScript = table.Column<bool>(nullable: false),
+                    Path = table.Column<string>(nullable: true),
                     Guid = table.Column<string>(nullable: true),
                     Sprint = table.Column<string>(nullable: true),
                     Task = table.Column<string>(nullable: true),
                     Project = table.Column<string>(nullable: true),
                     Number = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    IsOpenFile = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,8 +51,9 @@ namespace MyHelper.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    Records = table.Column<string>(nullable: true),
                     Sort = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Records = table.Column<string>(nullable: true),
                     IsEqualsRecordStar = table.Column<bool>(nullable: false),
                     IsQuotes = table.Column<bool>(nullable: false),
                     TableId = table.Column<int>(nullable: false)
@@ -61,6 +79,9 @@ namespace MyHelper.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Colomns");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "Tables");

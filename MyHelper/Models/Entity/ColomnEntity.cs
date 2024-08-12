@@ -1,8 +1,4 @@
-﻿using MyHelper.Dto;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace MyHelper.Models.Entity
+﻿namespace MyHelper.Models.Entity
 {
     /// <summary>
     /// Entity-модель колонки.

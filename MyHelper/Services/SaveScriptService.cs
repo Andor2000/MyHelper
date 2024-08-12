@@ -15,17 +15,17 @@ namespace MyHelper.Services
         /// <param name="dto">Модель сохранения скрипта.</param>
         public static void SaveScript(SaveScriptModelDto dto)
         {
-            var path = dto.Path.Text + @"\" + dto.Sprint.Text + @"\" +
-                (dto.Task.Text.Contains("-")
-                    ? dto.Task.Text.Substring(0, dto.Task.Text.IndexOf('-'))
-                    : dto.Task.Text);
+            var path = dto.Path + @"\" + dto.Sprint + @"\" +
+                (dto.Task.Contains("-")
+                    ? dto.Task.Substring(0, dto.Task.IndexOf('-'))
+                    : dto.Task);
 
             Directory.CreateDirectory(path);
 
             var pathFile = path + @"\" + GetFileName(dto);
             File.WriteAllText(pathFile, GetEndScriptWithTemplate(dto));
 
-            if (dto.IsOpenFile)
+            if (dto.IsOpenFile == "1")
             {
                 Process.Start(new ProcessStartInfo
                 {
@@ -42,11 +42,11 @@ namespace MyHelper.Services
         /// <returns></returns>
         public static string GetFileName(SaveScriptModelDto dto)
         {
-            return dto.Sprint.Text.Replace(".", string.Empty).Replace(" ", string.Empty).PadRight(4, '0') +
-                 $"{dto.Number.Text.PadLeft(3, '0')}. " +
-                 $"{dto.Project.Text}. " +
-                 $"({dto.Task.Text}). " +
-                 $"{dto.Description.Text}.sql";
+            return dto.Sprint.Replace(".", string.Empty).Replace(" ", string.Empty).PadRight(4, '0') +
+                 $"{dto.Number.PadLeft(3, '0')}. " +
+                 $"{dto.Project}. " +
+                 $"({dto.Task}). " +
+                 $"{dto.Description}.sql";
         }
 
         /// <summary>

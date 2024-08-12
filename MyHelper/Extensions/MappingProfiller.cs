@@ -18,12 +18,14 @@ namespace MyHelper.Extensions
             entity.Sort = dto.Sort;
             entity.Name = dto.TextBox.Text;
             entity.IsTemplateScript = dto.IsTemplateScript;
-            entity.Guid = dto.SaveScriptModel.Guid.Text;
-            entity.Task = dto.SaveScriptModel.Task.Text;
-            entity.Sprint = dto.SaveScriptModel.Sprint.Text;
-            entity.Number = dto.SaveScriptModel.Number.Text;
-            entity.Project = dto.SaveScriptModel.Project.Text;
-            entity.Description = dto.SaveScriptModel.Description.Text;
+            entity.Path = dto.SaveScriptModel.Path;
+            entity.Guid = dto.SaveScriptModel.Guid;
+            entity.Task = dto.SaveScriptModel.Task;
+            entity.Sprint = dto.SaveScriptModel.Sprint;
+            entity.Number = dto.SaveScriptModel.Number;
+            entity.Project = dto.SaveScriptModel.Project;
+            entity.Description = dto.SaveScriptModel.Description;
+            entity.IsOpenFile = dto.SaveScriptModel.IsOpenFile;
             return entity;
         }
 
@@ -39,12 +41,14 @@ namespace MyHelper.Extensions
             dto.Sort = entity.Sort;
             dto.TextBox.Text = entity.Name;
 
-            dto.SaveScriptModel.Guid.Text = entity.Guid;
-            dto.SaveScriptModel.Description.Text = entity.Description;
-            dto.SaveScriptModel.Number.Text = entity.Number;
-            dto.SaveScriptModel.Project.Text = entity.Project;
-            dto.SaveScriptModel.Sprint.Text = entity.Sprint;
-            dto.SaveScriptModel.Task.Text = entity.Task;
+            dto.SaveScriptModel.Path = entity.Path;
+            dto.SaveScriptModel.Guid = entity.Guid;
+            dto.SaveScriptModel.Description = entity.Description;
+            dto.SaveScriptModel.Number = entity.Number;
+            dto.SaveScriptModel.Project = entity.Project;
+            dto.SaveScriptModel.Sprint = entity.Sprint;
+            dto.SaveScriptModel.Task = entity.Task;
+            dto.SaveScriptModel.IsOpenFile = entity.IsOpenFile;
             return dto;
         }
 

@@ -1,6 +1,4 @@
-﻿using MyHelper.Models.Dto.SaveScript;
-
-namespace MyHelper.Models.Dto
+﻿namespace MyHelper.Models.Dto
 {
     /// <summary>
     /// Dto-модель информации для сохранения скрипта.
@@ -8,57 +6,48 @@ namespace MyHelper.Models.Dto
     public class SaveScriptModelDto
     {
         /// <summary>
-        /// Конструктор.
-        /// </summary>
-        public SaveScriptModelDto()
-        {
-            Guid.Text = System.Guid.NewGuid().ToString().ToUpper();
-            IsOpenFile = true;
-        }
-
-        /// <summary>
         /// Итоговый скрипт.
         /// </summary>
-        public SaveScriptField Script { get; set; } = new SaveScriptField();
+        public string Script { get; set; } = string.Empty;
 
         /// <summary>
         /// Путь.
         /// </summary>
-        public SaveScriptField Path { get; set; } = new SaveScriptField();
+        public string Path { get; set; } = string.Empty;
 
         /// <summary>
         /// Уникальный идентификатор.
         /// </summary>
-        public SaveScriptField Guid { get; set; } = new SaveScriptField();
+        public string Guid { get; set; } = System.Guid.NewGuid().ToString().ToUpper();
 
         /// <summary>
         /// Спинт.
         /// </summary>
-        public SaveScriptField Sprint { get; set; } = new SaveScriptField();
+        public string Sprint { get; set; } = string.Empty;
 
         /// <summary>
         /// Задача.
         /// </summary>
-        public SaveScriptField Task { get; set; } = new SaveScriptField();
+        public string Task { get; set; } = string.Empty;
 
         /// <summary>
         /// Проект.
         /// </summary>
-        public SaveScriptField Project { get; set; } = new SaveScriptField();
+        public string Project { get; set; } = string.Empty;
 
         /// <summary>
         /// Номер скрипта.
         /// </summary>
-        public SaveScriptField Number { get; set; } = new SaveScriptField();
+        public string Number { get; set; } = string.Empty;
 
         /// <summary>
         /// Описание скрипта.
         /// </summary>
-        public SaveScriptField Description { get; set; } = new SaveScriptField();
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Признак открытия папки после сохранения.
         /// </summary>
-        public bool IsOpenFile { get; set; }
+        public string IsOpenFile { get; set; }
     }
 }

@@ -19,6 +19,11 @@ namespace MyHelper.Models.Entity
         public List<ColomnEntity> Colomns { get; set; } = new List<ColomnEntity>();
 
         /// <summary>
+        /// Путь.
+        /// </summary>
+        public string Path { get; set; } = string.Empty;
+
+        /// <summary>
         /// Уникальный идентификатор.
         /// </summary>
         public string Guid { get; set; }
@@ -47,5 +52,10 @@ namespace MyHelper.Models.Entity
         /// Описание скрипта.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Признак открытия папки после сохранения.
+        /// </summary>
+        public string IsOpenFile { get; set; }
     }
 }

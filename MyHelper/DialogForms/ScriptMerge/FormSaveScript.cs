@@ -6,12 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace MyHelper.DialogForms.ScriptMerge
 {
     public partial class FormSaveScript : Form
     {
+        /// <summary>
+        /// Модель для сохранения скрипта.
+        /// </summary>
         private SaveScriptModelDto _saveScriptModelDto;
 
         /// <summary>
@@ -19,13 +23,20 @@ namespace MyHelper.DialogForms.ScriptMerge
         /// </summary>
         private List<TextBoxEx> _textBoxList = new List<TextBoxEx>();
 
-        public FormSaveScript(SaveScriptModelDto saveScriptModelDto)
+        /// <summary>
+        /// Серивс для работы с базой данных.
+        /// </summary>
+        private DataBaseService _dataBaseService { get; set; }
+
+        public FormSaveScript(SaveScriptModelDto saveScriptModelDto, DataBaseService dataBaseService)
         {
             _saveScriptModelDto = saveScriptModelDto;
+            _dataBaseService = dataBaseService;
             InitializeComponent();
 
             this.InitTextBox();
             textBoxFileName.Text = SaveScriptService.GetFileName(_saveScriptModelDto);
+
         }
 
         /// <summary>
@@ -34,10 +45,11 @@ namespace MyHelper.DialogForms.ScriptMerge
         private void buttonUpdateGuid_Click(object sender, EventArgs e)
         {
             textBoxGuid.Text = Guid.NewGuid().ToString().ToUpper();
-            _saveScriptModelDto.Guid.Text = textBoxGuid.Text;
+            _saveScriptModelDto.Guid = textBoxGuid.Text;
 
             textBoxGuid.BackColor = Colors.BackColorCorrectText;
             textBoxGuid.ForeColor = Colors.FontPlaceholderBlack;
+            textBoxGuid.IsValid = true;
         }
 
         /// <summary>
@@ -51,8 +63,11 @@ namespace MyHelper.DialogForms.ScriptMerge
             if (dialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            _saveScriptModelDto.Path.Text = dialog.SelectedPath;
-            textBoxPath.Text = _saveScriptModelDto.Path.Text;
+            _saveScriptModelDto.Path = dialog.SelectedPath;
+            textBoxPath.Text = _saveScriptModelDto.Path;
+            textBoxPath.BackColor = Colors.BackColorCorrectText;
+            textBoxPath.ForeColor = Colors.FontPlaceholderBlack;
+            textBoxPath.IsValid = true;
         }
 
         /// <summary>
@@ -65,7 +80,14 @@ namespace MyHelper.DialogForms.ScriptMerge
             if (this.ValidateFormSaveScript())
             {
                 SaveScriptService.SaveScript(_saveScriptModelDto);
+                _dataBaseService.SaveSettingScript(_saveScriptModelDto);
+                this.Close();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         /// <summary>
@@ -96,7 +118,8 @@ namespace MyHelper.DialogForms.ScriptMerge
         /// </summary>
         private void CheckValid(TextBoxEx tb)
         {
-            if (string.IsNullOrWhiteSpace(tb.Text))
+            tb.Text = tb.Text.Trim();
+            if (tb.Text == string.Empty)
             {
                 tb.IsEmpty = true;
                 tb.IsValid = false;
@@ -116,7 +139,9 @@ namespace MyHelper.DialogForms.ScriptMerge
         /// <returns></returns>
         private bool ValidateFormSaveScript()
         {
-            this._textBoxList.Where(x => !x.IsValid).ToList().ForEach(x => x.BackColor = Colors.BackColorNotCorrectText);
+            this._textBoxList.Where(x => !x.IsValid).ToList()
+                .ForEach(x => x.BackColor = Colors.BackColorNotCorrectText);
+
             return _textBoxList.All(x => x.IsValid);
         }
 
@@ -162,13 +187,14 @@ namespace MyHelper.DialogForms.ScriptMerge
         /// </summary>
         private void InitTextBox()
         {
-            textBoxPath.Text = _saveScriptModelDto.Path.Text;
-            textBoxGuid.Text = _saveScriptModelDto.Guid.Text;
-            textBoxSprint.Text = _saveScriptModelDto.Sprint.Text;
-            textBoxTask.Text = _saveScriptModelDto.Task.Text;
-            textBoxProject.Text = _saveScriptModelDto.Project.Text;
-            textBoxNumber.Text = _saveScriptModelDto.Number.Text;
-            textBoxDescription.Text = _saveScriptModelDto.Description.Text;
+            textBoxPath.Text = _saveScriptModelDto.Path;
+            textBoxGuid.Text = _saveScriptModelDto.Guid;
+            textBoxSprint.Text = _saveScriptModelDto.Sprint;
+            textBoxTask.Text = _saveScriptModelDto.Task;
+            textBoxProject.Text = _saveScriptModelDto.Project;
+            textBoxNumber.Text = _saveScriptModelDto.Number;
+            textBoxDescription.Text = _saveScriptModelDto.Description;
+            checkBox1.Checked = _saveScriptModelDto.IsOpenFile == "1";
 
             this._textBoxList.AddRange(new List<TextBoxEx>
             {
@@ -185,7 +211,7 @@ namespace MyHelper.DialogForms.ScriptMerge
             {
                 x.GotFocus += GotFocusRemoveText_TextBox;
                 x.LostFocus += LostFocusAddText_TextBox;
-                x.IsValid = this.CheckIsValid(x);
+                this.CheckValid(x);
             });
         }
 
@@ -207,25 +233,25 @@ namespace MyHelper.DialogForms.ScriptMerge
             switch ((TextBoxEx)sender)
             {
                 case var x when x == textBoxPath:
-                    _saveScriptModelDto.Path.Text = x.Text;
+                    _saveScriptModelDto.Path = x.Text;
                     break;
                 case var x when x == textBoxGuid:
-                    _saveScriptModelDto.Guid.Text = x.Text;
+                    _saveScriptModelDto.Guid = x.Text;
                     break;
                 case var x when x == textBoxSprint:
-                    _saveScriptModelDto.Sprint.Text = x.Text;
+                    _saveScriptModelDto.Sprint = x.Text;
                     break;
                 case var x when x == textBoxTask:
-                    _saveScriptModelDto.Task.Text = x.Text;
+                    _saveScriptModelDto.Task = x.Text;
                     break;
                 case var x when x == textBoxProject:
-                    _saveScriptModelDto.Project.Text = x.Text;
+                    _saveScriptModelDto.Project = x.Text;
                     break;
                 case var x when x == textBoxNumber:
-                    _saveScriptModelDto.Number.Text = x.Text;
+                    _saveScriptModelDto.Number = x.Text;
                     break;
                 case var x when x == textBoxDescription:
-                    _saveScriptModelDto.Description.Text = x.Text;
+                    _saveScriptModelDto.Description = x.Text;
                     break;
                 default:
                     throw new Exception("Добавь сюда новый компонент.");
@@ -249,9 +275,16 @@ namespace MyHelper.DialogForms.ScriptMerge
                     return Guid.TryParse(tb.Text, out _);
                 case var x when x == textBoxSprint:
                     return tb.Text.Count(t => t != '.' && t != ' ') == 4;
+                case var x when x == textBoxTask:
+                    return Regex.IsMatch(tb.Text, @"^[^\s\d-]+-\d+$");
                 default:
                     return !string.IsNullOrWhiteSpace(tb.Text);
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            _saveScriptModelDto.IsOpenFile = checkBox1.Checked ? "1" : "0";
         }
     }
 }

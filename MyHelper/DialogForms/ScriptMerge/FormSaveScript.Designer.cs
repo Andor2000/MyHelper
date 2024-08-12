@@ -198,6 +198,7 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.checkBox1.TabIndex = 18;
             this.checkBox1.Text = "Открыть папку после сохранения";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // button2
             // 
@@ -209,6 +210,7 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.button2.TabIndex = 20;
             this.button2.Text = "Отмена";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // buttonSaveScript
             // 
