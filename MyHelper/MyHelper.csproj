@@ -262,6 +262,7 @@
     <Compile Include="DialogForms\ScriptMerge\FormSaveScript.Designer.cs">
       <DependentUpon>FormSaveScript.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enums\Files.cs" />
     <Compile Include="Enums\IconEnums.cs" />
     <Compile Include="Extensions\BaseTypeEx.cs" />
     <Compile Include="Extensions\MappingProfiller.cs" />
@@ -385,6 +386,8 @@
     <None Include="icons\quotes_2.png" />
     <None Include="icons\quotes_active_2.png" />
     <None Include="icons\save_script.png" />
+    <None Include="bin\Debug\runtimes\win-x86\native\e_sqlite3.dll" />
+    <None Include="Files\e_sqlite3.dll" />
     <Content Include="Properties\add_button.png" />
     <Content Include="Properties\pencil.png" />
     <Content Include="Properties\pencil_active.png" />
