@@ -41,7 +41,7 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxDescription = new MyHelper.NewPanelComponent.TextBoxEx();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonSaveScript = new System.Windows.Forms.Button();
             this.textBoxFileName = new MyHelper.NewPanelComponent.TextBoxEx();
@@ -51,6 +51,8 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label8 = new System.Windows.Forms.Label();
             this.textBoxNumber = new MyHelper.NewPanelComponent.TextBoxEx();
             this.textBoxSprint = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -186,24 +188,24 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.textBoxDescription.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
             this.textBoxDescription.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
             // 
-            // checkBox1
+            // checkBox2
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.checkBox1.Location = new System.Drawing.Point(16, 303);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(247, 20);
-            this.checkBox1.TabIndex = 18;
-            this.checkBox1.Text = "Открыть папку после сохранения";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.checkBox2.Location = new System.Drawing.Point(16, 329);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(247, 20);
+            this.checkBox2.TabIndex = 18;
+            this.checkBox2.Text = "Открыть папку после сохранения";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(407, 333);
+            this.button2.Location = new System.Drawing.Point(407, 359);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(164, 39);
@@ -215,7 +217,7 @@ namespace MyHelper.DialogForms.ScriptMerge
             // buttonSaveScript
             // 
             this.buttonSaveScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSaveScript.Location = new System.Drawing.Point(125, 333);
+            this.buttonSaveScript.Location = new System.Drawing.Point(125, 359);
             this.buttonSaveScript.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSaveScript.Name = "buttonSaveScript";
             this.buttonSaveScript.Size = new System.Drawing.Size(164, 40);
@@ -315,12 +317,38 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.textBoxSprint.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSprint_KeyPress);
             this.textBoxSprint.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.Location = new System.Drawing.Point(702, 21);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(468, 387);
+            this.richTextBox1.TabIndex = 28;
+            this.richTextBox1.Text = "";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.checkBox1.Location = new System.Drawing.Point(16, 303);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(265, 20);
+            this.checkBox1.TabIndex = 29;
+            this.checkBox1.Text = "Добавить папку проекта (подпапка)";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // FormSaveScript
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(708, 411);
+            this.ClientSize = new System.Drawing.Size(1182, 411);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBoxSprint);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button4);
@@ -329,7 +357,7 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.Controls.Add(this.textBoxFileName);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonSaveScript);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.label5);
@@ -342,8 +370,8 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxPath);
             this.Controls.Add(this.button1);
-            this.MaximumSize = new System.Drawing.Size(726, 458);
-            this.MinimumSize = new System.Drawing.Size(726, 458);
+            this.MaximumSize = new System.Drawing.Size(2000, 458);
+            this.MinimumSize = new System.Drawing.Size(1200, 458);
             this.Name = "FormSaveScript";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сохранение скрипта";
@@ -365,7 +393,7 @@ namespace MyHelper.DialogForms.ScriptMerge
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private TextBoxEx textBoxDescription;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button buttonSaveScript;
         private TextBoxEx textBoxFileName;
@@ -375,5 +403,7 @@ namespace MyHelper.DialogForms.ScriptMerge
         private System.Windows.Forms.Label label8;
         private TextBoxEx textBoxNumber;
         private TextBoxEx textBoxSprint;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

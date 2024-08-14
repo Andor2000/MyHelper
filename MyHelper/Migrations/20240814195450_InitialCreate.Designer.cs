@@ -8,7 +8,7 @@ using MyHelper.Data;
 namespace MyHelper.Migrations
 {
     [DbContext(typeof(ProgramContext))]
-    [Migration("20240812205706_InitialCreate")]
+    [Migration("20240814195450_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,9 @@ namespace MyHelper.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Guid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IsCreateSubFolder")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")

@@ -37,7 +37,8 @@ namespace MyHelper.Migrations
                     Project = table.Column<string>(nullable: true),
                     Number = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    IsOpenFile = table.Column<string>(nullable: true)
+                    IsOpenFile = table.Column<string>(nullable: true),
+                    IsCreateSubFolder = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

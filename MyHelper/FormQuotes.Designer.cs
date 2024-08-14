@@ -215,38 +215,38 @@
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // checkBox1
+            // checkBox2
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Enabled = false;
             this.checkBox1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBox1.Location = new System.Drawing.Point(5, 137);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Name = "checkBox2";
             this.checkBox1.Size = new System.Drawing.Size(134, 20);
             this.checkBox1.TabIndex = 15;
             this.checkBox1.Text = "Убрать запятые";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // checkBox1
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBox2.Location = new System.Drawing.Point(5, 162);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Name = "checkBox1";
             this.checkBox2.Size = new System.Drawing.Size(126, 20);
             this.checkBox2.TabIndex = 16;
             this.checkBox2.Text = "Убрать пустые";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkBox2
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBox3.Location = new System.Drawing.Point(5, 190);
             this.checkBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Name = "checkBox2";
             this.checkBox3.Size = new System.Drawing.Size(119, 20);
             this.checkBox3.TabIndex = 17;
             this.checkBox3.Text = "Убрать дубли";

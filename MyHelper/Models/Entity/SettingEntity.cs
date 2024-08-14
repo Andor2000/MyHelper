@@ -7,12 +7,6 @@ namespace MyHelper.Models.Entity
     /// </summary>
     public class SettingEntity
     {
-        public SettingEntity(string code, string value)
-        {
-            this.Code = code;
-            this.Value = value;
-        }
-
         /// <summary>
         /// Идентификатор.
         /// </summary>

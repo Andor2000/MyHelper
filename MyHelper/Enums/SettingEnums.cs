@@ -29,5 +29,10 @@
         /// Признак открытия папки.
         /// </summary>
         public static string IsOpenFile { get; set; } = "IsOpenFile";
+
+        /// <summary>
+        /// Признак создания подпапки.
+        /// </summary>
+        public static string IsCreateSubFolder { get; set; } = "IsCreateSubFolder";
     }
 }

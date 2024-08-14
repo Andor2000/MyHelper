@@ -28,7 +28,14 @@ namespace MyHelper.DialogForms.ScriptMerge
         /// </summary>
         private DataBaseService _dataBaseService { get; set; }
 
-        public FormSaveScript(SaveScriptModelDto saveScriptModelDto, DataBaseService dataBaseService)
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="saveScriptModelDto">Модель для сохранения скрипта.</param>
+        /// <param name="dataBaseService">Серивс для работы с базой данных.</param>
+        public FormSaveScript(
+            SaveScriptModelDto saveScriptModelDto,
+            DataBaseService dataBaseService)
         {
             _saveScriptModelDto = saveScriptModelDto;
             _dataBaseService = dataBaseService;
@@ -36,7 +43,7 @@ namespace MyHelper.DialogForms.ScriptMerge
 
             this.InitTextBox();
             textBoxFileName.Text = SaveScriptService.GetFileName(_saveScriptModelDto);
-
+            richTextBox1.Text = _saveScriptModelDto.Script;
         }
 
         /// <summary>
@@ -79,6 +86,7 @@ namespace MyHelper.DialogForms.ScriptMerge
         {
             if (this.ValidateFormSaveScript())
             {
+                _saveScriptModelDto.Script = richTextBox1.Text;
                 SaveScriptService.SaveScript(_saveScriptModelDto);
                 _dataBaseService.SaveSettingScript(_saveScriptModelDto);
                 this.Close();
@@ -149,7 +157,7 @@ namespace MyHelper.DialogForms.ScriptMerge
         {
             // Разрешаем только цифры и управляющие символы (например, Backspace)
             e.Handled = !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar);
-            
+
             if (char.IsControl(e.KeyChar) && (textBoxSprint.Text.Length == 2 || textBoxSprint.Text.Length == 5))
             {
                 textBoxSprint.Text = textBoxSprint.Text.Substring(0, textBoxSprint.Text.Length - 1);
@@ -194,7 +202,8 @@ namespace MyHelper.DialogForms.ScriptMerge
             textBoxProject.Text = _saveScriptModelDto.Project;
             textBoxNumber.Text = _saveScriptModelDto.Number;
             textBoxDescription.Text = _saveScriptModelDto.Description;
-            checkBox1.Checked = _saveScriptModelDto.IsOpenFile == "1";
+            checkBox2.Checked = _saveScriptModelDto.IsOpenFile == "1";
+            checkBox1.Checked = _saveScriptModelDto.IsCreateSubFolder == "1";
 
             this._textBoxList.AddRange(new List<TextBoxEx>
             {
@@ -284,7 +293,12 @@ namespace MyHelper.DialogForms.ScriptMerge
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            _saveScriptModelDto.IsOpenFile = checkBox1.Checked ? "1" : "0";
+            _saveScriptModelDto.IsCreateSubFolder = checkBox1.Checked ? "1" : "0";
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            _saveScriptModelDto.IsOpenFile = checkBox2.Checked ? "1" : "0";
         }
     }
 }

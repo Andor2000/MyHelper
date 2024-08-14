@@ -26,6 +26,7 @@ namespace MyHelper.Extensions
             entity.Project = dto.SaveScriptModel.Project;
             entity.Description = dto.SaveScriptModel.Description;
             entity.IsOpenFile = dto.SaveScriptModel.IsOpenFile;
+            entity.IsCreateSubFolder = dto.SaveScriptModel.IsCreateSubFolder;
             return entity;
         }
 
@@ -49,6 +50,7 @@ namespace MyHelper.Extensions
             dto.SaveScriptModel.Sprint = entity.Sprint;
             dto.SaveScriptModel.Task = entity.Task;
             dto.SaveScriptModel.IsOpenFile = entity.IsOpenFile;
+            dto.SaveScriptModel.IsCreateSubFolder = entity.IsCreateSubFolder;
             return dto;
         }
 

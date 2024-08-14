@@ -57,5 +57,10 @@ namespace MyHelper.Models.Entity
         /// Признак открытия папки после сохранения.
         /// </summary>
         public string IsOpenFile { get; set; }
+
+        /// <summary>
+        /// Признак создания подпапки.
+        /// </summary>
+        public string IsCreateSubFolder { get; set; }
     }
 }

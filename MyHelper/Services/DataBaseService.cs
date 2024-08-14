@@ -177,6 +177,7 @@ namespace MyHelper.Services
                 SettingEnums.Sprint,
                 SettingEnums.Project,
                 SettingEnums.IsOpenFile,
+                SettingEnums.IsCreateSubFolder,
             };
 
             var settings = _context.Settings
@@ -190,6 +191,7 @@ namespace MyHelper.Services
                 Sprint = settings.FirstOrDefault(x => x.Code == SettingEnums.Sprint)?.Value ?? string.Empty,
                 Project = settings.FirstOrDefault(x => x.Code == SettingEnums.Project)?.Value ?? string.Empty,
                 IsOpenFile = settings.FirstOrDefault(x => x.Code == SettingEnums.IsOpenFile)?.Value ?? "1",
+                IsCreateSubFolder = settings.FirstOrDefault(x => x.Code == SettingEnums.IsCreateSubFolder)?.Value ?? "1",
             };
         }
 
@@ -203,6 +205,7 @@ namespace MyHelper.Services
             this.SaveValueSettingScript(SettingEnums.Sprint, saveScriptModelDto.Sprint);
             this.SaveValueSettingScript(SettingEnums.Project, saveScriptModelDto.Project);
             this.SaveValueSettingScript(SettingEnums.IsOpenFile, saveScriptModelDto.IsOpenFile);
+            this.SaveValueSettingScript(SettingEnums.IsCreateSubFolder, saveScriptModelDto.IsCreateSubFolder);
 
             // Из Disp-xxxx получить Disp-
             var task = saveScriptModelDto.Task;
@@ -218,7 +221,9 @@ namespace MyHelper.Services
         {
             var setting = this._context.Settings
                 .Where(x => x.Code == code)
-                .FirstOrDefault() ?? new SettingEntity(code, value);
+                .FirstOrDefault() ?? new SettingEntity() {Code = code };
+
+            setting.Value = value;
 
             if (setting.Id == 0)
             {

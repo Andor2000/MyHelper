@@ -1,6 +1,8 @@
 ﻿using MyHelper.Models.Dto;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace MyHelper.Services
 {
@@ -15,11 +17,19 @@ namespace MyHelper.Services
         /// <param name="dto">Модель сохранения скрипта.</param>
         public static void SaveScript(SaveScriptModelDto dto)
         {
-            var path = dto.Path + @"\" + dto.Sprint + @"\" +
-                (dto.Task.Contains("-")
-                    ? dto.Task.Substring(0, dto.Task.IndexOf('-'))
-                    : dto.Task);
+            var pathBuilder = new StringBuilder()
+                .Append(dto.Path + @"\" + dto.Sprint);
 
+            if (dto.IsCreateSubFolder == "1")
+            {
+                pathBuilder = pathBuilder
+                    .Append(@"\")
+                    .Append(dto.Task.Contains("-")
+                        ? dto.Task.Substring(0, dto.Task.IndexOf('-'))
+                        : dto.Task);
+            }
+
+            var path = pathBuilder.ToString();
             Directory.CreateDirectory(path);
 
             var pathFile = path + @"\" + GetFileName(dto);

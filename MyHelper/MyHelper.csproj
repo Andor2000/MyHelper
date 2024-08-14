@@ -267,9 +267,9 @@
     <Compile Include="Enums\SettingEnums.cs" />
     <Compile Include="Extensions\BaseTypeEx.cs" />
     <Compile Include="Extensions\MappingProfiller.cs" />
-    <Compile Include="Migrations\20240812205706_InitialCreate.cs" />
-    <Compile Include="Migrations\20240812205706_InitialCreate.designer.cs">
-      <DependentUpon>20240812205706_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\20240814195450_InitialCreate.cs" />
+    <Compile Include="Migrations\20240814195450_InitialCreate.designer.cs">
+      <DependentUpon>20240814195450_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ProgramContextModelSnapshot.cs" />
     <Compile Include="Models\Dto\BaseModelDto.cs" />

@@ -78,6 +78,9 @@ namespace MyHelper.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("IsCreateSubFolder")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
