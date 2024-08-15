@@ -178,6 +178,8 @@ namespace MyHelper
             this.UpdatePanelTable();
             this.UpdatePanelColomn();
             this.OutputEndScript();
+
+            pictureBoxAddTemplate.Image = IconEnums.TemplateScript;
         }
 
         /// <summary>
