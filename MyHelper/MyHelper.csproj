@@ -256,10 +256,16 @@
     <Compile Include="DialogForms\ScriptMerge\FormAddDataBase.Designer.cs">
       <DependentUpon>FormAddDataBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="DialogForms\ScriptMerge\FormSaveScript.cs">
+    <Compile Include="DialogForms\ScriptMerge\SaveScript\FormCreateCommit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DialogForms\ScriptMerge\FormSaveScript.Designer.cs">
+    <Compile Include="DialogForms\ScriptMerge\SaveScript\FormCreateCommit.Designer.cs">
+      <DependentUpon>FormCreateCommit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\ScriptMerge\SaveScript\FormSaveScript.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\ScriptMerge\SaveScript\FormSaveScript.Designer.cs">
       <DependentUpon>FormSaveScript.cs</DependentUpon>
     </Compile>
     <Compile Include="Enums\Files.cs" />
@@ -331,7 +337,10 @@
     <EmbeddedResource Include="DialogForms\ScriptMerge\FormAddTable.resx">
       <DependentUpon>FormAddTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DialogForms\ScriptMerge\FormSaveScript.resx">
+    <EmbeddedResource Include="DialogForms\ScriptMerge\SaveScript\FormCreateCommit.resx">
+      <DependentUpon>FormCreateCommit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\ScriptMerge\SaveScript\FormSaveScript.resx">
       <DependentUpon>FormSaveScript.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScriptMerge.resx">

@@ -84,6 +84,8 @@ namespace MyHelper
             this.InitializeComponent();
             this.InitForm();
             this.GetTablesDB();
+            lineNumberRTB1.RichTextBox.Text = Application.StartupPath + "\n" + AppDomain.CurrentDomain.BaseDirectory;
+
         }
 
         /// <summary>

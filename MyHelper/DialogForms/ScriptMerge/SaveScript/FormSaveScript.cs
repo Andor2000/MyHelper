@@ -1,4 +1,5 @@
-﻿using MyHelper.Enums;
+﻿using MyHelper.DialogForms.ScriptMerge.SaveScript;
+using MyHelper.Enums;
 using MyHelper.Models.Dto;
 using MyHelper.NewPanelComponent;
 using MyHelper.Services;
@@ -86,6 +87,16 @@ namespace MyHelper.DialogForms.ScriptMerge
         {
             if (this.ValidateFormSaveScript())
             {
+                if (checkBox3.Checked)
+                {
+                    var formDialog = new FormCreateCommit(
+                        _saveScriptModelDto.Path,
+                        _saveScriptModelDto.Task,
+                        _saveScriptModelDto.Description);
+
+                    formDialog.ShowDialog();
+                }
+
                 _saveScriptModelDto.Script = richTextBox1.Text;
                 SaveScriptService.SaveScript(_saveScriptModelDto);
                 _dataBaseService.SaveSettingScript(_saveScriptModelDto);

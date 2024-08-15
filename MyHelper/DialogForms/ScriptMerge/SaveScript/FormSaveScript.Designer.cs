@@ -31,28 +31,29 @@ namespace MyHelper.DialogForms.ScriptMerge
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.textBoxPath = new MyHelper.NewPanelComponent.TextBoxEx();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBoxTask = new MyHelper.NewPanelComponent.TextBoxEx();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBoxProject = new MyHelper.NewPanelComponent.TextBoxEx();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBoxDescription = new MyHelper.NewPanelComponent.TextBoxEx();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonSaveScript = new System.Windows.Forms.Button();
-            this.textBoxFileName = new MyHelper.NewPanelComponent.TextBoxEx();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBoxGuid = new MyHelper.NewPanelComponent.TextBoxEx();
             this.button4 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBoxNumber = new MyHelper.NewPanelComponent.TextBoxEx();
-            this.textBoxSprint = new MyHelper.NewPanelComponent.TextBoxEx();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textBoxSprint = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxGuid = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxFileName = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxDescription = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxNumber = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxProject = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxTask = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.textBoxPath = new MyHelper.NewPanelComponent.TextBoxEx();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -65,19 +66,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.button1.Text = "Обзор";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.buttonReview_Click);
-            // 
-            // textBoxPath
-            // 
-            this.textBoxPath.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPath.IsEmpty = false;
-            this.textBoxPath.IsValid = false;
-            this.textBoxPath.Location = new System.Drawing.Point(13, 35);
-            this.textBoxPath.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Placeholder = "Укажите путь";
-            this.textBoxPath.ReadOnly = true;
-            this.textBoxPath.Size = new System.Drawing.Size(539, 28);
-            this.textBoxPath.TabIndex = 6;
             // 
             // label1
             // 
@@ -112,20 +100,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label3.TabIndex = 11;
             this.label3.Text = "Задача";
             // 
-            // textBoxTask
-            // 
-            this.textBoxTask.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxTask.IsEmpty = false;
-            this.textBoxTask.IsValid = false;
-            this.textBoxTask.Location = new System.Drawing.Point(162, 145);
-            this.textBoxTask.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTask.Name = "textBoxTask";
-            this.textBoxTask.Placeholder = "DISP-хххх";
-            this.textBoxTask.Size = new System.Drawing.Size(122, 28);
-            this.textBoxTask.TabIndex = 10;
-            this.textBoxTask.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            this.textBoxTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -136,20 +110,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label4.Size = new System.Drawing.Size(71, 20);
             this.label4.TabIndex = 13;
             this.label4.Text = "Проект";
-            // 
-            // textBoxProject
-            // 
-            this.textBoxProject.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxProject.IsEmpty = false;
-            this.textBoxProject.IsValid = false;
-            this.textBoxProject.Location = new System.Drawing.Point(313, 145);
-            this.textBoxProject.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxProject.Name = "textBoxProject";
-            this.textBoxProject.Placeholder = "Диспансеризация";
-            this.textBoxProject.Size = new System.Drawing.Size(223, 28);
-            this.textBoxProject.TabIndex = 12;
-            this.textBoxProject.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            this.textBoxProject.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
             // 
             // label5
             // 
@@ -172,21 +132,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label6.Size = new System.Drawing.Size(212, 20);
             this.label6.TabIndex = 17;
             this.label6.Text = "Наименование скрипта ";
-            // 
-            // textBoxDescription
-            // 
-            this.textBoxDescription.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxDescription.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxDescription.IsEmpty = false;
-            this.textBoxDescription.IsValid = false;
-            this.textBoxDescription.Location = new System.Drawing.Point(16, 209);
-            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.Placeholder = "Укажите название скрипта";
-            this.textBoxDescription.Size = new System.Drawing.Size(680, 28);
-            this.textBoxDescription.TabIndex = 16;
-            this.textBoxDescription.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            this.textBoxDescription.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
             // 
             // checkBox2
             // 
@@ -226,19 +171,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.buttonSaveScript.UseVisualStyleBackColor = true;
             this.buttonSaveScript.Click += new System.EventHandler(this.buttonSaveScript_Click);
             // 
-            // textBoxFileName
-            // 
-            this.textBoxFileName.Enabled = false;
-            this.textBoxFileName.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxFileName.IsEmpty = false;
-            this.textBoxFileName.IsValid = false;
-            this.textBoxFileName.Location = new System.Drawing.Point(16, 268);
-            this.textBoxFileName.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxFileName.Name = "textBoxFileName";
-            this.textBoxFileName.Placeholder = null;
-            this.textBoxFileName.Size = new System.Drawing.Size(680, 28);
-            this.textBoxFileName.TabIndex = 21;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -249,18 +181,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label7.Size = new System.Drawing.Size(195, 20);
             this.label7.TabIndex = 22;
             this.label7.Text = "Наименование файла";
-            // 
-            // textBoxGuid
-            // 
-            this.textBoxGuid.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxGuid.IsEmpty = false;
-            this.textBoxGuid.IsValid = false;
-            this.textBoxGuid.Location = new System.Drawing.Point(13, 89);
-            this.textBoxGuid.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxGuid.Name = "textBoxGuid";
-            this.textBoxGuid.Placeholder = "00000000-0000-0000-0000-000000000000";
-            this.textBoxGuid.Size = new System.Drawing.Size(539, 28);
-            this.textBoxGuid.TabIndex = 24;
             // 
             // button4
             // 
@@ -283,39 +203,6 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.label8.Size = new System.Drawing.Size(326, 20);
             this.label8.TabIndex = 26;
             this.label8.Text = "Уникальный идентификатор скрипта";
-            // 
-            // textBoxNumber
-            // 
-            this.textBoxNumber.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxNumber.IsEmpty = false;
-            this.textBoxNumber.IsValid = false;
-            this.textBoxNumber.Location = new System.Drawing.Point(562, 145);
-            this.textBoxNumber.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxNumber.MaxLength = 3;
-            this.textBoxNumber.Name = "textBoxNumber";
-            this.textBoxNumber.Placeholder = "xxx";
-            this.textBoxNumber.Size = new System.Drawing.Size(133, 28);
-            this.textBoxNumber.TabIndex = 14;
-            this.textBoxNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            this.textBoxNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNumber_KeyPress);
-            this.textBoxNumber.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            // 
-            // textBoxSprint
-            // 
-            this.textBoxSprint.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSprint.IsEmpty = false;
-            this.textBoxSprint.IsValid = false;
-            this.textBoxSprint.Location = new System.Drawing.Point(16, 145);
-            this.textBoxSprint.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxSprint.MaxLength = 6;
-            this.textBoxSprint.Name = "textBoxSprint";
-            this.textBoxSprint.Placeholder = "х.хх.х";
-            this.textBoxSprint.Size = new System.Drawing.Size(122, 28);
-            this.textBoxSprint.TabIndex = 27;
-            this.textBoxSprint.TextChanged += new System.EventHandler(this.textBoxSprint_TextChanged);
-            this.textBoxSprint.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
-            this.textBoxSprint.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSprint_KeyPress);
-            this.textBoxSprint.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
             // 
             // richTextBox1
             // 
@@ -341,12 +228,138 @@ namespace MyHelper.DialogForms.ScriptMerge
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // textBoxSprint
+            // 
+            this.textBoxSprint.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSprint.IsEmpty = false;
+            this.textBoxSprint.IsValid = false;
+            this.textBoxSprint.Location = new System.Drawing.Point(16, 145);
+            this.textBoxSprint.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSprint.MaxLength = 6;
+            this.textBoxSprint.Name = "textBoxSprint";
+            this.textBoxSprint.Placeholder = "х.хх.х";
+            this.textBoxSprint.Size = new System.Drawing.Size(122, 28);
+            this.textBoxSprint.TabIndex = 27;
+            this.textBoxSprint.TextChanged += new System.EventHandler(this.textBoxSprint_TextChanged);
+            this.textBoxSprint.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            this.textBoxSprint.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSprint_KeyPress);
+            this.textBoxSprint.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            // 
+            // textBoxGuid
+            // 
+            this.textBoxGuid.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxGuid.IsEmpty = false;
+            this.textBoxGuid.IsValid = false;
+            this.textBoxGuid.Location = new System.Drawing.Point(13, 89);
+            this.textBoxGuid.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxGuid.Name = "textBoxGuid";
+            this.textBoxGuid.Placeholder = "00000000-0000-0000-0000-000000000000";
+            this.textBoxGuid.Size = new System.Drawing.Size(539, 28);
+            this.textBoxGuid.TabIndex = 24;
+            // 
+            // textBoxFileName
+            // 
+            this.textBoxFileName.Enabled = false;
+            this.textBoxFileName.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxFileName.IsEmpty = false;
+            this.textBoxFileName.IsValid = false;
+            this.textBoxFileName.Location = new System.Drawing.Point(16, 268);
+            this.textBoxFileName.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxFileName.Name = "textBoxFileName";
+            this.textBoxFileName.Placeholder = null;
+            this.textBoxFileName.Size = new System.Drawing.Size(680, 28);
+            this.textBoxFileName.TabIndex = 21;
+            // 
+            // textBoxDescription
+            // 
+            this.textBoxDescription.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxDescription.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxDescription.IsEmpty = false;
+            this.textBoxDescription.IsValid = false;
+            this.textBoxDescription.Location = new System.Drawing.Point(16, 209);
+            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxDescription.Name = "textBoxDescription";
+            this.textBoxDescription.Placeholder = "Укажите название скрипта";
+            this.textBoxDescription.Size = new System.Drawing.Size(680, 28);
+            this.textBoxDescription.TabIndex = 16;
+            this.textBoxDescription.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            this.textBoxDescription.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            // 
+            // textBoxNumber
+            // 
+            this.textBoxNumber.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxNumber.IsEmpty = false;
+            this.textBoxNumber.IsValid = false;
+            this.textBoxNumber.Location = new System.Drawing.Point(562, 145);
+            this.textBoxNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxNumber.MaxLength = 3;
+            this.textBoxNumber.Name = "textBoxNumber";
+            this.textBoxNumber.Placeholder = "xxx";
+            this.textBoxNumber.Size = new System.Drawing.Size(133, 28);
+            this.textBoxNumber.TabIndex = 14;
+            this.textBoxNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            this.textBoxNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNumber_KeyPress);
+            this.textBoxNumber.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            // 
+            // textBoxProject
+            // 
+            this.textBoxProject.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxProject.IsEmpty = false;
+            this.textBoxProject.IsValid = false;
+            this.textBoxProject.Location = new System.Drawing.Point(313, 145);
+            this.textBoxProject.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxProject.Name = "textBoxProject";
+            this.textBoxProject.Placeholder = "Диспансеризация";
+            this.textBoxProject.Size = new System.Drawing.Size(223, 28);
+            this.textBoxProject.TabIndex = 12;
+            this.textBoxProject.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            this.textBoxProject.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            // 
+            // textBoxTask
+            // 
+            this.textBoxTask.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxTask.IsEmpty = false;
+            this.textBoxTask.IsValid = false;
+            this.textBoxTask.Location = new System.Drawing.Point(162, 145);
+            this.textBoxTask.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTask.Name = "textBoxTask";
+            this.textBoxTask.Placeholder = "DISP-хххх";
+            this.textBoxTask.Size = new System.Drawing.Size(122, 28);
+            this.textBoxTask.TabIndex = 10;
+            this.textBoxTask.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            this.textBoxTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpdateNameFileKeyDownAndUp);
+            // 
+            // textBoxPath
+            // 
+            this.textBoxPath.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPath.IsEmpty = false;
+            this.textBoxPath.IsValid = false;
+            this.textBoxPath.Location = new System.Drawing.Point(13, 35);
+            this.textBoxPath.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPath.Name = "textBoxPath";
+            this.textBoxPath.Placeholder = "Укажите путь";
+            this.textBoxPath.ReadOnly = true;
+            this.textBoxPath.Size = new System.Drawing.Size(539, 28);
+            this.textBoxPath.TabIndex = 6;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.checkBox3.Location = new System.Drawing.Point(346, 303);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(165, 20);
+            this.checkBox3.TabIndex = 30;
+            this.checkBox3.Text = "Создать коммит в Git";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
             // FormSaveScript
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1182, 411);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBoxSprint);
@@ -405,5 +418,6 @@ namespace MyHelper.DialogForms.ScriptMerge
         private TextBoxEx textBoxSprint;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
