@@ -1,8 +1,6 @@
 ﻿using MyHelper.Enums;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace MyHelper.DialogForms.ScriptMerge.SaveScript
@@ -12,32 +10,41 @@ namespace MyHelper.DialogForms.ScriptMerge.SaveScript
         /// <summary>
         /// Задача.
         /// </summary>
-        public string _path { get; set; }
+        private string _path { get; set; }
 
         /// <summary>
         /// Задача.
         /// </summary>
-        public string _task { get; set; }
+        private string _task { get; set; }
 
         /// <summary>
         /// Сообщение коммита.
         /// </summary>
-        public string _description { get; set; }
+        private string _description { get; set; }
+
+        /// <summary>
+        /// Имя файла.
+        /// </summary>
+        private string _fileName { get; set; }
 
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="path">Путь к папке.</param>
         /// <param name="task">Задача.</param>
         /// <param name="description">Сообщение коммита.</param>
+        /// <param name="fileName">Имя файла.</param>
         public FormCreateCommit(
             string path,
             string task,
-            string description)
+            string description,
+            string fileName)
         {
             InitializeComponent();
             this._path = path;
             this._task = task;
             this._description = description;
+            this._fileName = fileName;
 
             richTextBox1.Text = $"{_task}. {_description}";
             richTextBox1.GotFocus += richTextBox1_GotFocus;
@@ -58,21 +65,21 @@ namespace MyHelper.DialogForms.ScriptMerge.SaveScript
             string repoPath = @"C:\Path\To\Your\Repo";
 
             // Название ветки, на которую нужно переключиться и создать новую ветку
-            string baseBranch = "main";  // Основная ветка
-            string newBranch = "feature/new-feature";  // Новая ветка
+            string baseBranch = "dev";  // Основная ветка
+            string newBranch = "DISP-9210";  // Новая ветка
 
             /// Выполняем команды последовательно
             // Переключение на ветку:
-            ExecuteGitCommand(repoPath, $"git checkout {baseBranch}");
+            ExecuteGitCommand($"git checkout {baseBranch}");
             // Обновление до актуальной версии:
-            ExecuteGitCommand(repoPath, $"git pull origin {baseBranch}");
+            ExecuteGitCommand($"git pull origin {baseBranch}");
             // Создание новой ветки:
-            ExecuteGitCommand(repoPath, $"git checkout -b {newBranch}");
+            ExecuteGitCommand($"git checkout -b {newBranch}");
             // Добавление изменений и создание коммита:
-            ExecuteGitCommand(repoPath, "git add .");
-            ExecuteGitCommand(repoPath, $"git commit -m {richTextBox1.Text}");
+            ExecuteGitCommand($"git add {_fileName}");
+            ExecuteGitCommand($"git commit -m {richTextBox1.Text}");
             // Отправка изменений в удаленный репозиторий:
-            ExecuteGitCommand(repoPath, $"git push origin {newBranch}");
+            ExecuteGitCommand($"git push origin {newBranch}");
         }
 
         /// <summary>
@@ -89,16 +96,16 @@ namespace MyHelper.DialogForms.ScriptMerge.SaveScript
             richTextBox1.BackColor = Colors.BackColorCorrectText;
         }
 
-        private void ExecuteGitCommand(string repoPath, string command)
+        private string ExecuteGitCommand(string command)
         {
-            if(this.DialogResult == DialogResult.Cancel)
+            if (this.DialogResult == DialogResult.Cancel)
             {
-                return;
+                return string.Empty;
             }
 
-            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            var processStartInfo = new ProcessStartInfo
             {
-                WorkingDirectory = repoPath,
+                WorkingDirectory = _path,
                 FileName = "cmd.exe",
                 Arguments = $"/C {command}",
                 RedirectStandardOutput = true,
@@ -110,14 +117,17 @@ namespace MyHelper.DialogForms.ScriptMerge.SaveScript
             using (Process process = new Process { StartInfo = processStartInfo })
             {
                 process.Start();
+                string result = process.StandardOutput.ReadToEnd();
                 string error = process.StandardError.ReadToEnd();
                 process.WaitForExit();
 
-                if (!string.IsNullOrEmpty(error))
+                if (process.ExitCode != 0)
                 {
                     this.DialogResult = DialogResult.Cancel;
                     MessageBox.Show(error);
                 }
+
+                return result;
             }
         }
     }

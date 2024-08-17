@@ -92,9 +92,15 @@ namespace MyHelper.DialogForms.ScriptMerge
                     var formDialog = new FormCreateCommit(
                         _saveScriptModelDto.Path,
                         _saveScriptModelDto.Task,
-                        _saveScriptModelDto.Description);
+                        _saveScriptModelDto.Description,
+                        SaveScriptService.GetFileName(_saveScriptModelDto));
 
                     formDialog.ShowDialog();
+
+                    if (formDialog.DialogResult == DialogResult.Cancel)
+                    {
+                        return;
+                    }
                 }
 
                 _saveScriptModelDto.Script = richTextBox1.Text;
