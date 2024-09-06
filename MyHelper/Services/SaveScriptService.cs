@@ -33,7 +33,7 @@ namespace MyHelper.Services
             Directory.CreateDirectory(path);
 
             var pathFile = path + @"\" + GetFileName(dto);
-            File.WriteAllText(pathFile, GetEndScriptWithTemplate(dto));
+            File.WriteAllText(pathFile, GetEndScriptWithTemplate(dto), Encoding.GetEncoding("windows-1251"));
 
             if (dto.IsOpenFile == "1")
             {
