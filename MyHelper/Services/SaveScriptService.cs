@@ -1,8 +1,10 @@
 ﻿using MyHelper.Models.Dto;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace MyHelper.Services
 {
@@ -17,31 +19,40 @@ namespace MyHelper.Services
         /// <param name="dto">Модель сохранения скрипта.</param>
         public static void SaveScript(SaveScriptModelDto dto)
         {
-            var pathBuilder = new StringBuilder()
-                .Append(dto.Path + @"\" + dto.Sprint);
-
-            if (dto.IsCreateSubFolder == "1")
+            try
             {
-                pathBuilder = pathBuilder
-                    .Append(@"\")
-                    .Append(dto.Task.Contains("-")
-                        ? dto.Task.Substring(0, dto.Task.IndexOf('-'))
-                        : dto.Task);
-            }
 
-            var path = pathBuilder.ToString();
-            Directory.CreateDirectory(path);
 
-            var pathFile = path + @"\" + GetFileName(dto);
-            File.WriteAllText(pathFile, GetEndScriptWithTemplate(dto), Encoding.GetEncoding("windows-1251"));
+                var pathBuilder = new StringBuilder()
+                    .Append(dto.Path + @"\" + dto.Sprint);
 
-            if (dto.IsOpenFile == "1")
-            {
-                Process.Start(new ProcessStartInfo
+                if (dto.IsCreateSubFolder == "1")
                 {
-                    FileName = "explorer",
-                    Arguments = $"/n, /select, {pathFile}"
-                });
+                    pathBuilder = pathBuilder
+                        .Append(@"\")
+                        .Append(dto.Task.Contains("-")
+                            ? dto.Task.Substring(0, dto.Task.IndexOf('-'))
+                            : dto.Task);
+                }
+
+                var path = pathBuilder.ToString();
+                Directory.CreateDirectory(path);
+
+                var pathFile = path + @"\" + GetFileName(dto);
+                File.WriteAllText(pathFile, GetEndScriptWithTemplate(dto), Encoding.GetEncoding("windows-1251"));
+
+                if (dto.IsOpenFile == "1")
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "explorer",
+                        Arguments = $"/n, /select, {pathFile}"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка сохранения скрипта");
             }
         }
 

@@ -934,7 +934,7 @@ namespace MyHelper
                 BuildingScript.Colomns,
                 string.Join(", ", sortColomn.Select(x => x.TextBox.Text)),
                 string.Join(" and ", sortColomn.Where(x => x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(",\n\t\t", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
+                string.Join(",\n        ", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
                 string.Join(", ", sortColomn.Select(x => "source." + x.TextBox.Text)));
         }
 
