@@ -16,17 +16,24 @@ USING (
         public static readonly string Assign = @"TARGET.{0} = source.{0}";
 
         /// <summary>
+        /// Сравнение\присвоение записей.
+        /// </summary>
+        public static readonly string NotAssign = @"TARGET.{0} != source.{0}";
+
+        /// <summary>
         /// Колонки.
         /// </summary>
         public static readonly string Colomns = @"
 ) AS source ({0})
 ON {1}
-WHEN MATCHED THEN
+WHEN MATCHED and
+   ({2})
+THEN
     UPDATE SET
-        {2}
+        {3}
 WHEN NOT MATCHED THEN
     INSERT ({0})
-    VALUES ({3});";
+    VALUES ({4});";
 
         /// <summary>
         /// Шаблон скрипта для Софтраст.

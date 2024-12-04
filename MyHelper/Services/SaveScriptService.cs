@@ -21,8 +21,6 @@ namespace MyHelper.Services
         {
             try
             {
-
-
                 var pathBuilder = new StringBuilder()
                     .Append(dto.Path + @"\" + dto.Sprint);
 
