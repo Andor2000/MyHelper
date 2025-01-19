@@ -70,6 +70,14 @@ namespace MyHelper.Services
             return tablesDto.OrderByDescending(x => x.Sort).ToList();
         }
 
+        public string GetDirectoryTableName(string colomnName)
+        {
+            return this._context.TableDirectories
+                .Where(x => x.ColomnName == colomnName)
+                .Select(x => x.TableName)
+                .FirstOrDefault();
+        }
+
         /// <summary>
         /// Сохранение новой таблицы.
         /// </summary>

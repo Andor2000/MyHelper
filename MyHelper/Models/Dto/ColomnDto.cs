@@ -62,6 +62,16 @@ namespace MyHelper.Dto
         public string CountRecords => this.Records.Split('\n').Length.ToString();
 
         /// <summary>
+        /// Наименование ссылочной колонки.
+        /// </summary>
+        public string DirectoryColomnName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Наименование ссылочной таблицы (если колонка - ссылка).
+        /// </summary>
+        public string DirectoryTableName { get; set; } = string.Empty;
+
+        /// <summary>
         /// Текстовое поле для количества записей.
         /// </summary>
         public TextBox TextBoxCount { get; set; } = new TextBox();

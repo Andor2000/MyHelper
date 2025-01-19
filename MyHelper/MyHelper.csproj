@@ -299,6 +299,7 @@
     <Compile Include="Models\Entity\BaseModelEntity.cs" />
     <Compile Include="Models\Entity\ColomnEntity.cs" />
     <Compile Include="Models\Entity\SettingEntity.cs" />
+    <Compile Include="Models\Entity\TableDirectoryEntity.cs" />
     <Compile Include="Models\Entity\TableEntity.cs" />
     <Compile Include="NewPanelComponent\LineNumberRTB.cs">
       <SubType>UserControl</SubType>

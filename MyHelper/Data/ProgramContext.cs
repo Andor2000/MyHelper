@@ -25,6 +25,11 @@ namespace MyHelper.Data
         /// </summary>
         public DbSet<SettingEntity> Settings { get; set; }
 
+        /// <summary>
+        /// Настройки.
+        /// </summary>
+        public DbSet<TableDirectoryEntity> TableDirectories { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Program._dataBaseName);

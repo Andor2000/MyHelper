@@ -431,7 +431,7 @@ namespace MyHelper
             {
                 var colomn = new ColomnDto();
                 colomn.Sort = table.Colomns.Count();
-                colomn.TextBox.Text = colomnName;
+                this.SetDirectoryName(colomn, colomnName);
                 table.Colomns.Add(colomn);
                 this.AddColomnEvents(colomn);
             }
@@ -937,6 +937,26 @@ namespace MyHelper
                 string.Join(" or\n    ", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.NotAssign, x.TextBox.Text))),
                 string.Join(",\n        ", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
                 string.Join(", ", sortColomn.Select(x => "source." + x.TextBox.Text)));
+        }
+
+        private void SetDirectoryName(ColomnDto colomn, string colomnName)
+        {
+            int dotIndex = colomnName.IndexOf('.');
+            if (dotIndex < 0 || dotIndex + 1 == colomn.TextBox.Name.Length)
+            {
+                colomn.TextBox.Text = colomnName;
+                return;
+            }
+
+
+            colomn.TextBox.Text = colomnName.Substring(0, dotIndex);
+            colomn.DirectoryColomnName = colomnName.Substring(dotIndex + 1);
+            colomn.DirectoryTableName = "";
+        }
+
+        private void GetDirectoryTableName(string colomnName)
+        {
+            return 
         }
 
         /// <summary>
