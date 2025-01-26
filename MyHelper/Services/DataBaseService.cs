@@ -55,12 +55,9 @@ namespace MyHelper.Services
                 .Where(x => tableIds.Contains(x.Table.Id) && !x.IsDeleted)
                 .ToArray();
 
-            var colomnsDto = new List<ColomnDto>();
-            foreach (var entity in colomnEntities)
-            {
-                var colomnDto = new ColomnDto().MapColomnEntityToDto(entity);
-                colomnsDto.Add(colomnDto);
-            }
+            var colomnsDto = colomnEntities
+                .Select(entity => new ColomnDto().MapColomnEntityToDto(entity))
+                .ToList();
 
             foreach (var table in tablesDto)
             {
@@ -70,12 +67,29 @@ namespace MyHelper.Services
             return tablesDto.OrderByDescending(x => x.Sort).ToList();
         }
 
-        public string GetDirectoryTableName(string colomnName)
+        /// <summary>
+        /// Получить наименование связанной таблицы.
+        /// </summary>
+        /// <param name="tableName">Наименование таблицы.</param>
+        /// <param name="colomnName">Наименование колонки.</param>
+        /// <returns>Наименование связанной таблицы.</returns>
+        public string GetDirectoryTableName(string tableName, string colomnName)
         {
-            return this._context.TableDirectories
+            var result = this._context.TableDirectories
                 .Where(x => x.ColomnName == colomnName)
-                .Select(x => x.TableName)
+                .OrderByDescending(x => x.TableName == tableName)
+                .Select(x => x.ReferenceTable)
                 .FirstOrDefault();
+
+            if (result.IsNullOrDefault())
+            {
+                int index = colomnName.IndexOf('_');
+                result = (index != -1) && index < colomnName.Length
+                    ? colomnName.Substring(index + 1)
+                    : colomnName;
+            }
+
+            return result;
         }
 
         /// <summary>

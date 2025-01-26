@@ -267,6 +267,7 @@
     <Compile Include="Enums\SettingEnums.cs" />
     <Compile Include="Extensions\BaseTypeEx.cs" />
     <Compile Include="Extensions\MappingProfiller.cs" />
+    <Compile Include="Extensions\NullOrDefaultChecker.cs" />
     <Compile Include="Migrations\20240814195450_InitialCreate.cs" />
     <Compile Include="Migrations\20240814195450_InitialCreate.designer.cs">
       <DependentUpon>20240814195450_InitialCreate.cs</DependentUpon>

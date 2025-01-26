@@ -145,14 +145,14 @@ namespace MyHelper
         /// <param name="e"></param>
         private void pictureBoxAddTable_Click(object sender, EventArgs e)
         {
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(_mainTable);
+            this._dataBaseService.UpdateColomns(_mainColomn);
 
             panel5.BackColor = panel5.Parent.BackColor;
             var formAddTableName = new FormAddTable();
             formAddTableName.ShowDialog();
 
-            if (formAddTableName.TableName == string.Empty || formAddTableName.ColomnNames == string.Empty)
+            if (formAddTableName.TableName.IsNullOrDefault() || formAddTableName.ColomnNames.IsNullOrDefault())
             {
                 return;
             }
@@ -424,14 +424,17 @@ namespace MyHelper
         /// <param name="colomnNames">Имена колонок.</param>
         private void CreateColomns(TableDto table, string colomnNames)
         {
-            var colomnNamesList = _formQuotesService.FormatingString(colomnNames, true, true, true, true);
-            colomnNamesList = colomnNamesList.Where(x => !table.Colomns.Select(y => y.TextBox.Text).Contains(x));
+            var existsColomnNames = table.Colomns.Select(y => y.TextBox.Text);
+
+            var colomnNamesList = this._formQuotesService
+                .FormatingString(colomnNames, true, true, true, true)
+                .Where(x => !existsColomnNames.Contains(x));
 
             foreach (var colomnName in colomnNamesList)
             {
                 var colomn = new ColomnDto();
                 colomn.Sort = table.Colomns.Count();
-                this.SetDirectoryName(colomn, colomnName);
+                this.SetDirectoryName(table.TextBox.Text, colomn, colomnName);
                 table.Colomns.Add(colomn);
                 this.AddColomnEvents(colomn);
             }
@@ -939,7 +942,12 @@ namespace MyHelper
                 string.Join(", ", sortColomn.Select(x => "source." + x.TextBox.Text)));
         }
 
-        private void SetDirectoryName(ColomnDto colomn, string colomnName)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="colomn"></param>
+        /// <param name="colomnName"></param>
+        private void SetDirectoryName(string tableName, ColomnDto colomn, string colomnName)
         {
             int dotIndex = colomnName.IndexOf('.');
             if (dotIndex < 0 || dotIndex + 1 == colomn.TextBox.Name.Length)
@@ -948,15 +956,9 @@ namespace MyHelper
                 return;
             }
 
-
             colomn.TextBox.Text = colomnName.Substring(0, dotIndex);
             colomn.DirectoryColomnName = colomnName.Substring(dotIndex + 1);
-            colomn.DirectoryTableName = "";
-        }
-
-        private void GetDirectoryTableName(string colomnName)
-        {
-            return 
+            colomn.DirectoryTableName = this._dataBaseService.GetDirectoryTableName(tableName, colomnName);
         }
 
         /// <summary>

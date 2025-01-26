@@ -22,5 +22,10 @@ namespace MyHelper.Models.Entity
         /// Таблица.
         /// </summary>
         public string TableName { get; set; }
+
+        /// <summary>
+        /// Ссылочная таблица.
+        /// </summary>
+        public string ReferenceTable { get; set; }
     }
 }
