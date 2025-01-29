@@ -145,10 +145,10 @@ namespace MyHelper
         /// <param name="e"></param>
         private void pictureBoxAddTable_Click(object sender, EventArgs e)
         {
-            this._dataBaseService.UpdateTables(_mainTable);
-            this._dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainColomn);
 
-            panel5.BackColor = panel5.Parent.BackColor;
+            this.panel5.BackColor = this.panel5.Parent.BackColor;
             var formAddTableName = new FormAddTable();
             formAddTableName.ShowDialog();
 
@@ -179,7 +179,7 @@ namespace MyHelper
             this.UpdatePanelColomn();
             this.OutputEndScript();
 
-            pictureBoxAddTemplate.Image = IconEnums.TemplateScript;
+            this.pictureBoxAddTemplate.Image = IconEnums.TemplateScript;
         }
 
         /// <summary>
@@ -752,23 +752,23 @@ namespace MyHelper
         /// <param name="newMainTable"></param>
         private void SetMainTable(TableDto newMainTable)
         {
-            _mainTable.Panel.BackColor = Colors.PanelFon;
-            _mainTable.TextBox.BackColor = Colors.PanelFon;
-            _mainTable.TextBox.ForeColor = Color.White;
-            _mainTable.Icon.Image = IconEnums.Quest;
-            _mainTable = newMainTable;
-            _mainTable.Panel.BackColor = Colors.PanelActiveObject;
-            _mainTable.TextBox.BackColor = Colors.PanelActiveObject;
-            _mainTable.TextBox.ForeColor = Colors.PanelActiveObjectFore;
-            _mainTable.Icon.Image = IconEnums.QuestActive;
+            this._mainTable.Panel.BackColor = Colors.PanelFon;
+            this._mainTable.TextBox.BackColor = Colors.PanelFon;
+            this._mainTable.TextBox.ForeColor = Color.White;
+            this._mainTable.Icon.Image = IconEnums.Quest;
+            this._mainTable = newMainTable;
+            this._mainTable.Panel.BackColor = Colors.PanelActiveObject;
+            this._mainTable.TextBox.BackColor = Colors.PanelActiveObject;
+            this._mainTable.TextBox.ForeColor = Colors.PanelActiveObjectFore;
+            this._mainTable.Icon.Image = IconEnums.QuestActive;
 
-            textBox1.Text = _mainTable.TextBox.Text;
+            this.textBox1.Text = this._mainTable.TextBox.Text;
 
             this.UpdateEndScriptTable();
             this.UpdateEndScriptColomn();
             this.UpdateEndScriptRecord(); // тут вывод скрипта
 
-            var newMainColomn = _mainTable.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
+            var newMainColomn = this._mainTable.Colomns.OrderBy(x => x.Sort).FirstOrDefault();
             this.SetMainColomn(newMainColomn);
         }
 
@@ -778,36 +778,39 @@ namespace MyHelper
         /// <param name="newMainColomn"></param>
         private void SetMainColomn(ColomnDto newMainColomn)
         {
-            _mainColomn.Panel.BackColor = Colors.PanelFon;
-            _mainColomn.TextBox.BackColor = Colors.PanelFon;
-            _mainColomn.TextBoxCount.BackColor = Colors.PanelFon;
-            _mainColomn.TextBox.ForeColor = Color.White;
-            _mainColomn.TextBoxCount.ForeColor = Color.White;
-            _mainColomn.Icon.Image = IconEnums.Pencil;
-            _mainColomn.IconStar.Image = IconEnums.Star;
-            _mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
+            this._mainColomn.Panel.BackColor = Colors.PanelFon;
+            this._mainColomn.TextBox.BackColor = Colors.PanelFon;
+            this._mainColomn.TextBoxCount.BackColor = Colors.PanelFon;
+            this._mainColomn.TextBox.ForeColor = Color.White;
+            this._mainColomn.TextBoxCount.ForeColor = Color.White;
+            this._mainColomn.Icon.Image = IconEnums.Pencil;
+            this._mainColomn.IconStar.Image = IconEnums.Star;
+            this._mainColomn.Records = this.lineNumberRTB1.RichTextBox.Text;
 
-            _dataBaseService.UpdateColomns(_mainColomn);
-            _mainColomn = newMainColomn;
+            this._dataBaseService.UpdateColomns(this._mainColomn);
+            this._mainColomn = newMainColomn;
 
-            _mainColomn.Panel.BackColor = Colors.PanelActiveObject;
-            _mainColomn.TextBox.BackColor = Colors.PanelActiveObject;
-            _mainColomn.TextBoxCount.BackColor = Colors.PanelActiveObject;
-            _mainColomn.TextBox.ForeColor = Colors.PanelActiveObjectFore;
-            _mainColomn.TextBoxCount.ForeColor = Colors.PanelActiveObjectFore;
-            _mainColomn.Icon.Image = IconEnums.PencilActive;
-            _mainColomn.IconStar.Image = IconEnums.StarActive;
-            lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
+            this._mainColomn.Panel.BackColor = Colors.PanelActiveObject;
+            this._mainColomn.TextBox.BackColor = Colors.PanelActiveObject;
+            this._mainColomn.TextBoxCount.BackColor = Colors.PanelActiveObject;
+            this._mainColomn.TextBox.ForeColor = Colors.PanelActiveObjectFore;
+            this._mainColomn.TextBoxCount.ForeColor = Colors.PanelActiveObjectFore;
+            this._mainColomn.Icon.Image = IconEnums.PencilActive;
+            this._mainColomn.IconStar.Image = IconEnums.StarActive;
+            this.lineNumberRTB1.RichTextBox.Text = _mainColomn.Records;
 
-            pictureBoxAddStar.Image = _mainColomn.IsEqualsRecordStar
+            this.pictureBoxAddStar.Image = this._mainColomn.IsEqualsRecordStar
                 ? IconEnums.StarActive
                 : IconEnums.Star;
 
-            pictureBoxAddQuotes.Image = _mainColomn.IsQuotes
+            this.pictureBoxAddQuotes.Image = this._mainColomn.IsQuotes
                 ? IconEnums.QuotesActive2
                 : IconEnums.Quotes2;
 
-            textBox2.Text = _mainColomn.TextBox.Text;
+            this.textBox2.Text = this._mainColomn.TextBox.Text;
+            this.textBox3.Text = this._mainColomn.DirectoryColomnName;
+            this.textBox4.Text = this._mainColomn.DirectoryTableName;
+
         }
 
         /// <summary>
@@ -815,11 +818,11 @@ namespace MyHelper
         /// </summary>
         private void UpdatePanelTable()
         {
-            var tables = _panelTableLeft.OrderByDescending(x => x.Sort);
+            var tables = this._panelTableLeft.OrderByDescending(x => x.Sort);
 
             foreach (var table in tables)
             {
-                table.Panel.Location = new Point(0, (_panelTableLeft.Count() - table.Sort - 1) * SizeEnums.HeightPanel);
+                table.Panel.Location = new Point(0, (this._panelTableLeft.Count() - table.Sort - 1) * SizeEnums.HeightPanel);
                 panel3.Controls.Add(table.Panel);
             }
         }
@@ -932,14 +935,28 @@ namespace MyHelper
         /// </summary>
         private void UpdateEndScriptColomn()
         {
-            var sortColomn = _mainTable.Colomns.OrderBy(x => x.Sort);
+            var sortColomn = this._mainTable.Colomns.OrderBy(x => x.Sort);
+
+            if (this._mainTable.Colomns.Any(x => x.IsExistDirectory))
+            {
+
+            }
+
+            var columnList = string.Join(", ", sortColomn.Select(x => x.TextBox.Text));
+            var equalConditions = string.Join(" and ", sortColomn.Where(x => x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text)));
+            var notEqualConditions = string.Join(" or\n    ",sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.NotAssign, x.TextBox.Text)));
+            var assignList = string.Join(",\n        ",sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text)));
+            var sourceColumns = string.Join(", ",sortColomn.Select(x => "source." + x.TextBox.Text));
+
             EndScriptColomn = string.Format(
                 BuildingScript.Colomns,
-                string.Join(", ", sortColomn.Select(x => x.TextBox.Text)),
-                string.Join(" and ", sortColomn.Where(x => x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(" or\n    ", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.NotAssign, x.TextBox.Text))),
-                string.Join(",\n        ", sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text))),
-                string.Join(", ", sortColomn.Select(x => "source." + x.TextBox.Text)));
+                columnList,
+                equalConditions,
+                notEqualConditions,
+                assignList,
+                sourceColumns
+            );
+
         }
 
         /// <summary>
@@ -957,6 +974,7 @@ namespace MyHelper
             }
 
             colomn.TextBox.Text = colomnName.Substring(0, dotIndex);
+            colomn.IsExistDirectory = true;
             colomn.DirectoryColomnName = colomnName.Substring(dotIndex + 1);
             colomn.DirectoryTableName = this._dataBaseService.GetDirectoryTableName(tableName, colomnName);
         }
@@ -1019,7 +1037,7 @@ namespace MyHelper
         /// <param name="e"></param>
         private void textBox1_KeyUp(object sender, KeyEventArgs e)
         {
-            _mainTable.TextBox.Text = textBox1.Text;
+            this._mainTable.TextBox.Text = textBox1.Text;
             this.UpdateEndScriptTable();
             this.OutputEndScript();
         }
@@ -1031,7 +1049,31 @@ namespace MyHelper
         /// <param name="e"></param>
         private void textBox2_KeyUp(object sender, KeyEventArgs e)
         {
-            _mainColomn.TextBox.Text = textBox2.Text;
+            this._mainColomn.TextBox.Text = textBox2.Text;
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+        }
+
+        /// <summary>
+        /// Изменение название связанной колонки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox3_KeyUp(object sender, KeyEventArgs e)
+        {
+            this._mainColomn.DirectoryColomnName = textBox3.Text;
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+        }
+
+        /// <summary>
+        /// Изменение название связанной колонки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox4_KeyUp(object sender, KeyEventArgs e)
+        {
+            this._mainColomn.DirectoryTableName = textBox4.Text;
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
         }

@@ -11,16 +11,6 @@ USING (
         ";
 
         /// <summary>
-        /// Сравнение\присвоение записей.
-        /// </summary>
-        public static readonly string Assign = @"TARGET.{0} = source.{0}";
-
-        /// <summary>
-        /// Сравнение\присвоение записей.
-        /// </summary>
-        public static readonly string NotAssign = @"TARGET.{0} != source.{0}";
-
-        /// <summary>
         /// Колонки.
         /// </summary>
         public static readonly string Colomns = @"
@@ -34,6 +24,16 @@ THEN
 WHEN NOT MATCHED THEN
     INSERT ({0})
     VALUES ({4});";
+
+        /// <summary>
+        /// Сравнение\присвоение записей.
+        /// </summary>
+        public static readonly string Assign = @"TARGET.{0} = source.{0}";
+
+        /// <summary>
+        /// Сравнение\присвоение записей.
+        /// </summary>
+        public static readonly string NotAssign = @"TARGET.{0} != source.{0}";
 
         /// <summary>
         /// Шаблон скрипта для Софтраст.

@@ -7,6 +7,7 @@ using MyHelper.Models.Dto;
 using MyHelper.Models.Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace MyHelper.Services
@@ -75,18 +76,29 @@ namespace MyHelper.Services
         /// <returns>Наименование связанной таблицы.</returns>
         public string GetDirectoryTableName(string tableName, string colomnName)
         {
-            var result = this._context.TableDirectories
-                .Where(x => x.ColomnName == colomnName)
-                .OrderByDescending(x => x.TableName == tableName)
-                .Select(x => x.ReferenceTable)
-                .FirstOrDefault();
+            int index = colomnName.IndexOf('.');
+            if (index < 0)
+            {
+                return string.Empty;
+            }
+
+            var result = string.Empty;
+            //var result = this._context.TableDirectories
+            //    .Where(x => x.ColomnName == colomnName)
+            //    .OrderByDescending(x => x.TableName == tableName)
+            //    .Select(x => x.ReferenceTable)
+            //    .FirstOrDefault();
 
             if (result.IsNullOrDefault())
             {
-                int index = colomnName.IndexOf('_');
-                result = (index != -1) && index < colomnName.Length
-                    ? colomnName.Substring(index + 1)
-                    : colomnName;
+                if (result.IsNullOrDefault())
+                {
+                    result = "oms_";
+                    string processedName = colomnName.Substring(0, index);
+                    result += processedName.Length > 3 && processedName.StartsWith("rf_")
+                        ? processedName.Substring(3)
+                        : processedName;
+                }
             }
 
             return result;

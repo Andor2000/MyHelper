@@ -445,6 +445,8 @@
             this.textBox3.Size = new System.Drawing.Size(246, 30);
             this.textBox3.TabIndex = 15;
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyUp);
+            this.textBox3.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyUp);
             // 
             // textBox4
             // 
@@ -454,6 +456,8 @@
             this.textBox4.Size = new System.Drawing.Size(220, 30);
             this.textBox4.TabIndex = 14;
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyUp);
+            this.textBox4.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyUp);
             // 
             // label5
             // 

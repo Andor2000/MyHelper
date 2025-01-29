@@ -52,14 +52,9 @@ namespace MyHelper.Dto
         public bool IsEqualsRecordStar { get; set; }
 
         /// <summary>
-        /// Записи.
+        /// Признак директории.
         /// </summary>
-        public string Records { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Количество записей.
-        /// </summary>
-        public string CountRecords => this.Records.Split('\n').Length.ToString();
+        public bool IsExistDirectory { get; set; }
 
         /// <summary>
         /// Наименование ссылочной колонки.
@@ -70,6 +65,16 @@ namespace MyHelper.Dto
         /// Наименование ссылочной таблицы (если колонка - ссылка).
         /// </summary>
         public string DirectoryTableName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Записи.
+        /// </summary>
+        public string Records { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Количество записей.
+        /// </summary>
+        public string CountRecords => this.Records.Split('\n').Length.ToString();
 
         /// <summary>
         /// Текстовое поле для количества записей.
