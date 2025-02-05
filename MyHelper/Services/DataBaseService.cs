@@ -31,41 +31,25 @@ namespace MyHelper.Services
         /// Получение таблиц.
         /// </summary>
         /// <param name="tableId">Таблица.</param>
-        public List<TableDto> GetTables(int tableId = 0)
+        public IEnumerable<TableDto> GetTables(int tableId = 0)
         {
-            var tableQuery = this._context.Tables.AsQueryable();
-            if (tableId > 0)
-            {
-                tableQuery = tableQuery.Where(x => x.Id == tableId);
-            }
-            else
-            {
-                tableQuery = tableQuery.Where(x => !x.IsDeleted);
-            }
+            var tablesDto = this._context.Tables
+                .Where(x => tableId > 0 ? x.Id == tableId : !x.IsDeleted)
+                .ToArray()
+                .Select(entity => new TableDto().MapTableEntityToDto(entity));
 
-            var tableEntities = tableQuery.ToList();
-            var tablesDto = new List<TableDto>();
-            foreach (var table in tableEntities)
-            {
-                var tableDto = new TableDto().MapTableEntityToDto(table);
-                tablesDto.Add(tableDto);
-            }
-
-            var tableIds = tablesDto.Select(x => x.Id).ToArray();
-            var colomnEntities = this._context.Colomns
+            var tableIds = tablesDto.Select(x => x.Id);
+            var colomnsDto = this._context.Colomns
                 .Where(x => tableIds.Contains(x.Table.Id) && !x.IsDeleted)
-                .ToArray();
-
-            var colomnsDto = colomnEntities
-                .Select(entity => new ColomnDto().MapColomnEntityToDto(entity))
-                .ToList();
+                .ToArray()
+                .Select(entity => new ColomnDto().MapColomnEntityToDto(entity));
 
             foreach (var table in tablesDto)
             {
                 table.Colomns = colomnsDto.Where(x => x.TableId == table.Id).ToList();
             }
 
-            return tablesDto.OrderByDescending(x => x.Sort).ToList();
+            return tablesDto.OrderByDescending(x => x.Sort);
         }
 
         /// <summary>
@@ -123,6 +107,14 @@ namespace MyHelper.Services
             this._context.Colomns.AddRange(entityColomns);
             this._context.SaveChanges();
             dto.Id = entityTable.Id;
+            dto.Colomns.ForEach(colomn =>
+            {
+                colomn.Id = entityTable.Colomns
+                    .Where(x => x.Name == colomn.TextBox.Text)
+                    .Select(x => x.Id)
+                    .FirstOrDefault();
+            });
+
             return dto;
         }
 
@@ -214,7 +206,7 @@ namespace MyHelper.Services
                 SettingEnums.IsCreateSubFolder,
             };
 
-            var settings = _context.Settings
+            var settings = this._context.Settings
                 .Where(x => settingCodes.Contains(x.Code))
                 .ToArray();
 

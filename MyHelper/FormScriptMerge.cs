@@ -114,7 +114,7 @@ namespace MyHelper
         /// </summary>
         private void GetTablesDB()
         {
-            this._panelTableLeft = _dataBaseService.GetTables();
+            this._panelTableLeft = this._dataBaseService.GetTables().ToList();
 
             if (this._panelTableLeft != null && this._panelTableLeft.Any())
             {
