@@ -21,6 +21,16 @@
         public bool IsQuotes { get; set; }
 
         /// <summary>
+        /// Наименование ссылочной колонки.
+        /// </summary>
+        public string DirectoryColomnName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Наименование ссылочной таблицы (если колонка - ссылка).
+        /// </summary>
+        public string DirectoryTableName { get; set; } = string.Empty;
+
+        /// <summary>
         /// Идентификатор таблицы.
         /// </summary>
         public int TableId { get; set; }

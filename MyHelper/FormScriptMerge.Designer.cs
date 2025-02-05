@@ -433,9 +433,9 @@
             this.label6.Location = new System.Drawing.Point(821, 653);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(176, 22);
+            this.label6.Size = new System.Drawing.Size(81, 22);
             this.label6.TabIndex = 16;
-            this.label6.Text = "Связанная таблица";
+            this.label6.Text = "Колонка";
             // 
             // textBox3
             // 
@@ -467,9 +467,9 @@
             this.label5.Location = new System.Drawing.Point(571, 653);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(81, 22);
+            this.label5.Size = new System.Drawing.Size(176, 22);
             this.label5.TabIndex = 22;
-            this.label5.Text = "Колонка";
+            this.label5.Text = "Связанная таблица";
             // 
             // FormScriptMerge
             // 

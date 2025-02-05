@@ -7,7 +7,6 @@ using MyHelper.Models.Dto;
 using MyHelper.Models.Entity;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace MyHelper.Services
@@ -31,34 +30,36 @@ namespace MyHelper.Services
         /// Получение таблиц.
         /// </summary>
         /// <param name="tableId">Таблица.</param>
-        public IEnumerable<TableDto> GetTables(int tableId = 0)
+        public List<TableDto> GetTables(int tableId = 0)
         {
             var tablesDto = this._context.Tables
                 .Where(x => tableId > 0 ? x.Id == tableId : !x.IsDeleted)
                 .ToArray()
-                .Select(entity => new TableDto().MapTableEntityToDto(entity));
+                .Select(entity => new TableDto().MapTableEntityToDto(entity))
+                .ToList();
 
             var tableIds = tablesDto.Select(x => x.Id);
             var colomnsDto = this._context.Colomns
                 .Where(x => tableIds.Contains(x.Table.Id) && !x.IsDeleted)
                 .ToArray()
-                .Select(entity => new ColomnDto().MapColomnEntityToDto(entity));
+                .Select(entity => new ColomnDto().MapColomnEntityToDto(entity))
+                .ToArray();
 
             foreach (var table in tablesDto)
             {
                 table.Colomns = colomnsDto.Where(x => x.TableId == table.Id).ToList();
             }
 
-            return tablesDto.OrderByDescending(x => x.Sort);
+            return tablesDto.OrderByDescending(x => x.Sort).ToList();
         }
 
         /// <summary>
         /// Получить наименование связанной таблицы.
         /// </summary>
-        /// <param name="tableName">Наименование таблицы.</param>
+        /// <param name="mainTableName">Наименование основной таблицы.</param>
         /// <param name="colomnName">Наименование колонки.</param>
         /// <returns>Наименование связанной таблицы.</returns>
-        public string GetDirectoryTableName(string tableName, string colomnName)
+        public string GetDirectoryTableName(string mainTableName, string colomnName)
         {
             int index = colomnName.IndexOf('.');
             if (index < 0)
@@ -69,20 +70,17 @@ namespace MyHelper.Services
             var result = string.Empty;
             //var result = this._context.TableDirectories
             //    .Where(x => x.ColomnName == colomnName)
-            //    .OrderByDescending(x => x.TableName == tableName)
+            //    .OrderByDescending(x => x.TableName == mainTableName)
             //    .Select(x => x.ReferenceTable)
             //    .FirstOrDefault();
 
             if (result.IsNullOrDefault())
             {
-                if (result.IsNullOrDefault())
-                {
-                    result = "oms_";
-                    string processedName = colomnName.Substring(0, index);
-                    result += processedName.Length > 3 && processedName.StartsWith("rf_")
-                        ? processedName.Substring(3)
-                        : processedName;
-                }
+                result = "oms_";
+                string processedName = colomnName.Substring(0, index);
+                result += processedName.Length > 3 && processedName.StartsWith("rf_")
+                    ? processedName.Substring(3)
+                    : processedName;
             }
 
             return result;
@@ -175,6 +173,8 @@ namespace MyHelper.Services
                 var dto = colomns.First(x => x.Id == entity.Id);
                 entity.MapColomnDtoToEntity(dto);
             }
+
+            // todo добавить сохранение справочника
 
             this._context.SaveChanges();
         }
