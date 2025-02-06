@@ -67,20 +67,19 @@ namespace MyHelper.Services
                 return string.Empty;
             }
 
-            var result = string.Empty;
-            //var result = this._context.TableDirectories
-            //    .Where(x => x.ColomnName == colomnName)
-            //    .OrderByDescending(x => x.TableName == mainTableName)
-            //    .Select(x => x.ReferenceTable)
-            //    .FirstOrDefault();
+            var result = this._context.TableDirectories
+                .Where(x => x.ColomnName == colomnName)
+                .OrderByDescending(x => x.TableName == mainTableName)
+                .Select(x => x.ReferenceTable)
+                .FirstOrDefault();
 
             if (result.IsNullOrDefault())
             {
-                result = "oms_";
-                string processedName = colomnName.Substring(0, index);
-                result += processedName.Length > 3 && processedName.StartsWith("rf_")
-                    ? processedName.Substring(3)
-                    : processedName;
+                result = "oms_" +
+                    (colomnName.StartsWith("rf_") ? colomnName.Substring(3) : colomnName)
+                        is var trimmed && trimmed.EndsWith("ID")
+                            ? trimmed.Substring(0, trimmed.Length - 2)
+                            : trimmed;
             }
 
             return result;
@@ -147,7 +146,7 @@ namespace MyHelper.Services
         /// <param name="tableDto">Таблица</param>
         public void RemoveTable(TableDto tableDto)
         {
-            var entity = _context.Tables.FirstOrDefault(x => x.Id == tableDto.Id);
+            var entity = this._context.Tables.FirstOrDefault(x => x.Id == tableDto.Id);
             entity.IsDeleted = true;
             this._context.SaveChanges();
         }
@@ -156,7 +155,7 @@ namespace MyHelper.Services
         /// Изменение списка колонок.
         /// </summary>
         /// <param name="colomns">Колонки.</param>
-        public void UpdateColomns(params ColomnDto[] colomns)
+        public void UpdateColomns(string tableName, params ColomnDto[] colomns)
         {
             if (colomns == null || !colomns.Any())
             {
@@ -164,18 +163,37 @@ namespace MyHelper.Services
             }
 
             var colomnIds = colomns.Select(x => x.Id);
-            var entities = this._context.Colomns
+            var colomnEntities = this._context.Colomns
                 .Where(x => colomnIds.Contains(x.Id))
                 .ToList();
 
-            foreach (var entity in entities)
+            foreach (var entity in colomnEntities)
             {
                 var dto = colomns.First(x => x.Id == entity.Id);
                 entity.MapColomnDtoToEntity(dto);
             }
 
-            // todo добавить сохранение справочника
+            var colomnsWithIsExistDirectory = colomns.Where(x => x.IsExistDirectory);
+            if (colomnsWithIsExistDirectory.Any())
+            {
+                var colomnNames = colomns.Where(x => x.IsExistDirectory).Select(x => x.TextBox.Name);
+                var tableDirectories = this._context.TableDirectories.Where(x => x.TableName == tableName && colomnNames.Contains(x.ColomnName)).ToList();
 
+                foreach (var colomn in colomnsWithIsExistDirectory)
+                {
+                    var tableDirectory = tableDirectories.FirstOrDefault(x => x.ColomnName == colomn.TextBox.Name);
+                    if (tableDirectory == null)
+                    {
+                        tableDirectory = new TableDirectoryEntity()
+                        {
+                            TableName = tableName,
+                            ColomnName = colomn.TextBox.Name,
+                        };
+                        this._context.TableDirectories.Add(tableDirectory);
+                    }
+                    tableDirectory.ReferenceTable = colomn.DirectoryTableName;
+                }
+            }
             this._context.SaveChanges();
         }
 

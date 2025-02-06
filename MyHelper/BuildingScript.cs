@@ -1,5 +1,8 @@
 ﻿namespace MyHelper
 {
+    /// <summary>
+    /// Скрипты.
+    /// </summary>
     public class BuildingScript
     {
         /// <summary>

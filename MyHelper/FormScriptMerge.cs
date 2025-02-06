@@ -132,7 +132,7 @@ namespace MyHelper
 
                     });
 
-                this.SetMainTable(_panelTableLeft[0]);
+                this.SetMainTable(this._panelTableLeft[0]);
                 this.UpdatePanelTable();
                 this.UpdatePanelColomn();
             }
@@ -146,7 +146,7 @@ namespace MyHelper
         private void pictureBoxAddTable_Click(object sender, EventArgs e)
         {
             this._dataBaseService.UpdateTables(this._mainTable);
-            this._dataBaseService.UpdateColomns(this._mainColomn);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
 
             this.panel5.BackColor = this.panel5.Parent.BackColor;
             var formAddTableName = new FormAddTable();
@@ -202,8 +202,8 @@ namespace MyHelper
         /// <param name="e"></param>
         private void pictureBoxAddColomns_Click(object sender, EventArgs e)
         {
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
             var formDialog = new FormAddColomns(this);
             formDialog.ShowDialog();
 
@@ -212,7 +212,7 @@ namespace MyHelper
                 return;
             }
 
-            this.CreateColomns(_mainTable, formDialog.ColomnNames);
+            this.CreateColomns(this._mainTable, formDialog.ColomnNames);
             this.UpdatePanelColomn();
 
             this.UpdateEndScriptColomn();
@@ -233,8 +233,8 @@ namespace MyHelper
                 ? IconEnums.StarActive
                 : IconEnums.Star;
 
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
 
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
@@ -252,8 +252,8 @@ namespace MyHelper
                 ? IconEnums.QuotesActive2
                 : IconEnums.Quotes2;
 
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
 
             this.UpdateEndScriptRecord();
             this.OutputEndScript();
@@ -284,8 +284,8 @@ namespace MyHelper
 
         private void pictureBoxOpenFormQuotes_Click(object sender, EventArgs e)
         {
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
             var formDialog = new FormQuotes();
             formDialog.ShowDialog();
         }
@@ -302,8 +302,8 @@ namespace MyHelper
                 ? IconEnums.TemplateScriptActive
                 : IconEnums.TemplateScript;
 
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
 
             this.OutputEndScript();
         }
@@ -315,14 +315,14 @@ namespace MyHelper
         /// <param name="e"></param>
         private void DeleteTable(object sender, EventArgs e)
         {
-            if (_panelTableLeft.Count() == 1)
+            if (this._panelTableLeft.Count() == 1)
             {
                 return;
             }
 
             var deletedTable = this._panelTableLeft.First(x => x.ContextDeleted == (ToolStripMenuItem)sender);
 
-            if (_mainTable == deletedTable)
+            if (this._mainTable == deletedTable)
             {
                 var newMainTable = this._panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort - 1)
                     ?? this._panelTableLeft.FirstOrDefault(x => x.Sort == deletedTable.Sort + 1)
@@ -335,7 +335,7 @@ namespace MyHelper
                 .Where(x => x.Sort > deletedTable.Sort).ToList()
                 .ForEach(x => x.Sort--);
 
-            _dataBaseService.RemoveTable(deletedTable);
+            this._dataBaseService.RemoveTable(deletedTable);
             this._panelTableLeft.Remove(deletedTable);
             /// не получилось удалить колонки
             deletedTable = null;
@@ -357,7 +357,7 @@ namespace MyHelper
 
         private void DeleteColomn(object sender, EventArgs e)
         {
-            if (_mainTable.Colomns.Count() == 1)
+            if (this._mainTable.Colomns.Count() == 1)
             {
                 return;
             }
@@ -381,7 +381,7 @@ namespace MyHelper
                     .ForEach(x => x.Sort--);
             }
 
-            _dataBaseService.RemoveColomn(deletedColomn);
+            this._dataBaseService.RemoveColomn(deletedColomn);
             this._mainTable.Colomns.Remove(deletedColomn);
             deletedColomn = null;
 
@@ -529,11 +529,11 @@ namespace MyHelper
                 var colomnDown = this._panelTableLeft.Where(x => x.Sort < _DragAndDropTable.Sort);
                 foreach (var h in colomnDown.Where(x => x.Sort >= _DragAndDropTable.Sort - count))
                 {
-                    h.Panel.Location = new Point(0, (_panelTableLeft.Count - h.Sort - 2) * SizeEnums.HeightPanel);
+                    h.Panel.Location = new Point(0, (this._panelTableLeft.Count - h.Sort - 2) * SizeEnums.HeightPanel);
                 }
                 foreach (var h in colomnDown.Where(x => x.Sort < _DragAndDropTable.Sort - count))
                 {
-                    h.Panel.Location = new Point(0, (_panelTableLeft.Count - h.Sort - 1) * SizeEnums.HeightPanel);
+                    h.Panel.Location = new Point(0, (this._panelTableLeft.Count - h.Sort - 1) * SizeEnums.HeightPanel);
                 }
             }
             else
@@ -543,11 +543,11 @@ namespace MyHelper
                 var colomnUp = this._panelTableLeft.Where(x => x.Sort > _DragAndDropTable.Sort);
                 foreach (var h in colomnUp.Where(x => x.Sort <= _DragAndDropTable.Sort + count))
                 {
-                    h.Panel.Location = new Point(0, ((_panelTableLeft.Count - h.Sort)) * SizeEnums.HeightPanel);
+                    h.Panel.Location = new Point(0, ((this._panelTableLeft.Count - h.Sort)) * SizeEnums.HeightPanel);
                 }
                 foreach (var h in colomnUp.Where(x => x.Sort > _DragAndDropTable.Sort + count))
                 {
-                    h.Panel.Location = new Point(0, (_panelTableLeft.Count - h.Sort - 1) * SizeEnums.HeightPanel);
+                    h.Panel.Location = new Point(0, (this._panelTableLeft.Count - h.Sort - 1) * SizeEnums.HeightPanel);
                 }
             }
         }
@@ -638,13 +638,13 @@ namespace MyHelper
                     this.UpdateEndScriptRecord();
                     this.UpdateEndScriptColomn();
                     this.OutputEndScript();
-                    _dataBaseService.UpdateColomns(_mainTable.Colomns.ToArray());
+                    this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainTable.Colomns.ToArray());
                 }
                 else
                 {
                     this.TableMouseUp();
                     this.UpdatePanelTable();
-                    _dataBaseService.UpdateTables(_panelTableLeft.ToArray());
+                    this._dataBaseService.UpdateTables(this._panelTableLeft.ToArray());
                 }
                 return;
             }
@@ -656,14 +656,14 @@ namespace MyHelper
             {
                 var colomn = this._mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
                 this.SetMainColomn(colomn);
-                _dataBaseService.UpdateColomns(_mainTable.Colomns.ToArray());
+                this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainTable.Colomns.ToArray());
             }
             else
             {
                 var table = this._panelTableLeft.FirstOrDefault(x => x.TextBox == (TextBox)sender);
                 this.SetMainTable(table);
                 this.UpdatePanelColomn();
-                _dataBaseService.UpdateTables(_panelTableLeft.ToArray());
+                this._dataBaseService.UpdateTables(this._panelTableLeft.ToArray());
             }
         }
 
@@ -787,7 +787,7 @@ namespace MyHelper
             this._mainColomn.IconStar.Image = IconEnums.Star;
             this._mainColomn.Records = this.lineNumberRTB1.RichTextBox.Text;
 
-            this._dataBaseService.UpdateColomns(this._mainColomn);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
             this._mainColomn = newMainColomn;
 
             this._mainColomn.Panel.BackColor = Colors.PanelActiveObject;
@@ -877,7 +877,7 @@ namespace MyHelper
         /// <summary>
         /// Установить количество строк в колонке.
         /// </summary>
-        /// <param name="colomns"></param>
+        /// <param name="colomn">Колонка.</param>
         private void SetCountRecordColomn(ColomnDto colomn)
         {
             colomn.TextBoxCount.Text = colomn.CountRecords;
@@ -1062,7 +1062,8 @@ namespace MyHelper
         /// <param name="e"></param>
         private void textBox3_KeyUp(object sender, KeyEventArgs e)
         {
-            this._mainColomn.DirectoryTableName= textBox3.Text;
+            this._mainColomn.DirectoryTableName = textBox3.Text;
+            this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
         }
@@ -1075,8 +1076,14 @@ namespace MyHelper
         private void textBox4_KeyUp(object sender, KeyEventArgs e)
         {
             this._mainColomn.DirectoryColomnName = textBox4.Text;
+            this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
+        }
+
+        private bool GetIsExistDirectory()
+        {
+            return !this.textBox3.Text.IsNullOrDefault() && this.textBox4.Text.IsNullOrDefault();
         }
 
         /// <summary>
@@ -1086,14 +1093,14 @@ namespace MyHelper
         /// <param name="e"></param>
         private void pictureBoxSaveScript_Click(object sender, EventArgs e)
         {
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
 
             this._mainTable.SaveScriptModel.Script = this.GetEndScript();
-            var formDialog = new FormSaveScript(_mainTable.SaveScriptModel, _dataBaseService);
+            var formDialog = new FormSaveScript(this._mainTable.SaveScriptModel, this._dataBaseService);
             formDialog.ShowDialog();
 
-            _dataBaseService.UpdateTables(_mainTable);
+            this._dataBaseService.UpdateTables(this._mainTable);
         }
 
         /// <summary>
@@ -1110,8 +1117,8 @@ namespace MyHelper
         /// <param name="e"></param>
         private void FormScriptMerge_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _dataBaseService.UpdateTables(_mainTable);
-            _dataBaseService.UpdateColomns(_mainColomn);
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
         }
     }
 }
