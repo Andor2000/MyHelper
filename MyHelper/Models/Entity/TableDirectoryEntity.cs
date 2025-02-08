@@ -14,18 +14,23 @@ namespace MyHelper.Models.Entity
         public int Id { get; set; }
 
         /// <summary>
-        /// Наименование.
-        /// </summary>
-        public string ColomnName { get; set; }
-
-        /// <summary>
         /// Таблица.
         /// </summary>
-        public string TableName { get; set; }
+        public string rf_Table { get; set; }
+
+        /// <summary>
+        /// Наименование.
+        /// </summary>
+        public string rf_Colomn { get; set; }
 
         /// <summary>
         /// Ссылочная таблица.
         /// </summary>
-        public string ReferenceTable { get; set; }
+        public string Table { get; set; }
+
+        /// <summary>
+        /// Ключ ссылочной таблицы.
+        /// </summary>
+        public string TabkeKey { get; set; }
     }
 }

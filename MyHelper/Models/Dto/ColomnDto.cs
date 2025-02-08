@@ -57,14 +57,19 @@ namespace MyHelper.Dto
         public bool IsExistDirectory { get; set; }
 
         /// <summary>
+        /// Ключ ссылочной таблицы.
+        /// </summary>
+        public string DirectoryTableKey { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Наименование ссылочной таблицы.
+        /// </summary>
+        public string DirectoryTableName { get; set; } = string.Empty;
+
+        /// <summary>
         /// Наименование ссылочной колонки.
         /// </summary>
         public string DirectoryColomnName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Наименование ссылочной таблицы (если колонка - ссылка).
-        /// </summary>
-        public string DirectoryTableName { get; set; } = string.Empty;
 
         /// <summary>
         /// Записи.

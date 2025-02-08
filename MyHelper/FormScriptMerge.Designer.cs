@@ -53,13 +53,15 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
             this.pictureBoxAddTemplate = new System.Windows.Forms.PictureBox();
-            this.lineNumberRTB1 = new MyHelper.LineNumberRTB();
             this.panel12 = new System.Windows.Forms.Panel();
             this.pictureBoxSaveScript = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.lineNumberRTB1 = new MyHelper.LineNumberRTB();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel11.SuspendLayout();
@@ -388,18 +390,6 @@
             this.pictureBoxAddTemplate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky2_MouseMove);
             this.pictureBoxAddTemplate.MouseUp += new System.Windows.Forms.MouseEventHandler(this.navel_na_ikonky_MouseUp);
             // 
-            // lineNumberRTB1
-            // 
-            this.lineNumberRTB1.BackColor = System.Drawing.SystemColors.GrayText;
-            this.lineNumberRTB1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lineNumberRTB1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lineNumberRTB1.ForeColor = System.Drawing.Color.White;
-            this.lineNumberRTB1.Location = new System.Drawing.Point(573, 137);
-            this.lineNumberRTB1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.lineNumberRTB1.Name = "lineNumberRTB1";
-            this.lineNumberRTB1.Size = new System.Drawing.Size(472, 513);
-            this.lineNumberRTB1.TabIndex = 4;
-            // 
             // panel12
             // 
             this.panel12.Controls.Add(this.pictureBoxSaveScript);
@@ -430,12 +420,12 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label6.Location = new System.Drawing.Point(821, 653);
+            this.label6.Location = new System.Drawing.Point(821, 654);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 22);
+            this.label6.Size = new System.Drawing.Size(176, 22);
             this.label6.TabIndex = 16;
-            this.label6.Text = "Колонка";
+            this.label6.Text = "Связанная таблица";
             // 
             // textBox3
             // 
@@ -467,9 +457,44 @@
             this.label5.Location = new System.Drawing.Point(571, 653);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(176, 22);
+            this.label5.Size = new System.Drawing.Size(225, 22);
             this.label5.TabIndex = 22;
-            this.label5.Text = "Связанная таблица";
+            this.label5.Text = "Ключ связанной таблицы";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label7.Location = new System.Drawing.Point(1081, 654);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 22);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Колонка";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox5.Location = new System.Drawing.Point(1084, 674);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(220, 30);
+            this.textBox5.TabIndex = 23;
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox5.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox5_KeyUp);
+            this.textBox5.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox5_KeyUp);
+            // 
+            // lineNumberRTB1
+            // 
+            this.lineNumberRTB1.BackColor = System.Drawing.SystemColors.GrayText;
+            this.lineNumberRTB1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lineNumberRTB1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lineNumberRTB1.ForeColor = System.Drawing.Color.White;
+            this.lineNumberRTB1.Location = new System.Drawing.Point(573, 137);
+            this.lineNumberRTB1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.lineNumberRTB1.Name = "lineNumberRTB1";
+            this.lineNumberRTB1.Size = new System.Drawing.Size(472, 513);
+            this.lineNumberRTB1.TabIndex = 4;
             // 
             // FormScriptMerge
             // 
@@ -477,6 +502,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1592, 725);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox3);
@@ -554,6 +581,8 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }
 

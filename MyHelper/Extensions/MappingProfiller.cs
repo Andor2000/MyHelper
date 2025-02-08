@@ -84,6 +84,7 @@ namespace MyHelper.Extensions
             entity.Name = dto.TextBox.Text;
             entity.IsQuotes = dto.IsQuotes;
             entity.IsEqualsRecordStar = dto.IsEqualsRecordStar;
+            entity.DirectoryTableKey = dto.DirectoryTableKey;
             entity.DirectoryTableName = dto.DirectoryTableName;
             entity.DirectoryColomnName = dto.DirectoryColomnName;
             return entity;

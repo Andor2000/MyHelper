@@ -10,8 +10,7 @@
         /// </summary>
         public static readonly string Table = @"MERGE {0} AS TARGET
 USING (
-    VALUES
-        ";
+    ";
 
         /// <summary>
         /// Колонки.

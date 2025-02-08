@@ -808,8 +808,9 @@ namespace MyHelper
                 : IconEnums.Quotes2;
 
             this.textBox2.Text = this._mainColomn.TextBox.Text;
-            this.textBox3.Text = this._mainColomn.DirectoryTableName;
-            this.textBox4.Text = this._mainColomn.DirectoryColomnName;
+            this.textBox3.Text = this._mainColomn.DirectoryTableKey;
+            this.textBox4.Text = this._mainColomn.DirectoryTableName;
+            this.textBox5.Text = this._mainColomn.DirectoryColomnName;
 
         }
 
@@ -905,28 +906,55 @@ namespace MyHelper
 
             this._mainColomn.Records = lineNumberRTB1.RichTextBox.Text;
             var maxCount = this._mainTable.Colomns.Max(x => x.CountRecords.ToInt());
-            var colomnTextAndQuotes = this._mainTable.Colomns
+            var colomns = this._mainTable.Colomns
                 .OrderBy(x => x.Sort)
                 .Select(x => new
                 {
                     x.IsQuotes,
+                    ColomnName = x.TextBox.Text,
+                    x.IsExistDirectory,
+                    x.DirectoryTableKey,
+                    x.DirectoryTableName,
+                    x.DirectoryColomnName,
                     Text = x.Records.Split('\n')
-                });
+                }).ToArray();
 
-            List<string> recs = new List<string>();
-            for (int i = 0; i < maxCount; i++)
+            var recs = Enumerable.Range(0, maxCount)
+                .Select(i => "(" + string.Join(", ", colomns.Select(col =>
+                    i < col.Text.Length
+                        ? (col.IsQuotes ? $"'{col.Text[i]}'" : col.Text[i])
+                        : (col.IsQuotes ? "''" : string.Empty)
+                )) + ")")
+                .ToArray();
+
+            if (colomns.Any(x => x.IsExistDirectory))
             {
-                List<string> rec = new List<string>();
-                foreach (var colomn in colomnTextAndQuotes)
-                {
+                var select = colomns.Select(x => x.IsExistDirectory
+                    ? $"{x.DirectoryTableName}.{x.DirectoryColomnName}"
+                    : $"source.{x.ColomnName}");
 
-                    rec.Add(colomn.IsQuotes
-                        ? i < colomn.Text.Count() ? $"'{colomn.Text[i]}'" : "''"
-                        : i < colomn.Text.Count() ? $"{colomn.Text[i]}" : string.Empty);
-                }
-                recs.Add($"({string.Join(", ", rec)})");
+                var source = colomns
+                    .Select(x => x.IsExistDirectory
+                        ? x.DirectoryColomnName
+                        : x.ColomnName);
+
+                var join = colomns
+                    .Where(x => x.IsExistDirectory)
+                    .Select(x => $"join {x.DirectoryTableName} on {x.DirectoryTableName}.{x.DirectoryTableKey} = source.{x.ColomnName}");
+
+                EndScriptRecord = $@"select
+    {string.Join("\n    ,", select)}
+    from (
+        VALUES
+            {string.Join("\n           ,", recs)}
+    ) as source({string.Join(",", source)})
+    {string.Join("\n   ", join)}";
             }
-            EndScriptRecord = string.Join("\n       ,", recs);
+            else
+            {
+
+                EndScriptRecord = "VALUES\n        " + string.Join("\n       ,", recs);
+            }
             this.OutputEndScript();
         }
 
@@ -977,7 +1005,7 @@ namespace MyHelper
             colomn.TextBox.Text = colomnName.Substring(0, dotIndex);
             colomn.IsExistDirectory = true;
             colomn.DirectoryColomnName = colomnName.Substring(dotIndex + 1);
-            colomn.DirectoryTableName = this._dataBaseService.GetDirectoryTableName(mainTableName, colomnName);
+            (colomn.DirectoryTableName, colomn.DirectoryTableKey) = this._dataBaseService.GetDirectoryTableName(mainTableName, colomn.TextBox.Text);
         }
 
         /// <summary>
@@ -1056,13 +1084,26 @@ namespace MyHelper
         }
 
         /// <summary>
-        /// Изменение название связанной таблицы.
+        /// Изменение название ключ связанной таблицы.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void textBox3_KeyUp(object sender, KeyEventArgs e)
         {
-            this._mainColomn.DirectoryTableName = textBox3.Text;
+            this._mainColomn.DirectoryTableKey = textBox3.Text;
+            this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
+            this.UpdateEndScriptColomn();
+            this.OutputEndScript();
+        }
+
+        /// <summary>
+        /// Изменение названия связанной таблицы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox4_KeyUp(object sender, KeyEventArgs e)
+        {
+            this._mainColomn.DirectoryTableName = textBox4.Text;
             this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
@@ -1073,17 +1114,23 @@ namespace MyHelper
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textBox4_KeyUp(object sender, KeyEventArgs e)
+        private void textBox5_KeyUp(object sender, KeyEventArgs e)
         {
-            this._mainColomn.DirectoryColomnName = textBox4.Text;
+            this._mainColomn.DirectoryColomnName = textBox5.Text;
             this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
             this.UpdateEndScriptColomn();
             this.OutputEndScript();
         }
 
+        /// <summary>
+        /// Получить признак наличия ссылочных записей.
+        /// </summary>
+        /// <returns>Признак наличия ссылочных записей.</returns>
         private bool GetIsExistDirectory()
         {
-            return !this.textBox3.Text.IsNullOrDefault() && this.textBox4.Text.IsNullOrDefault();
+            return !this.textBox3.Text.IsNullOrDefault() &&
+                   !this.textBox4.Text.IsNullOrDefault() &&
+                   !this.textBox5.Text.IsNullOrDefault();
         }
 
         /// <summary>
