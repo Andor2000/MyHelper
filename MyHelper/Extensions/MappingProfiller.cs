@@ -67,8 +67,11 @@ namespace MyHelper.Extensions
             dto.IsQuotes = entity.IsQuotes;
             dto.IsEqualsRecordStar = entity.IsEqualsRecordStar;
             dto.TableId = entity.TableId;
-            dto.TextBox.Text = entity.Name;
+            dto.Name = entity.Name;
             dto.TextBoxCount.Text = dto.CountRecords;
+            dto.DirectoryTableKey = entity.DirectoryTableKey;
+            dto.DirectoryTableName = entity.DirectoryTableName;
+            dto.DirectoryColomnName = entity.DirectoryColomnName;
             return dto;
         }
 
@@ -81,7 +84,7 @@ namespace MyHelper.Extensions
         {
             entity.Sort = dto.Sort;
             entity.Records = dto.Records;
-            entity.Name = dto.TextBox.Text;
+            entity.Name = dto.Name;
             entity.IsQuotes = dto.IsQuotes;
             entity.IsEqualsRecordStar = dto.IsEqualsRecordStar;
             entity.DirectoryTableKey = dto.DirectoryTableKey;

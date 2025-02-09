@@ -78,7 +78,7 @@ namespace MyHelper.Services
             }
 
             var key = colomnName.StartsWith("rf_") ? colomnName.Substring(3) : colomnName;
-            var table = "oms_" + (key.EndsWith("ID") ? key.Substring(0, key.Length - 2) : key);
+            var table = "oms_" + (key.EndsWith("ID", StringComparison.OrdinalIgnoreCase) ? key.Substring(0, key.Length - 2) : key);
 
             return (table, key);
         }
@@ -105,7 +105,7 @@ namespace MyHelper.Services
             dto.Colomns.ForEach(colomn =>
             {
                 colomn.Id = entityTable.Colomns
-                    .Where(x => x.Name == colomn.TextBox.Text)
+                    .Where(x => x.Name == colomn.Name)
                     .Select(x => x.Id)
                     .FirstOrDefault();
             });
@@ -174,18 +174,18 @@ namespace MyHelper.Services
             var colomnsWithIsExistDirectory = colomns.Where(x => x.IsExistDirectory);
             if (colomnsWithIsExistDirectory.Any())
             {
-                var colomnNames = colomns.Where(x => x.IsExistDirectory).Select(x => x.TextBox.Name);
+                var colomnNames = colomns.Where(x => x.IsExistDirectory).Select(x => x.Name);
                 var tableDirectories = this._context.TableDirectories.Where(x => x.rf_Table == tableName && colomnNames.Contains(x.rf_Colomn)).ToList();
 
                 foreach (var colomn in colomnsWithIsExistDirectory)
                 {
-                    var tableDirectory = tableDirectories.FirstOrDefault(x => x.rf_Colomn == colomn.TextBox.Name);
+                    var tableDirectory = tableDirectories.FirstOrDefault(x => x.rf_Colomn == colomn.TextBox.Text);
                     if (tableDirectory == null)
                     {
                         tableDirectory = new TableDirectoryEntity()
                         {
                             rf_Table = tableName,
-                            rf_Colomn = colomn.TextBox.Name,
+                            rf_Colomn = colomn.Name,
                         };
                         this._context.TableDirectories.Add(tableDirectory);
                     }

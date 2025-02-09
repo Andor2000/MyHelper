@@ -124,6 +124,7 @@ namespace MyHelper
                     {
                         this.SetCountRecordColomn(x);
                         this.AddColomnEvents(x);
+                        this.UpdateColomnNameLifePanel(x);
 
                         x.IconStar.Visible = x.IsEqualsRecordStar;
                         pictureBoxAddStar.Image = x.IsEqualsRecordStar
@@ -435,6 +436,7 @@ namespace MyHelper
                 var colomn = new ColomnDto();
                 colomn.Sort = table.Colomns.Count();
                 this.SetDirectoryName(table.TextBox.Text, colomn, colomnName);
+                this.UpdateColomnNameLifePanel(colomn);
                 table.Colomns.Add(colomn);
                 this.AddColomnEvents(colomn);
             }
@@ -656,14 +658,13 @@ namespace MyHelper
             {
                 var colomn = this._mainTable.Colomns.FirstOrDefault(x => x.TextBox == (TextBox)sender);
                 this.SetMainColomn(colomn);
-                this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainTable.Colomns.ToArray());
             }
             else
             {
                 var table = this._panelTableLeft.FirstOrDefault(x => x.TextBox == (TextBox)sender);
+                this._dataBaseService.UpdateTables(this._mainTable);
                 this.SetMainTable(table);
                 this.UpdatePanelColomn();
-                this._dataBaseService.UpdateTables(this._panelTableLeft.ToArray());
             }
         }
 
@@ -807,7 +808,7 @@ namespace MyHelper
                 ? IconEnums.QuotesActive2
                 : IconEnums.Quotes2;
 
-            this.textBox2.Text = this._mainColomn.TextBox.Text;
+            this.textBox2.Text = this._mainColomn.Name;
             this.textBox3.Text = this._mainColomn.DirectoryTableKey;
             this.textBox4.Text = this._mainColomn.DirectoryTableName;
             this.textBox5.Text = this._mainColomn.DirectoryColomnName;
@@ -911,7 +912,7 @@ namespace MyHelper
                 .Select(x => new
                 {
                     x.IsQuotes,
-                    ColomnName = x.TextBox.Text,
+                    ColomnName = x.Name,
                     x.IsExistDirectory,
                     x.DirectoryTableKey,
                     x.DirectoryTableName,
@@ -942,18 +943,17 @@ namespace MyHelper
                     .Where(x => x.IsExistDirectory)
                     .Select(x => $"join {x.DirectoryTableName} on {x.DirectoryTableName}.{x.DirectoryTableKey} = source.{x.ColomnName}");
 
-                EndScriptRecord = $@"select
-    {string.Join("\n    ,", select)}
+                this.EndScriptRecord = $@"select
+    {string.Join(",\n    ", select)}
     from (
         VALUES
             {string.Join("\n           ,", recs)}
-    ) as source({string.Join(",", source)})
-    {string.Join("\n   ", join)}";
+    ) as source({string.Join(", ", source)})
+    {string.Join("\n    ", join)}";
             }
             else
             {
-
-                EndScriptRecord = "VALUES\n        " + string.Join("\n       ,", recs);
+                this.EndScriptRecord = "VALUES\n        " + string.Join("\n       ,", recs);
             }
             this.OutputEndScript();
         }
@@ -964,17 +964,11 @@ namespace MyHelper
         private void UpdateEndScriptColomn()
         {
             var sortColomn = this._mainTable.Colomns.OrderBy(x => x.Sort);
-
-            if (this._mainTable.Colomns.Any(x => x.IsExistDirectory))
-            {
-
-            }
-
-            var columnList = string.Join(", ", sortColomn.Select(x => x.TextBox.Text));
-            var equalConditions = string.Join(" and ", sortColomn.Where(x => x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text)));
-            var notEqualConditions = string.Join(" or\n    ",sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.NotAssign, x.TextBox.Text)));
-            var assignList = string.Join(",\n        ",sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.TextBox.Text)));
-            var sourceColumns = string.Join(", ",sortColomn.Select(x => "source." + x.TextBox.Text));
+            var columnList = string.Join(", ", sortColomn.Select(x => x.Name));
+            var equalConditions = string.Join(" and ", sortColomn.Where(x => x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.Name)));
+            var notEqualConditions = string.Join(" or\n    ",sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.NotAssign, x.Name)));
+            var assignList = string.Join(",\n        ",sortColomn.Where(x => !x.IsEqualsRecordStar).Select(x => string.Format(BuildingScript.Assign, x.Name)));
+            var sourceColumns = string.Join(", ",sortColomn.Select(x => "source." + x.Name));
 
             EndScriptColomn = string.Format(
                 BuildingScript.Colomns,
@@ -984,7 +978,6 @@ namespace MyHelper
                 assignList,
                 sourceColumns
             );
-
         }
 
         /// <summary>
@@ -997,15 +990,13 @@ namespace MyHelper
             int dotIndex = colomnName.IndexOf('.');
             if (dotIndex < 0 || dotIndex + 1 == colomn.TextBox.Name.Length)
             {
-                colomn.IsExistDirectory = false;
-                colomn.TextBox.Text = colomnName;
+                colomn.Name = colomnName;
                 return;
             }
 
-            colomn.TextBox.Text = colomnName.Substring(0, dotIndex);
-            colomn.IsExistDirectory = true;
+            colomn.Name = colomnName.Substring(0, dotIndex);
             colomn.DirectoryColomnName = colomnName.Substring(dotIndex + 1);
-            (colomn.DirectoryTableName, colomn.DirectoryTableKey) = this._dataBaseService.GetDirectoryTableName(mainTableName, colomn.TextBox.Text);
+            (colomn.DirectoryTableName, colomn.DirectoryTableKey) = this._dataBaseService.GetDirectoryTableName(mainTableName, colomn.Name);
         }
 
         /// <summary>
@@ -1078,9 +1069,8 @@ namespace MyHelper
         /// <param name="e"></param>
         private void textBox2_KeyUp(object sender, KeyEventArgs e)
         {
-            this._mainColomn.TextBox.Text = textBox2.Text;
-            this.UpdateEndScriptColomn();
-            this.OutputEndScript();
+            this._mainColomn.Name = this.textBox2.Text;
+            this.UpdateTextBoxDirectoryLeftPanel();
         }
 
         /// <summary>
@@ -1091,9 +1081,7 @@ namespace MyHelper
         private void textBox3_KeyUp(object sender, KeyEventArgs e)
         {
             this._mainColomn.DirectoryTableKey = textBox3.Text;
-            this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
-            this.UpdateEndScriptColomn();
-            this.OutputEndScript();
+            this.UpdateTextBoxDirectoryLeftPanel();
         }
 
         /// <summary>
@@ -1104,9 +1092,7 @@ namespace MyHelper
         private void textBox4_KeyUp(object sender, KeyEventArgs e)
         {
             this._mainColomn.DirectoryTableName = textBox4.Text;
-            this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
-            this.UpdateEndScriptColomn();
-            this.OutputEndScript();
+            this.UpdateTextBoxDirectoryLeftPanel();
         }
 
         /// <summary>
@@ -1117,20 +1103,24 @@ namespace MyHelper
         private void textBox5_KeyUp(object sender, KeyEventArgs e)
         {
             this._mainColomn.DirectoryColomnName = textBox5.Text;
-            this._mainColomn.IsExistDirectory = this.GetIsExistDirectory();
-            this.UpdateEndScriptColomn();
+            this.UpdateTextBoxDirectoryLeftPanel();
+        }
+
+        private void UpdateTextBoxDirectoryLeftPanel()
+        {
+            this.UpdateColomnNameLifePanel(this._mainColomn);
+            this.UpdateEndScriptRecord();
             this.OutputEndScript();
         }
 
         /// <summary>
-        /// Получить признак наличия ссылочных записей.
+        /// Изменение названия колонки в левой панели.
         /// </summary>
-        /// <returns>Признак наличия ссылочных записей.</returns>
-        private bool GetIsExistDirectory()
+        private void UpdateColomnNameLifePanel(ColomnDto colomn)
         {
-            return !this.textBox3.Text.IsNullOrDefault() &&
-                   !this.textBox4.Text.IsNullOrDefault() &&
-                   !this.textBox5.Text.IsNullOrDefault();
+            colomn.TextBox.Text = colomn.IsExistDirectory
+                ? $"{colomn.Name}.{colomn.DirectoryColomnName}"
+                : colomn.Name;
         }
 
         /// <summary>

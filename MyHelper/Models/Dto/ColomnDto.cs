@@ -1,4 +1,5 @@
 ﻿using MyHelper.Enums;
+using MyHelper.Extensions;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -42,6 +43,11 @@ namespace MyHelper.Dto
         }
 
         /// <summary>
+        /// Наименование колонки.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Признак добавления кавычек тексту.
         /// </summary>
         public bool IsQuotes { get; set; } = true;
@@ -54,7 +60,9 @@ namespace MyHelper.Dto
         /// <summary>
         /// Признак директории.
         /// </summary>
-        public bool IsExistDirectory { get; set; }
+        public bool IsExistDirectory => !DirectoryTableKey.IsNullOrDefault() && 
+                                        !DirectoryTableName.IsNullOrDefault() &&
+                                        !DirectoryColomnName.IsNullOrDefault();
 
         /// <summary>
         /// Ключ ссылочной таблицы.
