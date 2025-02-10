@@ -276,6 +276,10 @@
     <Compile Include="Migrations\20250208162607_AddTableDirectory.designer.cs">
       <DependentUpon>20250208162607_AddTableDirectory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20250210065012_AddDirectoryTableNickname.cs" />
+    <Compile Include="Migrations\20250210065012_AddDirectoryTableNickname.Designer.cs">
+      <DependentUpon>20250210065012_AddDirectoryTableNickname.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ProgramContextModelSnapshot.cs" />
     <Compile Include="Models\Dto\BaseModelDto.cs" />
     <Compile Include="Models\Dto\ColomnDto.cs" />

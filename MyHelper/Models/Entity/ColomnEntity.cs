@@ -36,6 +36,11 @@
         public string DirectoryColomnName { get; set; } = string.Empty;
 
         /// <summary>
+        /// Никнейм ссылочной таблицы.
+        /// </summary>
+        public string DirectoryTableNickname { get; set; } = string.Empty;
+
+        /// <summary>
         /// Идентификатор таблицы.
         /// </summary>
         public int TableId { get; set; }

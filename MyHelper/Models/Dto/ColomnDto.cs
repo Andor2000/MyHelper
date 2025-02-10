@@ -80,6 +80,11 @@ namespace MyHelper.Dto
         public string DirectoryColomnName { get; set; } = string.Empty;
 
         /// <summary>
+        /// Никнейм ссылочной таблицы.
+        /// </summary>
+        public string DirectoryTableNickname { get; set; } = string.Empty;
+
+        /// <summary>
         /// Записи.
         /// </summary>
         public string Records { get; set; } = string.Empty;

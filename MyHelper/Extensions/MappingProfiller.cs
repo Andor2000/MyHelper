@@ -72,6 +72,7 @@ namespace MyHelper.Extensions
             dto.DirectoryTableKey = entity.DirectoryTableKey;
             dto.DirectoryTableName = entity.DirectoryTableName;
             dto.DirectoryColomnName = entity.DirectoryColomnName;
+            dto.DirectoryTableNickname = entity.DirectoryTableNickname;
             return dto;
         }
 
@@ -90,6 +91,7 @@ namespace MyHelper.Extensions
             entity.DirectoryTableKey = dto.DirectoryTableKey;
             entity.DirectoryTableName = dto.DirectoryTableName;
             entity.DirectoryColomnName = dto.DirectoryColomnName;
+            entity.DirectoryTableNickname = dto.DirectoryTableNickname;
             return entity;
         }
     }

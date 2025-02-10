@@ -812,6 +812,7 @@ namespace MyHelper
             this.textBox3.Text = this._mainColomn.DirectoryTableKey;
             this.textBox4.Text = this._mainColomn.DirectoryTableName;
             this.textBox5.Text = this._mainColomn.DirectoryColomnName;
+            this.textBox6.Text = this._mainColomn.DirectoryTableNickname;
 
         }
 
@@ -917,6 +918,7 @@ namespace MyHelper
                     x.DirectoryTableKey,
                     x.DirectoryTableName,
                     x.DirectoryColomnName,
+                    x.DirectoryTableNickname,
                     Text = x.Records.Split('\n')
                 }).ToArray();
 
@@ -931,7 +933,7 @@ namespace MyHelper
             if (colomns.Any(x => x.IsExistDirectory))
             {
                 var select = colomns.Select(x => x.IsExistDirectory
-                    ? $"{x.DirectoryTableName}.{x.DirectoryColomnName}"
+                    ? (x.DirectoryTableNickname.IsNullOrDefault() ? x.DirectoryTableName : x.DirectoryTableNickname) + $".{x.DirectoryColomnName}"
                     : $"source.{x.ColomnName}");
 
                 var source = colomns
@@ -941,7 +943,8 @@ namespace MyHelper
 
                 var join = colomns
                     .Where(x => x.IsExistDirectory)
-                    .Select(x => $"join {x.DirectoryTableName} on {x.DirectoryTableName}.{x.DirectoryTableKey} = source.{x.ColomnName}");
+                    .Select(x => $"join {x.DirectoryTableName}{(x.DirectoryTableNickname.IsNullOrDefault() ? string.Empty : " as " + x.DirectoryTableNickname)}" +
+                    $" on {(x.DirectoryTableNickname.IsNullOrDefault() ? x.DirectoryTableName : x.DirectoryTableNickname)}.{x.DirectoryTableKey} = source.{x.ColomnName}");
 
                 this.EndScriptRecord = $@"select
     {string.Join(",\n    ", select)}
@@ -1103,6 +1106,17 @@ namespace MyHelper
         private void textBox5_KeyUp(object sender, KeyEventArgs e)
         {
             this._mainColomn.DirectoryColomnName = textBox5.Text;
+            this.UpdateTextBoxDirectoryLeftPanel();
+        }
+
+        /// <summary>
+        /// Изменение названия псевдонима таблицы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox6_KeyUp(object sender, KeyEventArgs e)
+        {
+            this._mainColomn.DirectoryTableNickname = textBox6.Text;
             this.UpdateTextBoxDirectoryLeftPanel();
         }
 
