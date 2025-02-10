@@ -1,4 +1,6 @@
-﻿namespace MyHelper.Models.Entity
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyHelper.Models.Entity
 {
     /// <summary>
     /// Entity-модель колонки.
@@ -23,21 +25,25 @@
         /// <summary>
         /// Ключ ссылочной таблицы.
         /// </summary>
+        [MaxLength(70)]
         public string DirectoryTableKey { get; set; } = string.Empty;
 
         /// <summary>
         /// Наименование ссылочной таблицы.
         /// </summary>
+        [MaxLength(70)]
         public string DirectoryTableName { get; set; } = string.Empty;
 
         /// <summary>
         /// Наименование ссылочной колонки.
         /// </summary>
+        [MaxLength(70)]
         public string DirectoryColomnName { get; set; } = string.Empty;
 
         /// <summary>
         /// Никнейм ссылочной таблицы.
         /// </summary>
+        [MaxLength(70)]
         public string DirectoryTableNickname { get; set; } = string.Empty;
 
         /// <summary>

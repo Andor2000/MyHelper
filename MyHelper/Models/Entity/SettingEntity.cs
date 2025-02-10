@@ -16,6 +16,7 @@ namespace MyHelper.Models.Entity
         /// <summary>
         /// Код.
         /// </summary>
+        [MaxLength(70)]
         public string Code { get; set; }
 
         /// <summary>

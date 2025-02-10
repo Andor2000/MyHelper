@@ -13,6 +13,7 @@ namespace MyHelper.Models.Entity
         /// <summary>
         /// Наименование.
         /// </summary>
+        [MaxLength(70)]
         public string Name { get; set; }
 
         /// <summary>

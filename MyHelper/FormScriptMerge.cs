@@ -765,6 +765,10 @@ namespace MyHelper
 
             this.textBox1.Text = this._mainTable.TextBox.Text;
 
+            pictureBoxAddTemplate.Image = this._mainTable.IsTemplateScript
+                ? IconEnums.TemplateScriptActive
+                : IconEnums.TemplateScript;
+
             this.UpdateEndScriptTable();
             this.UpdateEndScriptColomn();
             this.UpdateEndScriptRecord(); // тут вывод скрипта
@@ -933,7 +937,7 @@ namespace MyHelper
             if (colomns.Any(x => x.IsExistDirectory))
             {
                 var select = colomns.Select(x => x.IsExistDirectory
-                    ? (x.DirectoryTableNickname.IsNullOrDefault() ? x.DirectoryTableName : x.DirectoryTableNickname) + $".{x.DirectoryColomnName}"
+                    ? (x.DirectoryTableNickname.IsNullOrDefault() ? x.DirectoryTableName : x.DirectoryTableNickname) + $".{x.DirectoryTableKey}"
                     : $"source.{x.ColomnName}");
 
                 var source = colomns
@@ -944,7 +948,7 @@ namespace MyHelper
                 var join = colomns
                     .Where(x => x.IsExistDirectory)
                     .Select(x => $"join {x.DirectoryTableName}{(x.DirectoryTableNickname.IsNullOrDefault() ? string.Empty : " as " + x.DirectoryTableNickname)}" +
-                    $" on {(x.DirectoryTableNickname.IsNullOrDefault() ? x.DirectoryTableName : x.DirectoryTableNickname)}.{x.DirectoryTableKey} = source.{x.ColomnName}");
+                    $" on {(x.DirectoryTableNickname.IsNullOrDefault() ? x.DirectoryTableName : x.DirectoryTableNickname)}.{x.DirectoryColomnName} = source.{x.DirectoryColomnName}");
 
                 this.EndScriptRecord = $@"select
     {string.Join(",\n    ", select)}
@@ -999,16 +1003,24 @@ namespace MyHelper
 
             colomn.Name = colomnName.Substring(0, dotIndex);
             colomn.DirectoryColomnName = colomnName.Substring(dotIndex + 1);
-            (colomn.DirectoryTableName, colomn.DirectoryTableKey) = this._dataBaseService.GetDirectoryTableName(mainTableName, colomn.Name);
+            (colomn.DirectoryTableName, colomn.DirectoryTableKey, colomn.DirectoryTableNickname) = this._dataBaseService.GetDirectoryTableName(mainTableName, colomn.Name);
         }
 
         /// <summary>
         /// Вывод скрипта.
         /// </summary>
         private void OutputEndScript()
-        => richTextBox3.Text = this._mainTable.IsTemplateScript
-            ? SaveScriptService.GetEndScriptWithTemplate(this._mainTable.SaveScriptModel)
-            : this.GetEndScript();
+        {
+            if (this._mainTable.IsTemplateScript)
+            {
+                this._mainTable.SaveScriptModel.Script = this.GetEndScript();
+                richTextBox3.Text = SaveScriptService.GetEndScriptWithTemplate(this._mainTable.SaveScriptModel);
+            }
+            else
+            {
+                richTextBox3.Text = this.GetEndScript();
+            }
+        }
 
         /// <summary>
         /// Навел на иконку.

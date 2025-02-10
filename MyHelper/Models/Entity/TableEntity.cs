@@ -26,31 +26,37 @@ namespace MyHelper.Models.Entity
         /// <summary>
         /// Уникальный идентификатор.
         /// </summary>
+        [MaxLength(70)]
         public string Guid { get; set; }
 
         /// <summary>
         /// Спинт.
         /// </summary>
+        [MaxLength(10)]
         public string Sprint { get; set; }
 
         /// <summary>
         /// Задача.
         /// </summary>
+        [MaxLength(20)]
         public string Task { get; set; }
 
         /// <summary>
         /// Проект.
         /// </summary>
+        [MaxLength(70)]
         public string Project { get; set; }
 
         /// <summary>
         /// Номер скрипта.
         /// </summary>
+        [MaxLength(3)]
         public string Number { get; set; }
 
         /// <summary>
         /// Описание скрипта.
         /// </summary>
+        [MaxLength(200)]
         public string Description { get; set; }
 
         /// <summary>
@@ -61,6 +67,7 @@ namespace MyHelper.Models.Entity
         /// <summary>
         /// Признак создания подпапки.
         /// </summary>
+        [MaxLength(1)]
         public string IsCreateSubFolder { get; set; }
     }
 }

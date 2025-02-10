@@ -59,28 +59,28 @@ namespace MyHelper.Services
         /// <param name="mainTableName">Наименование основной таблицы.</param>
         /// <param name="colomnName">Наименование колонки.</param>
         /// <returns>Наименование связанной таблицы.</returns>
-        public (string, string) GetDirectoryTableName(string mainTableName, string colomnName)
+        public (string, string, string) GetDirectoryTableName(string mainTableName, string colomnName)
         {
             if (mainTableName.IsNullOrDefault() || colomnName.IsNullOrDefault())
             {
-                return (string.Empty, string.Empty);
+                return (string.Empty, string.Empty, string.Empty);
             }
 
             var result = this._context.TableDirectories
-                .Where(x => x.rf_Colomn == colomnName)
-                .OrderByDescending(x => x.rf_Table == mainTableName)
-                .Select(x => new { x.Table, x.TabkeKey })
+                .Where(x => x.rf_Colomn.ToLower() == colomnName.ToLower())
+                .OrderByDescending(x => x.rf_Table.ToLower() == mainTableName.ToLower())
+                .Select(x => new { x.Table, x.TabkeKey, x.TableNickname })
                 .FirstOrDefault();
 
             if (result != null && !result.Table.IsNullOrDefault())
             {
-                return (result.Table, result.TabkeKey);
+                return (result.Table, result.TabkeKey, result.TableNickname);
             }
 
             var key = colomnName.StartsWith("rf_") ? colomnName.Substring(3) : colomnName;
             var table = "oms_" + (key.EndsWith("ID", StringComparison.OrdinalIgnoreCase) ? key.Substring(0, key.Length - 2) : key);
 
-            return (table, key);
+            return (table, key, string.Empty);
         }
 
         /// <summary>
@@ -175,11 +175,11 @@ namespace MyHelper.Services
             if (colomnsWithIsExistDirectory.Any())
             {
                 var colomnNames = colomns.Where(x => x.IsExistDirectory).Select(x => x.Name);
-                var tableDirectories = this._context.TableDirectories.Where(x => x.rf_Table == tableName && colomnNames.Contains(x.rf_Colomn)).ToList();
+                var tableDirectories = this._context.TableDirectories.Where(x => x.rf_Table.ToLower() == tableName.ToLower() && colomnNames.Contains(x.rf_Colomn)).ToList();
 
                 foreach (var colomn in colomnsWithIsExistDirectory)
                 {
-                    var tableDirectory = tableDirectories.FirstOrDefault(x => x.rf_Colomn == colomn.TextBox.Text);
+                    var tableDirectory = tableDirectories.FirstOrDefault(x => x.rf_Colomn == colomn.Name);
                     if (tableDirectory == null)
                     {
                         tableDirectory = new TableDirectoryEntity()
@@ -191,6 +191,7 @@ namespace MyHelper.Services
                     }
                     tableDirectory.Table = colomn.DirectoryTableName;
                     tableDirectory.TabkeKey = colomn.DirectoryTableKey;
+                    tableDirectory.TableNickname = colomn.DirectoryTableNickname;
                 }
             }
             this._context.SaveChanges();
