@@ -268,6 +268,12 @@
     <Compile Include="Extensions\BaseTypeEx.cs" />
     <Compile Include="Extensions\MappingProfiller.cs" />
     <Compile Include="Extensions\NullOrDefaultChecker.cs" />
+    <Compile Include="FormTransformModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTransformModel.Designer.cs">
+      <DependentUpon>FormTransformModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\20240814195450_InitialCreate.cs" />
     <Compile Include="Migrations\20240814195450_InitialCreate.designer.cs">
       <DependentUpon>20240814195450_InitialCreate.cs</DependentUpon>
@@ -340,6 +346,9 @@
     <EmbeddedResource Include="DialogForms\ScriptMerge\FormSaveScript.resx">
       <DependentUpon>FormSaveScript.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormTransformModel.resx">
+      <DependentUpon>FormTransformModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormScriptMerge.resx">
       <DependentUpon>FormScriptMerge.cs</DependentUpon>
     </EmbeddedResource>
@@ -391,6 +400,9 @@
     <None Include="icons\save_script.png" />
     <None Include="bin\Debug\runtimes\win-x86\native\e_sqlite3.dll" />
     <None Include="Files\e_sqlite3.dll" />
+    <None Include="icons\mappin_model.png" />
+    <None Include="icons\mappin_model_active.png" />
+    <None Include="icons\quotes_active.png" />
     <Content Include="Properties\add_button.png" />
     <Content Include="Properties\pencil.png" />
     <Content Include="Properties\pencil_active.png" />

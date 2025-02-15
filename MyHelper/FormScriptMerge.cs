@@ -262,33 +262,43 @@ namespace MyHelper
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            var formDialog = new FormAddDataBase(this.Server, this.DataBase, this.Login, this.Password);
-            formDialog.ShowDialog();
-            if (formDialog.DialogResult != DialogResult.OK)
-            {
-                return;
-            }
+            //var formDialog = new FormAddDataBase(this.Server, this.DataBase, this.Login, this.Password);
+            //formDialog.ShowDialog();
+            //if (formDialog.DialogResult != DialogResult.OK)
+            //{
+            //    return;
+            //}
 
-            this.Server = formDialog.Server;
-            this.DataBase = formDialog.DataBase;
-            this.Login = formDialog.Login;
-            this.Password = formDialog.Password;
+            //this.Server = formDialog.Server;
+            //this.DataBase = formDialog.DataBase;
+            //this.Login = formDialog.Login;
+            //this.Password = formDialog.Password;
 
-            pictureBox4.Image =
-                string.IsNullOrWhiteSpace(this.Server) ||
-                string.IsNullOrWhiteSpace(this.DataBase) ||
-                string.IsNullOrWhiteSpace(this.Login) ||
-                string.IsNullOrWhiteSpace(this.Password)
-                ? IconEnums.DataBase
-                : IconEnums.DataBaseActive;
+            //pictureBox4.Image =
+            //    string.IsNullOrWhiteSpace(this.Server) ||
+            //    string.IsNullOrWhiteSpace(this.DataBase) ||
+            //    string.IsNullOrWhiteSpace(this.Login) ||
+            //    string.IsNullOrWhiteSpace(this.Password)
+            //    ? IconEnums.DataBase
+            //    : IconEnums.DataBaseActive;
         }
 
         private void pictureBoxOpenFormQuotes_Click(object sender, EventArgs e)
         {
             this._dataBaseService.UpdateTables(this._mainTable);
             this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
-            var formDialog = new FormQuotes();
-            formDialog.ShowDialog();
+            var from = new FormQuotes();
+            from.Show();
+            this.Close();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            this._dataBaseService.UpdateTables(this._mainTable);
+            this._dataBaseService.UpdateColomns(this._mainTable.TextBox.Text, this._mainColomn);
+            var form2 = new FormTransformModel();
+            form2.Show();
+            this.Close();
         }
 
         /// <summary>

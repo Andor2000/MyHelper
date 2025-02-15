@@ -103,6 +103,26 @@ namespace MyHelper.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mappin_model {
+            get {
+                object obj = ResourceManager.GetObject("mappin_model", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mappin_model_active {
+            get {
+                object obj = ResourceManager.GetObject("mappin_model_active", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pencil {
             get {
                 object obj = ResourceManager.GetObject("pencil", resourceCulture);
@@ -156,6 +176,16 @@ namespace MyHelper.Properties {
         internal static System.Drawing.Bitmap quotes_2 {
             get {
                 object obj = ResourceManager.GetObject("quotes_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap quotes_active {
+            get {
+                object obj = ResourceManager.GetObject("quotes_active", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

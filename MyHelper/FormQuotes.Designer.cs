@@ -48,6 +48,18 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.panel14 = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxOpenFormQuotes = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.panel14.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOpenFormQuotes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -215,38 +227,38 @@
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // checkBox2
+            // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Enabled = false;
             this.checkBox1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBox1.Location = new System.Drawing.Point(5, 137);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox1.Name = "checkBox2";
+            this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(134, 20);
             this.checkBox1.TabIndex = 15;
             this.checkBox1.Text = "Убрать запятые";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // checkBox2
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBox2.Location = new System.Drawing.Point(5, 162);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox2.Name = "checkBox1";
+            this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(126, 20);
             this.checkBox2.TabIndex = 16;
             this.checkBox2.Text = "Убрать пустые";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // checkBox3
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkBox3.Location = new System.Drawing.Point(5, 190);
             this.checkBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox3.Name = "checkBox2";
+            this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(119, 20);
             this.checkBox3.TabIndex = 17;
             this.checkBox3.Text = "Убрать дубли";
@@ -273,12 +285,76 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // panel14
+            // 
+            this.panel14.Controls.Add(this.pictureBox2);
+            this.panel14.Location = new System.Drawing.Point(90, 1);
+            this.panel14.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel14.Name = "panel14";
+            this.panel14.Size = new System.Drawing.Size(40, 39);
+            this.panel14.TabIndex = 22;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.pictureBoxOpenFormQuotes);
+            this.panel9.Location = new System.Drawing.Point(44, 1);
+            this.panel9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(40, 39);
+            this.panel9.TabIndex = 21;
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.pictureBox4);
+            this.panel8.Location = new System.Drawing.Point(0, 1);
+            this.panel8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(40, 39);
+            this.panel8.TabIndex = 20;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::MyHelper.Properties.Resources.mappin_model;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // pictureBoxOpenFormQuotes
+            // 
+            this.pictureBoxOpenFormQuotes.Image = global::MyHelper.Properties.Resources.quotes_active;
+            this.pictureBoxOpenFormQuotes.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxOpenFormQuotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBoxOpenFormQuotes.Name = "pictureBoxOpenFormQuotes";
+            this.pictureBoxOpenFormQuotes.Size = new System.Drawing.Size(35, 34);
+            this.pictureBoxOpenFormQuotes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxOpenFormQuotes.TabIndex = 0;
+            this.pictureBoxOpenFormQuotes.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::MyHelper.Properties.Resources.DataBase;
+            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(35, 34);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 0;
+            this.pictureBox4.TabStop = false;
+            // 
             // FormQuotes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(752, 683);
+            this.Controls.Add(this.panel14);
+            this.Controls.Add(this.panel9);
+            this.Controls.Add(this.panel8);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.checkBox3);
@@ -306,6 +382,12 @@
             this.Name = "FormQuotes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Кавычки";
+            this.panel14.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOpenFormQuotes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,5 +415,11 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Panel panel14;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.PictureBox pictureBoxOpenFormQuotes;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }

@@ -53,6 +53,16 @@ namespace MyHelper.Enums
         public static readonly Bitmap DataBaseActive = Properties.Resources.DataBase_active;
 
         /// <summary>
+        /// Кнопка маппинга моделей.
+        /// </summary>
+        public static readonly Bitmap MappinModel = Properties.Resources.mappin_model;
+
+        /// <summary>
+        /// Активная кнопка маппинга моделей.
+        /// </summary>
+        public static readonly Bitmap MappinModelActive = Properties.Resources.mappin_model_active;
+
+        /// <summary>
         /// Шаблон скрипта.
         /// </summary>
         public static readonly Bitmap TemplateScript = Properties.Resources.Template;
@@ -71,6 +81,16 @@ namespace MyHelper.Enums
         /// Активные кавычки в скрипте.
         /// </summary>
         public static readonly Bitmap QuotesActive2 = Properties.Resources.quotes_active_2;
+
+        /// <summary>
+        /// Кавычки.
+        /// </summary>
+        public static readonly Bitmap Quotes = Properties.Resources.quotes;
+
+        /// <summary>
+        /// Активные кавычки.
+        /// </summary>
+        public static readonly Bitmap QuotesActive = Properties.Resources.quotes_active;
 
         /// <summary>
         /// Сохранить скрипт.

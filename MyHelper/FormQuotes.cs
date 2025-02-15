@@ -99,5 +99,12 @@ namespace MyHelper
             var formQuotes = new FormDuplicate(this.duplicates);
             formQuotes.ShowDialog();
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            var form2 = new FormTransformModel();
+            form2.Show();
+            this.Close();
+        }
     }
 }
